@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Δήλωση Βλάβης</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #f5f8fa, #e2ecf3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .form-container {
+      background-color: white;
+      padding: 40px 35px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+      width: 100%;
+      max-width: 620px;
+    }
+
+    h2 {
+      text-align: center;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: white;
+      padding: 16px;
+      border-radius: 12px 12px 0 0;
+      margin: -40px -35px 30px;
+      font-size: 22px;
+    }
+
+    label {
+      display: block;
+      margin-top: 18px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border: 1px solid #cfd8dc;
+      border-radius: 10px;
+      font-size: 15px;
+      background-color: #f9f9f9;
+    }
+
+    textarea { resize: vertical; min-height: 80px; }
+
+    .dual-input {
+      display: flex;
+      gap: 10px;
+    }
+
+    .dual-input > * { flex: 1; }
+
+    button {
+      width: 100%;
+      margin-top: 30px;
+      padding: 14px;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .message { text-align: center; margin-top: 20px; font-size: 14px; }
+    .success { color: #2e7d32; }
+    .error { color: #d32f2f; }
+
+    .drop-area {
+      margin-top: 10px;
+      border: 2px dashed #aaa;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      color: #666;
+      transition: 0.3s;
+    }
+
+    .drop-area.dragover {
+      background-color: #eef5ff;
+      border-color: #1e3c72;
+    }
+
+    .preview-list {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Δήλωση Βλάβης</h2>
+    <form id="faultForm">
+      <label>Μηχάνημα (ID ή Επιλογή)</label>
+      <div class="dual-input">
+        <select id="machineId">
+          <option value="">-- Επιλέξτε --</option>
+          <option value="MX-001">MX-001</option>
+          <option value="MX-002">MX-002</option>
+        </select>
+        <input type="text" id="manualId" placeholder="Ή πληκτρολογήστε ID" />
+      </div>
+
+      <label>Περιγραφή Βλάβης *</label>
+      <textarea id="description" placeholder="Περιγράψτε την βλάβη..." required></textarea>
+
+      <label>Ημερομηνία & Ώρα *</label>
+      <input type="datetime-local" id="datetime" required />
+
+      <label>Τοποθεσία *</label>
+      <select id="location" required>
+        <option value="">-- Επιλέξτε Τοποθεσία --</option>
+        <option>Αποθήκη Α</option>
+        <option>Γραμμή Β</option>
+        <option>Εργαστήριο Γ</option>
+      </select>
+
+      <label>Σοβαρότητα *</label>
+      <select id="severity" required>
+        <option value="">-- Επιλέξτε --</option>
+        <option>Κρίσιμη</option>
+        <option>Μέτρια</option>
+        <option>Μικρή</option>
+      </select>
+
+      <label>Σχόλια (προαιρετικά)</label>
+      <textarea id="comments" placeholder="Πρόσθετες παρατηρήσεις..."></textarea>
+
+      <label>Επισύναψη Αρχείων (Εικόνες/Βίντεο)</label>
+      <div class="drop-area" id="dropArea">Σύρετε αρχεία εδώ ή κάντε κλικ για επιλογή</div>
+      <input type="file" id="fileInput" accept="image/*,video/*" multiple style="display:none;">
+      <div id="previewList" class="preview-list"></div>
+
+      <button type="submit">📤 Υποβολή Δήλωσης</button>
+      <div id="formMessage" class="message"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById("faultForm");
+    const msg = document.getElementById("formMessage");
+    const dropArea = document.getElementById("dropArea");
+    const fileInput = document.getElementById("fileInput");
+    const previewList = document.getElementById("previewList");
+
+    dropArea.addEventListener("click", () => fileInput.click());
+    dropArea.addEventListener("dragover", (e) => {
+      e.preventDefault(); dropArea.classList.add("dragover");
+    });
+    dropArea.addEventListener("dragleave", () => dropArea.classList.remove("dragover"));
+    dropArea.addEventListener("drop", (e) => {
+      e.preventDefault(); dropArea.classList.remove("dragover");
+      handleFiles(e.dataTransfer.files);
+    });
+    fileInput.addEventListener("change", () => handleFiles(fileInput.files));
+
+    function handleFiles(files) {
+      previewList.innerHTML = "";
+      [...files].forEach(file => {
+        const li = document.createElement("div");
+        li.textContent = `📎 ${file.name}`;
+        previewList.appendChild(li);
+      });
+    }
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const machineDropdown = document.getElementById("machineId").value;
+      const manualId = document.getElementById("manualId").value.trim();
+      const description = document.getElementById("description").value.trim();
+      const datetime = document.getElementById("datetime").value;
+      const location = document.getElementById("location").value;
+      const severity = document.getElementById("severity").value;
+
+      if ((!machineDropdown && !manualId) || !description || !datetime || !location || !severity) {
+        msg.textContent = "⚠️ Παρακαλώ συμπληρώστε όλα τα υποχρεωτικά πεδία.";
+        msg.className = "message error";
+        return;
+      }
+
+      msg.textContent = "✅ Η δήλωση υποβλήθηκε επιτυχώς!";
+      msg.className = "message success";
+      localStorage.removeItem("autosave");
+      form.reset(); previewList.innerHTML = "";
+    });
+
+  </script>
+</body>
+</html>
+

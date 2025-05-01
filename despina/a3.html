@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Δήλωση Έλλειψης Ανταλλακτικού</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .sidebar {
+      width: 260px;
+      background: linear-gradient(to bottom, #1e3c72, #2a5298);
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding-bottom: 8px;
+    }
+
+    .notification, .history-item {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 10px 12px;
+      margin-top: 10px;
+      border-radius: 10px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .notification span, .history-item span {
+      font-size: 16px;
+    }
+
+    .main-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px;
+    }
+
+    .form-container {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      width: 550px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #1e3c72;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-top: 18px;
+      font-weight: 600;
+      color: #1e1e1e;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border: 1px solid #cfd8dc;
+      border-radius: 10px;
+      font-size: 15px;
+      background-color: #f9f9f9;
+      transition: 0.2s border;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #1e3c72;
+      outline: none;
+      background-color: #fff;
+    }
+
+    .autocomplete-suggestions {
+      position: relative;
+    }
+
+    .autocomplete-list {
+      position: absolute;
+      z-index: 10;
+      background: #fff;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-top: none;
+      max-height: 120px;
+      overflow-y: auto;
+      border-radius: 0 0 8px 8px;
+    }
+
+    .autocomplete-list div {
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    .autocomplete-list div:hover {
+      background-color: #f0f0f0;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 30px;
+      padding: 14px;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #2a5298, #1e3c72);
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .success {
+      color: green;
+    }
+
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h3>🔔 Ειδοποιήσεις</h3>
+    <div class="notification"><span>⚠️</span> Έλλειψη: Sensor 321 για MX-001</div>
+    <div class="notification"><span>🕒</span> Αναμονή επιβεβαίωσης για φίλτρο A45</div>
+    <div class="notification"><span>📦</span> Νέα παραλαβή για ZX-900</div>
+
+    <h3 style="margin-top: 30px;">📁 Ιστορικό Ελλείψεων</h3>
+    <div class="history-item"><span>📝</span> Filter A23 - 20/04</div>
+    <div class="history-item"><span>📝</span> Belt B100 - 12/03</div>
+    <div class="history-item"><span>📝</span> Sensor 321 - 03/02</div>
+  </div>
+
+  <div class="main-content">
+    <div class="form-container">
+      <h2>Δήλωση Έλλειψης Ανταλλακτικού</h2>
+      <form id="shortageForm">
+        <label for="partCode">Αναζήτηση Ανταλλακτικού *</label>
+        <div class="autocomplete-suggestions">
+          <input type="text" id="partCode" required autocomplete="off" />
+          <div id="suggestions" class="autocomplete-list"></div>
+        </div>
+
+        <label for="description">Περιγραφή / Σχόλια</label>
+        <textarea id="description" rows="3" placeholder="(προαιρετικό)"></textarea>
+
+        <label for="quantity">Απαιτούμενη Ποσότητα *</label>
+        <input type="number" id="quantity" min="1" required />
+
+        <label for="machine">Σχετικό Μηχάνημα *</label>
+        <select id="machine" required>
+          <option value="">-- Επιλογή Μηχανήματος --</option>
+          <option value="MX-001">MX-001</option>
+          <option value="MX-002">MX-002</option>
+          <option value="MX-003">MX-003</option>
+        </select>
+
+        <button type="submit">Αποθήκευση</button>
+        <div id="formMessage" class="message"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const partsCatalog = [
+      "Sensor 321", "Filter A23", "Belt B100", "Motor Z400", "Pump X900",
+      "Cable C10", "Bearing R22", "Fan K700", "Nozzle M88"
+    ];
+
+    const partCodeInput = document.getElementById("partCode");
+    const suggestionBox = document.getElementById("suggestions");
+
+    partCodeInput.addEventListener("input", () => {
+      const input = partCodeInput.value.toLowerCase();
+      suggestionBox.innerHTML = "";
+
+      if (!input) return;
+
+      const filtered = partsCatalog.filter(part =>
+        part.toLowerCase().includes(input)
+      );
+
+      filtered.forEach(part => {
+        const div = document.createElement("div");
+        div.textContent = part;
+        div.addEventListener("click", () => {
+          partCodeInput.value = part;
+          suggestionBox.innerHTML = "";
+        });
+        suggestionBox.appendChild(div);
+      });
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".autocomplete-suggestions")) {
+        suggestionBox.innerHTML = "";
+      }
+    });
+
+    document.getElementById("shortageForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const code = partCodeInput.value.trim();
+      const quantity = document.getElementById("quantity").value.trim();
+      const machine = document.getElementById("machine").value;
+      const msg = document.getElementById("formMessage");
+
+      if (!code || !quantity || !machine) {
+        msg.textContent = "⚠️ Παρακαλώ συμπληρώστε όλα τα υποχρεωτικά πεδία.";
+        msg.className = "message error";
+        return;
+      }
+
+      msg.textContent = "✅ Η δήλωση αποθηκεύτηκε επιτυχώς!";
+      msg.className = "message success";
+      document.getElementById("shortageForm").reset();
+    });
+  </script>
+</body>
+</html>
+
