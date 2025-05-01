@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Λήψη Αναφορών</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f1f4f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px 20px;
+    }
+
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      max-width: 700px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      color: #1d3e72;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    select {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border: 1px solid #ccd0d5;
+      border-radius: 6px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 30px;
+      padding: 14px;
+      font-size: 16px;
+      background-color: #1d3e72;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #15426b;
+    }
+
+    .report-section {
+      margin-top: 40px;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+
+    canvas {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Επιλογή Αναφοράς</h2>
+    <label for="reportType">Τύπος Αναφοράς</label>
+    <select id="reportType">
+      <option value="">-- Επιλέξτε Κατηγορία Αναφοράς --</option>
+      <option value="maintenance">Συντήρηση - Κόστη / Ιστορικό</option>
+      <option value="production">Παραγωγή - Στατιστικά</option>
+      <option value="supply">Προμήθειες - Απόθεμα</option>
+      <option value="finance">Οικονομικά - Κόστη / Charts</option>
+    </select>
+
+    <button onclick="showReport()">Προβολή Αναφοράς</button>
+
+    <div id="reportResult" class="report-section" style="display: none;"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    function showReport() {
+      const type = document.getElementById("reportType").value;
+      const result = document.getElementById("reportResult");
+
+      result.style.display = "block";
+
+      switch(type) {
+        case "maintenance":
+          result.innerHTML = `
+            <h3>Ιστορικό Συντήρησης Μηχανημάτων</h3>
+            <table>
+              <tr><th>Μηχάνημα</th><th>Ημερομηνία</th><th>Κόστος (€)</th></tr>
+              <tr><td>MX-001</td><td>2025-04-10</td><td>300</td></tr>
+              <tr><td>MX-002</td><td>2025-04-13</td><td>150</td></tr>
+              <tr><td>MX-003</td><td>2025-04-18</td><td>420</td></tr>
+            </table>
+          `;
+          break;
+
+        case "production":
+          result.innerHTML = `
+            <h3>Στατιστικά Παραγωγής</h3>
+            <p>Παραγωγή ανά ημέρα (τεμ)</p>
+            <canvas id="productionChart"></canvas>
+          `;
+          const ctx = document.getElementById('productionChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ['Δευ', 'Τρι', 'Τετ', 'Πεμ', 'Παρ'],
+              datasets: [{
+                label: 'Τεμάχια',
+                data: [120, 135, 150, 145, 160],
+                backgroundColor: '#1d3e72'
+              }]
+            }
+          });
+          break;
+
+        case "supply":
+          result.innerHTML = `
+            <h3>Κατάσταση Αποθήκης</h3>
+            <table>
+              <tr><th>Κωδικός</th><th>Περιγραφή</th><th>Διαθέσιμο</th></tr>
+              <tr><td>P-1001</td><td>Φίλτρο A</td><td>32</td></tr>
+              <tr><td>P-1002</td><td>Ρουλεμάν B</td><td>12</td></tr>
+              <tr><td>P-1003</td><td>Σωλήνας C</td><td>0</td></tr>
+            </table>
+          `;
+          break;
+
+        case "finance":
+          result.innerHTML = `
+            <h3>Οικονομικά Κόστη</h3>
+            <canvas id="financeChart"></canvas>
+          `;
+          const ctx2 = document.getElementById('financeChart').getContext('2d');
+          new Chart(ctx2, {
+            type: 'pie',
+            data: {
+              labels: ['Συντήρηση', 'Καύσιμα', 'Ανταλλακτικά', 'Άλλα'],
+              datasets: [{
+                data: [3000, 1500, 1200, 800],
+                backgroundColor: ['#1d3e72', '#4874b1', '#6aa7e9', '#a3c9f7']
+              }]
+            }
+          });
+          break;
+
+        default:
+          result.innerHTML = `<p style="color:red;">Παρακαλώ επιλέξτε τύπο αναφοράς.</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
+

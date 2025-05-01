@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Δήλωση Μηχανημάτων & Τεχνικών</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f4f8;
+      margin: 0;
+      padding: 40px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #1d3e72;
+      text-align: center;
+    }
+
+    .section {
+      margin-top: 30px;
+    }
+
+    .section h3 {
+      color: #1d3e72;
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f0f2f5;
+    }
+
+    button {
+      margin: 5px;
+      padding: 10px 14px;
+      font-size: 14px;
+      background-color: #1d3e72;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #15426b;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .input-row input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Διαχείριση Μηχανημάτων και Τεχνικού Προσωπικού</h2>
+
+    <!-- Μηχανήματα -->
+    <div class="section">
+      <h3>Μηχανήματα</h3>
+      <table id="machineTable">
+        <tr><th>Όνομα</th><th>Κατασκευαστής</th><th>Ημ. Απόκτησης</th></tr>
+        <tr><td>MX-001</td><td>Siemens</td><td>2023-01-10</td></tr>
+        <tr><td>MX-002</td><td>GE</td><td>2022-08-22</td></tr>
+      </table>
+      <button onclick="toggleMachineForm()">➕ Προσθήκη</button>
+      <button onclick="deleteLastRow('machineTable')">🗑️ Διαγραφή Τελευταίου</button>
+
+      <div id="machineForm" class="hidden">
+        <div class="input-row">
+          <input type="text" id="mName" placeholder="Όνομα">
+          <input type="text" id="mManuf" placeholder="Κατασκευαστής">
+          <input type="date" id="mDate">
+        </div>
+        <button onclick="addMachine()">Καταχώρηση Μηχανήματος</button>
+      </div>
+    </div>
+
+    <!-- Τεχνικό Προσωπικό -->
+    <div class="section">
+      <h3>Τεχνικό Προσωπικό</h3>
+      <table id="techTable">
+        <tr><th>Όνομα</th><th>Ειδικότητα</th><th>Επικοινωνία</th></tr>
+        <tr><td>Γιάννης Παπαδόπουλος</td><td>Ηλεκτρολόγος</td><td>giannis@example.com</td></tr>
+        <tr><td>Μαρία Κωνσταντίνου</td><td>Μηχανολόγος</td><td>maria@example.com</td></tr>
+      </table>
+      <button onclick="toggleTechForm()">➕ Προσθήκη</button>
+      <button onclick="deleteLastRow('techTable')">🗑️ Διαγραφή Τελευταίου</button>
+
+      <div id="techForm" class="hidden">
+        <div class="input-row">
+          <input type="text" id="tName" placeholder="Όνομα">
+          <input type="text" id="tSpec" placeholder="Ειδικότητα">
+          <input type="text" id="tContact" placeholder="Email / Τηλέφωνο">
+        </div>
+        <button onclick="addTech()">Καταχώρηση Τεχνικού</button>
+      </div>
+    </div>
+
+    <!-- Αποθήκευση -->
+    <div style="text-align: center; margin-top: 40px;">
+      <button onclick="alert('Τα δεδομένα αποθηκεύτηκαν με επιτυχία!')">💾 Αποθήκευση</button>
+    </div>
+  </div>
+
+  <script>
+    function toggleMachineForm() {
+      document.getElementById("machineForm").classList.toggle("hidden");
+    }
+
+    function toggleTechForm() {
+      document.getElementById("techForm").classList.toggle("hidden");
+    }
+
+    function addMachine() {
+      const name = document.getElementById("mName").value;
+      const manuf = document.getElementById("mManuf").value;
+      const date = document.getElementById("mDate").value;
+
+      if (!name || !manuf || !date) {
+        alert("Συμπληρώστε όλα τα πεδία μηχανήματος.");
+        return;
+      }
+
+      const table = document.getElementById("machineTable");
+      const row = table.insertRow(-1);
+      row.innerHTML = `<td>${name}</td><td>${manuf}</td><td>${date}</td>`;
+    }
+
+    function addTech() {
+      const name = document.getElementById("tName").value;
+      const spec = document.getElementById("tSpec").value;
+      const contact = document.getElementById("tContact").value;
+
+      if (!name || !spec || !contact) {
+        alert("Συμπληρώστε όλα τα πεδία τεχνικού.");
+        return;
+      }
+
+      const table = document.getElementById("techTable");
+      const row = table.insertRow(-1);
+      row.innerHTML = `<td>${name}</td><td>${spec}</td><td>${contact}</td>`;
+    }
+
+    function deleteLastRow(tableId) {
+      const table = document.getElementById(tableId);
+      if (table.rows.length > 1) {
+        table.deleteRow(-1);
+      } else {
+        alert("Δεν υπάρχει άλλη γραμμή για διαγραφή.");
+      }
+    }
+  </script>
+
+</body>
+</html>
+

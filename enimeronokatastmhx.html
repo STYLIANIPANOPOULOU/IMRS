@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ενημέρωση Κατάστασης Μηχανήματος</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f0f4f8, #dce8f0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      width: 480px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #1d3e72;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    select, input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccd0d5;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 25px;
+      padding: 12px;
+      background-color: #1d3e72;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #174066;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .success {
+      color: green;
+    }
+
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Ενημέρωση Κατάστασης Μηχανήματος</h2>
+    <form id="statusForm">
+      <label for="machine">Μηχάνημα</label>
+      <select id="machine" required>
+        <option value="">-- Επιλογή Μηχανήματος --</option>
+        <option value="MX-001">MX-001</option>
+        <option value="MX-002">MX-002</option>
+        <option value="MX-003">MX-003</option>
+      </select>
+
+      <label for="status">Κατάσταση</label>
+      <select id="status" required>
+        <option value="">-- Επιλογή Κατάστασης --</option>
+        <option value="Λειτουργικό">Λειτουργικό</option>
+        <option value="Υπό Συντήρηση">Υπό Συντήρηση</option>
+        <option value="Εκτός Λειτουργίας">Εκτός Λειτουργίας</option>
+        <option value="Υπό Επισκευή">Υπό Επισκευή</option>
+      </select>
+
+      <label for="comments">Σχόλια (προαιρετικά)</label>
+      <textarea id="comments" rows="2"></textarea>
+
+      <label for="materials">Υλικά / Ανταλλακτικά που Χρησιμοποιήθηκαν</label>
+      <input type="text" id="materials" placeholder="Π.χ. φίλτρο, αισθητήρας..." />
+
+      <label for="datetime">Ημερομηνία & Ώρα Ενημέρωσης</label>
+      <input type="datetime-local" id="datetime" required />
+
+      <button type="submit">Υποβολή</button>
+      <div id="formMessage" class="message"></div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("statusForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const machine = document.getElementById("machine").value;
+      const status = document.getElementById("status").value;
+      const datetime = document.getElementById("datetime").value;
+      const messageDiv = document.getElementById("formMessage");
+
+      if (!machine || !status || !datetime) {
+        messageDiv.textContent = "Παρακαλώ συμπληρώστε όλα τα υποχρεωτικά πεδία.";
+        messageDiv.className = "message error";
+        return;
+      }
+
+      messageDiv.textContent = "Η ενημέρωση καταχωρήθηκε επιτυχώς!";
+      messageDiv.className = "message success";
+
+      // Reset form (προαιρετικό)
+      document.getElementById("statusForm").reset();
+    });
+  </script>
+</body>
+</html>
+
