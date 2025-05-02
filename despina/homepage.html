@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Maintenance Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      background-color: #f0f6fc;
+      color: #2c3e50;
+    }
+    .sidebar {
+      width: 220px;
+      background: #1e3a5f;
+      color: white;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-top: 20px;
+    }
+    .sidebar button {
+      background: none;
+      border: none;
+      color: white;
+      padding: 15px 20px;
+      text-align: left;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.2s;
+    }
+    .sidebar button:hover {
+      background-color: #305680;
+    }
+    .main {
+      flex-grow: 1;
+      padding: 20px;
+    }
+    header {
+      background: #e3ecf6;
+      padding: 15px 20px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .section {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+    }
+    .section h3 {
+      margin-top: 0;
+      color: #1e3a5f;
+    }
+    .about p {
+      line-height: 1.6;
+    }
+    .calendar-form input {
+      margin-bottom: 10px;
+      padding: 8px;
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .calendar-form button {
+      background-color: #1e3a5f;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .calendar-form button:hover {
+      background-color: #305680;
+    }
+    .calendar-list ul {
+      list-style: none;
+      padding: 0;
+    }
+    .calendar-list li {
+      background: #eef5fd;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-left: 4px solid #1e3a5f;
+      border-radius: 4px;
+    }
+    .chatbot {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+    }
+    .chatbot-avatar {
+      width: 60px;
+    }
+    .chatbot-avatar img {
+      width: 60px;
+      border-radius: 50%;
+    }
+    .chatbot-content {
+      flex-grow: 1;
+    }
+    .chat-messages {
+      background: #eef5fd;
+      padding: 15px;
+      height: 200px;
+      overflow-y: auto;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .chat-messages div {
+      margin-bottom: 10px;
+    }
+    .chat-messages .user {
+      text-align: right;
+      color: #1e3a5f;
+    }
+    .chat-messages .bot {
+      text-align: left;
+      color: #333;
+    }
+    .chat-input {
+      display: flex;
+      gap: 10px;
+    }
+    .chat-input input {
+      flex-grow: 1;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .chat-input button {
+      padding: 8px 12px;
+      background: #1e3a5f;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .chat-input button:hover {
+      background: #305680;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <button>Α - Πίνακας</button>
+    <button>Β - Εργασίες</button>
+    <button>Γ - Ιστορικό</button>
+    <button>Δ - Προφίλ</button>
+    <button>Ε - Ρυθμίσεις</button>
+  </div>
+
+  <div class="main">
+    <header>
+      <strong>Σύστημα Συντήρησης</strong>
+      <div>
+        <select onchange="changeLanguage(this.value)">
+          <option value="gr">Ελληνικά</option>
+          <option value="en">English</option>
+        </select>
+        <button onclick="alert('Login screen placeholder')">Admin</button>
+      </div>
+    </header>
+
+    <section class="section about">
+      <h3>Σχετικά με εμάς</h3>
+      <p>
+        Στην Megaplast δεν δημιουργούμε απλώς προϊόντα – δημιουργούμε λύσεις που κάνουν τη διαφορά! Εσύ, ως μέλος αυτής της ομάδας, συμμετέχεις σε έναν οργανισμό με παγκόσμια παρουσία, που καινοτομεί και νοιάζεται πραγματικά για το περιβάλλον και την κοινωνία. Μαζί, χτίζουμε ένα βιώσιμο μέλλον με λιγότερο πλαστικό και περισσότερη ευθύνη. Η συμβολή σου είναι καθοριστική στην πορεία αυτής της επιτυχημένης ιστορίας.
+      </p>
+    </section>
+
+    <section class="section calendar-form">
+      <h3>Καταχώρηση Συντήρησης</h3>
+      <input type="text" placeholder="Μηχάνημα" id="machine">
+      <input type="date" id="date">
+      <input type="time" id="time">
+      <input type="text" placeholder="Υπεύθυνος Τεχνικός" id="technician">
+      <button onclick="addMaintenance()">Καταχώρηση</button>
+    </section>
+
+    <section class="section calendar-list">
+      <h3>Προγραμματισμένες Συντηρήσεις</h3>
+      <ul id="calendarEntries"></ul>
+    </section>
+
+    <section class="section chatbot">
+      <div class="chatbot-avatar">
+        <img src="https://i.imgur.com/6oK0nA2.png" alt="MecBot Avatar">
+      </div>
+      <div class="chatbot-content">
+        <h3>MecBot - Βοηθός Συντήρησης</h3>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input">
+          <input type="text" id="chatInput" placeholder="Ρώτησέ με κάτι...">
+          <button onclick="chat()">Send</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    function changeLanguage(lang) {
+      alert("Γλώσσα άλλαξε σε: " + (lang === 'gr' ? "Ελληνικά" : "English"));
+    }
+
+    function addMaintenance() {
+      const machine = document.getElementById("machine").value;
+      const date = document.getElementById("date").value;
+      const time = document.getElementById("time").value;
+      const tech = document.getElementById("technician").value;
+
+      if (!machine || !date || !time || !tech) {
+        alert("Συμπλήρωσε όλα τα πεδία!");
+        return;
+      }
+
+      const entry = `${date} - ${time} | Μηχάνημα: ${machine} | Τεχνικός: ${tech}`;
+      const li = document.createElement("li");
+      li.textContent = entry;
+      document.getElementById("calendarEntries").appendChild(li);
+
+      alert("Το πρόγραμμα συντήρησης καταχωρήθηκε!");
+    }
+
+    function chat() {
+      const input = document.getElementById("chatInput");
+      const chatBox = document.getElementById("chatMessages");
+      const userMessage = input.value.trim();
+
+      if (!userMessage) return;
+
+      const userDiv = document.createElement("div");
+      userDiv.className = "user";
+      userDiv.textContent = "Εσύ: " + userMessage;
+      chatBox.appendChild(userDiv);
+
+      let response = "Δεν βρήκα σχετική πληροφορία.";
+      if (userMessage.includes("reset")) response = "Για επαναφορά, πάτησε παρατεταμένα το κουμπί RESET.";
+      if (userMessage.includes("σφάλμα")) response = "Έλεγξε την παροχή ρεύματος και τη σύνδεση αέρα.";
+      if (userMessage.includes("μηχάνημα")) response = "Ποιο μηχάνημα σε ενδιαφέρει;";
+
+      const botDiv = document.createElement("div");
+      botDiv.className = "bot";
+      botDiv.textContent = "MecBot: " + response;
+      chatBox.appendChild(botDiv);
+
+      input.value = "";
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  </script>
+
+</body>
+</html>
