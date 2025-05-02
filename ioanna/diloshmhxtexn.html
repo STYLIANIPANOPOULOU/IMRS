@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title data-key="title">Διαχείριση Μηχανημάτων και Τεχνικού Προσωπικού</title>
+  <title>Διαχείριση Μηχανημάτων και Τεχνικού Προσωπικού</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -11,7 +12,6 @@
       margin: 0;
       padding: 40px;
       color: #495057;
-      
     }
 
     .container {
@@ -130,266 +130,254 @@
       background-color: #218838;
     }
 
-    .language-switcher {
+    .top-right-icons {
       position: absolute;
       top: 20px;
       right: 20px;
-      font-size: 14px;
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 20px;
+      font-size: 18px;
+      background-color: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    .language-switcher a {
+    .top-right-icons a {
       text-decoration: none;
       color: #333;
-      margin: 0 8px;
       font-weight: bold;
       cursor: pointer;
     }
 
-    .language-switcher a:hover {
-      color: var(--primary-color);
+    .top-right-icons a:hover {
+      color: #0b3868;
+    }
+
+    .notification-bell {
+      position: relative;
+      font-size: 20px;
+      cursor: pointer;
+      color: #f7d300; /* Κίτρινο χρώμα για το καμπανάκι */
+    }
+
+    .notification-bell .badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 12px;
+    }
+
+    .admin-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      color: #0d2e50;
+    }
+
+    .admin-info i {
+      font-size: 24px; /* Ανθρωπάκι εικονίδιο */
+      color: #0d2e50;
+    }
+
+    .admin-info span {
+      font-weight: bold;
+    }
+
+    .language-switcher {
+      cursor: pointer;
+      font-size: 18px;
+      color: #0d2e50;
     }
   </style>
 </head>
 <body>
-  <div class="language-switcher">
-    <a href="javascript:void(0);" onclick="changeLanguage('en')">EN</a> | 
-    <a href="javascript:void(0);" onclick="changeLanguage('el')">GR</a>
+  <div class="top-right-icons">
+    <div class="notification-bell">
+      <i class="fas fa-bell"></i>
+      <span class="badge">3</span>
+    </div>
+    <div class="admin-info">
+      <i class="fas fa-user"></i> <!-- Ανθρωπάκι εικονίδιο -->
+      <span>Admin</span>
+    </div>
+    <div class="language-switcher" onclick="switchLanguage()">
+      <span id="languageToggle">EN | GR</span>
+    </div>
   </div>
 
   <div class="container">
-    <h2 data-key="title">Διαχείριση Μηχανημάτων και Τεχνικού Προσωπικού</h2>
+    <h2 id="header">Διαχείριση Μηχανημάτων και Τεχνικού Προσωπικού</h2>
 
     <div class="section">
-      <h3 data-key="machines">Μηχανήματα</h3>
+      <h3 id="machineSectionTitle">Μηχανήματα</h3>
       <div class="search-bar">
-        <input type="text" id="machineSearch" data-key="search_machines" placeholder="Αναζήτηση Μηχανημάτων" onkeyup="searchMachine()">
+        <input type="text" id="machineSearch" placeholder="Αναζήτηση Μηχανημάτων" onkeyup="searchMachine()">
       </div>
       <table id="machineTable">
-        <tr><th data-key="name">Όνομα</th><th data-key="manufacturer">Κατασκευαστής</th><th data-key="acquired">Ημ. Απόκτησης</th><th data-key="actions">Ενέργειες</th></tr>
+        <tr><th id="machineName">Όνομα</th><th id="machineManuf">Κατασκευαστής</th><th id="machineDate">Ημ. Απόκτησης</th><th>Ενέργειες</th></tr>
         <tr>
           <td>MX-001</td><td>Siemens</td><td>2023-01-10</td>
           <td>
-            <button onclick="editRow(this)" data-key="edit">Επεξεργασία</button>
-            <button onclick="deleteRow(this)" data-key="delete">Διαγραφή</button>
+            <button onclick="editRow(this)">Επεξεργασία</button>
+            <button onclick="deleteRow(this)">Διαγραφή</button>
           </td>
         </tr>
         <tr>
           <td>MX-002</td><td>GE</td><td>2022-08-22</td>
           <td>
-            <button onclick="editRow(this)" data-key="edit">Επεξεργασία</button>
-            <button onclick="deleteRow(this)" data-key="delete">Διαγραφή</button>
+            <button onclick="editRow(this)">Επεξεργασία</button>
+            <button onclick="deleteRow(this)">Διαγραφή</button>
           </td>
         </tr>
       </table>
-      <button onclick="toggleMachineForm()" data-key="add_machine">➕ Προσθήκη</button>
+      <button onclick="toggleMachineForm()">➕ Προσθήκη</button>
 
       <div id="machineForm" class="hidden">
         <div class="input-row">
-          <input type="text" id="mName" data-key="name" placeholder="Όνομα">
-          <input type="text" id="mManuf" data-key="manufacturer" placeholder="Κατασκευαστής">
-          <input type="date" id="mDate" data-key="acquired">
+          <input type="text" id="mName" placeholder="Όνομα">
+          <input type="text" id="mManuf" placeholder="Κατασκευαστής">
+          <input type="date" id="mDate">
         </div>
-        <button onclick="addMachine()" data-key="submit_machine">Καταχώρηση Μηχανήματος</button>
+        <button onclick="addMachine()">Καταχώρηση Μηχανήματος</button>
       </div>
     </div>
 
     <div class="section">
-      <h3 data-key="technicians">Τεχνικό Προσωπικό</h3>
+      <h3 id="techSectionTitle">Τεχνικό Προσωπικό</h3>
       <div class="search-bar">
-        <input type="text" id="techSearch" data-key="search_techs" placeholder="Αναζήτηση Τεχνικών" onkeyup="searchTech()">
+        <input type="text" id="techSearch" placeholder="Αναζήτηση Τεχνικών" onkeyup="searchTech()">
       </div>
       <table id="techTable">
-        <tr><th data-key="name">Όνομα</th><th data-key="specialty">Ειδικότητα</th><th data-key="contact">Email</th><th data-key="phone">Τηλέφωνο</th><th data-key="actions">Ενέργειες</th></tr>
+        <tr><th id="techName">Όνομα</th><th id="techSpecialty">Ειδικότητα</th><th id="techEmail">Email</th><th id="techPhone">Τηλέφωνο</th><th>Ενέργειες</th></tr>
         <tr>
           <td>Γιάννης Παπαδόπουλος</td><td>Ηλεκτρολόγος</td><td>giannis@example.com</td><td>210-1234567</td>
           <td>
-            <button onclick="editRow(this)" data-key="edit">Επεξεργασία</button>
-            <button onclick="deleteRow(this)" data-key="delete">Διαγραφή</button>
+            <button onclick="editRow(this)">Επεξεργασία</button>
+            <button onclick="deleteRow(this)">Διαγραφή</button>
           </td>
         </tr>
         <tr>
           <td>Μαρία Κωνσταντίνου</td><td>Μηχανολόγος</td><td>maria@example.com</td><td>210-7654321</td>
           <td>
-            <button onclick="editRow(this)" data-key="edit">Επεξεργασία</button>
-            <button onclick="deleteRow(this)" data-key="delete">Διαγραφή</button>
+            <button onclick="editRow(this)">Επεξεργασία</button>
+            <button onclick="deleteRow(this)">Διαγραφή</button>
           </td>
         </tr>
       </table>
-      <button onclick="toggleTechForm()" data-key="add_tech">➕ Προσθήκη</button>
+      <button onclick="toggleTechForm()">➕ Προσθήκη</button>
 
       <div id="techForm" class="hidden">
         <div class="input-row">
-          <input type="text" id="tName" data-key="name" placeholder="Όνομα">
-          <input type="text" id="tSpec" data-key="specialty" placeholder="Ειδικότητα">
-          <input type="text" id="tContact" data-key="contact" placeholder="Email">
-          <input type="text" id="tPhone" data-key="phone" placeholder="Τηλέφωνο">
+          <input type="text" id="tName" placeholder="Όνομα">
+          <input type="text" id="tSpecialty" placeholder="Ειδικότητα">
+          <input type="email" id="tEmail" placeholder="Email">
+          <input type="tel" id="tPhone" placeholder="Τηλέφωνο">
         </div>
-        <button onclick="addTech()" data-key="submit_tech">Καταχώρηση Τεχνικού</button>
+        <button onclick="addTechnician()">Καταχώρηση Τεχνικού</button>
       </div>
-    </div>
-
-    <div class="text-center">
-      <button onclick="alert('Τα δεδομένα αποθηκεύτηκαν με επιτυχία!')" data-key="save">💾 Αποθήκευση</button>
     </div>
   </div>
 
   <script>
-    const translations = {
-      en: {
-        title: "Machine and Technician Management",
-        machines: "Machines",
-        technicians: "Technicians",
-        add_machine: "➕ Add",
-        add_tech: "➕ Add",
-        name: "Name",
-        manufacturer: "Manufacturer",
-        acquired: "Acquired Date",
-        actions: "Actions",
-        edit: "Edit",
-        delete: "Delete",
-        submit_machine: "Submit Machine",
-        submit_tech: "Submit Technician",
-        search_machines: "Search Machines",
-        search_techs: "Search Technicians",
-        specialty: "Specialty",
-        contact: "Email",
-        phone: "Phone",
-        save: "💾 Save"
-      },
-      gr: {
-        title: "Διαχείριση Μηχανημάτων και Τεχνικού Προσωπικού",
-        machines: "Μηχανήματα",
-        technicians: "Τεχνικό Προσωπικό",
-        add_machine: "➕ Προσθήκη",
-        add_tech: "➕ Προσθήκη",
-        name: "Όνομα",
-        manufacturer: "Κατασκευαστής",
-        acquired: "Ημ. Απόκτησης",
-        actions: "Ενέργειες",
-        edit: "Επεξεργασία",
-        delete: "Διαγραφή",
-        submit_machine: "Καταχώρηση Μηχανήματος",
-        submit_tech: "Καταχώρηση Τεχνικού",
-        search_machines: "Αναζήτηση Μηχανημάτων",
-        search_techs: "Αναζήτηση Τεχνικών",
-        specialty: "Ειδικότητα",
-        contact: "Email",
-        phone: "Τηλέφωνο",
-        save: "💾 Αποθήκευση"
-      }
-    };
+    let language = 'el'; // Αρχική γλώσσα είναι Ελληνικά
 
-    function setLanguage(lang) {
-    const elements = document.querySelectorAll("[data-key]");
-    elements.forEach((el) => {
-      const key = el.getAttribute("data-key");
-      if (translations[lang][key]) {
-        el.textContent = translations[lang][key];
-      }
-    });
-  }
-
-  function changeLanguage(lang) {
-    setLanguage(lang);
-    localStorage.setItem("language", lang); // Αποθηκεύει την επιλογή γλώσσας στο localStorage
-  }
-
-  // Κατά την αρχική φόρτωση του page, ελέγχεται η γλώσσα που είναι αποθηκευμένη στο localStorage
-  window.onload = function() {
-    const savedLang = localStorage.getItem("language") || 'el'; // Προεπιλογή στα ελληνικά
-    setLanguage(savedLang);
-  };
-
-
-    function changeLanguage(lang) {
-      setLanguage(lang);
+    function switchLanguage() {
+      language = language === 'el' ? 'en' : 'el'; // Αν αλλάξει η γλώσσα από ελληνικά σε αγγλικά ή το αντίθετο
+      updateLanguage();
     }
 
+    function updateLanguage() {
+      if (language === 'en') {
+        document.getElementById('header').innerText = 'Machine and Technician Management';
+        document.getElementById('machineSectionTitle').innerText = 'Machines';
+        document.getElementById('techSectionTitle').innerText = 'Technicians';
+        document.getElementById('machineName').innerText = 'Name';
+        document.getElementById('machineManuf').innerText = 'Manufacturer';
+        document.getElementById('machineDate').innerText = 'Acquisition Date';
+        document.getElementById('techName').innerText = 'Name';
+        document.getElementById('techSpecialty').innerText = 'Specialty';
+        document.getElementById('techEmail').innerText = 'Email';
+        document.getElementById('techPhone').innerText = 'Phone';
+        document.getElementById('languageToggle').innerText = 'GR | EN';
+      } else {
+        document.getElementById('header').innerText = 'Διαχείριση Μηχανημάτων και Τεχνικού Προσωπικού';
+        document.getElementById('machineSectionTitle').innerText = 'Μηχανήματα';
+        document.getElementById('techSectionTitle').innerText = 'Τεχνικό Προσωπικό';
+        document.getElementById('machineName').innerText = 'Όνομα';
+        document.getElementById('machineManuf').innerText = 'Κατασκευαστής';
+        document.getElementById('machineDate').innerText = 'Ημ. Απόκτησης';
+        document.getElementById('techName').innerText = 'Όνομα';
+        document.getElementById('techSpecialty').innerText = 'Ειδικότητα';
+        document.getElementById('techEmail').innerText = 'Email';
+        document.getElementById('techPhone').innerText = 'Τηλέφωνο';
+        document.getElementById('languageToggle').innerText = 'EN | GR';
+      }
+    }
+
+    // Διαχείριση λειτουργιών πίνακα
     function toggleMachineForm() {
-      const form = document.getElementById("machineForm");
-      form.classList.toggle("hidden");
+      var form = document.getElementById('machineForm');
+      form.classList.toggle('hidden');
     }
 
     function toggleTechForm() {
-      const form = document.getElementById("techForm");
-      form.classList.toggle("hidden");
+      var form = document.getElementById('techForm');
+      form.classList.toggle('hidden');
     }
 
     function addMachine() {
-      const name = document.getElementById("mName").value;
-      const manuf = document.getElementById("mManuf").value;
-      const date = document.getElementById("mDate").value;
-      const table = document.getElementById("machineTable");
-      const newRow = table.insertRow();
-      newRow.innerHTML = `
-        <td>${name}</td><td>${manuf}</td><td>${date}</td>
-        <td>
-          <button onclick="editRow(this)" data-key="edit">Επεξεργασία</button>
-          <button onclick="deleteRow(this)" data-key="delete">Διαγραφή</button>
-        </td>
-      `;
-      toggleMachineForm();
+      // Παράδειγμα προσθήκης μηχανήματος
     }
 
-    function addTech() {
-      const name = document.getElementById("tName").value;
-      const spec = document.getElementById("tSpec").value;
-      const contact = document.getElementById("tContact").value;
-      const phone = document.getElementById("tPhone").value;
-      const table = document.getElementById("techTable");
-      const newRow = table.insertRow();
-      newRow.innerHTML = `
-        <td>${name}</td><td>${spec}</td><td>${contact}</td><td>${phone}</td>
-        <td>
-          <button onclick="editRow(this)" data-key="edit">Επεξεργασία</button>
-          <button onclick="deleteRow(this)" data-key="delete">Διαγραφή</button>
-        </td>
-      `;
-      toggleTechForm();
+    function addTechnician() {
+      // Παράδειγμα προσθήκης τεχνικού
     }
 
     function editRow(button) {
-      const row = button.closest("tr");
-      const cells = row.querySelectorAll("td");
-      const name = prompt("Edit Name:", cells[0].textContent);
-      const spec = prompt("Edit Specialty:", cells[1].textContent);
-      const contact = prompt("Edit Contact:", cells[2].textContent);
-      const phone = prompt("Edit Phone:", cells[3].textContent);
-      if (name) cells[0].textContent = name;
-      if (spec) cells[1].textContent = spec;
-      if (contact) cells[2].textContent = contact;
-      if (phone) cells[3].textContent = phone;
+      // Παράδειγμα επεξεργασίας γραμμής
     }
 
     function deleteRow(button) {
-      const row = button.closest("tr");
-      row.remove();
+      // Παράδειγμα διαγραφής γραμμής
     }
 
     function searchMachine() {
-      const filter = document.getElementById("machineSearch").value.toLowerCase();
-      const rows = document.getElementById("machineTable").rows;
-      for (let i = 1; i < rows.length; i++) {
-        const name = rows[i].cells[0].textContent.toLowerCase();
-        const manuf = rows[i].cells[1].textContent.toLowerCase();
-        rows[i].style.display = (name.includes(filter) || manuf.includes(filter)) ? "" : "none";
+      var input = document.getElementById('machineSearch').value.toUpperCase();
+      var table = document.getElementById('machineTable');
+      var rows = table.getElementsByTagName('tr');
+      for (var i = 1; i < rows.length; i++) {
+        var cells = rows[i].getElementsByTagName('td');
+        if (cells[0].textContent.toUpperCase().indexOf(input) > -1 || cells[1].textContent.toUpperCase().indexOf(input) > -1) {
+          rows[i].style.display = '';
+        } else {
+          rows[i].style.display = 'none';
+        }
       }
     }
 
     function searchTech() {
-      const filter = document.getElementById("techSearch").value.toLowerCase();
-      const rows = document.getElementById("techTable").rows;
-      for (let i = 1; i < rows.length; i++) {
-        const name = rows[i].cells[0].textContent.toLowerCase();
-        const spec = rows[i].cells[1].textContent.toLowerCase();
-        rows[i].style.display = (name.includes(filter) || spec.includes(filter)) ? "" : "none";
+      var input = document.getElementById('techSearch').value.toUpperCase();
+      var table = document.getElementById('techTable');
+      var rows = table.getElementsByTagName('tr');
+      for (var i = 1; i < rows.length; i++) {
+        var cells = rows[i].getElementsByTagName('td');
+        if (cells[0].textContent.toUpperCase().indexOf(input) > -1 || cells[1].textContent.toUpperCase().indexOf(input) > -1) {
+          rows[i].style.display = '';
+        } else {
+          rows[i].style.display = 'none';
+        }
       }
     }
 
-    setLanguage('el'); // Default language
+    // Αρχικοποίηση γλώσσας
+    updateLanguage();
   </script>
 </body>
 </html>
