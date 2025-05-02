@@ -5,14 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ενημέρωση Κατάστασης Μηχανήματος</title>
   <style>
+    :root {
+      --primary-color: #1d3e72;
+      --secondary-color: #f0f4f8;
+      --success-color: #2d7d4e;
+      --error-color: #9e2a2f;
+      --background-color: #dce8f0;
+      --button-hover-color: #174066;
+      --border-color: #ccd0d5;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #f0f4f8, #dce8f0);
+      background: linear-gradient(to right, #dce8f0, #728797);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      position: relative;
     }
 
     .form-container {
@@ -25,7 +36,7 @@
 
     h2 {
       text-align: center;
-      color: #1d3e72;
+      color: #0a101b;
       margin-bottom: 30px;
     }
 
@@ -40,7 +51,7 @@
       width: 100%;
       padding: 10px;
       margin-top: 5px;
-      border: 1px solid #ccd0d5;
+      border: 1px solid var(--border-color);
       border-radius: 6px;
       font-size: 14px;
     }
@@ -53,38 +64,113 @@
       width: 100%;
       margin-top: 25px;
       padding: 12px;
-      background-color: #1d3e72;
+      background-color: var(--primary-color);
       color: white;
       border: none;
       border-radius: 6px;
       font-size: 16px;
       cursor: pointer;
+      transition: all 0.3s ease;
     }
 
     button:hover {
-      background-color: #174066;
+      background-color: var(--button-hover-color);
     }
 
     .message {
       text-align: center;
       margin-top: 20px;
       font-size: 14px;
+      padding: 15px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
     }
 
     .success {
-      color: green;
+      background-color: #eaf7e6;
+      color: var(--success-color);
     }
 
     .error {
-      color: red;
+      background-color: #f8d7da;
+      color: var(--error-color);
     }
+
+    .message i {
+      margin-right: 10px;
+    }
+
+    #previewModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    #previewModal.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 400px;
+      text-align: center;
+    }
+
+    .modal-content button {
+      margin-top: 20px;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+    }
+
+    .language-switcher {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.language-switcher a {
+  text-decoration: none;
+  color: #333;
+  margin: 0 8px; /* Προσθέτουμε λίγο διάστημα ανάμεσα στα links */
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.language-switcher a:hover {
+  color: var(--primary-color);
+}
+
   </style>
 </head>
 <body>
+  <div class="language-switcher">
+    <a href="javascript:void(0);" onclick="changeLanguage('en')">EN</a> | 
+    <a href="javascript:void(0);" onclick="changeLanguage('el')">GR</a>
+  </div>
+
   <div class="form-container">
-    <h2>Ενημέρωση Κατάστασης Μηχανήματος</h2>
+    <h2 id="form-title">Ενημέρωση Κατάστασης Μηχανήματος</h2>
     <form id="statusForm">
-      <label for="machine">Μηχάνημα</label>
+      <label for="machine" id="label-machine">Μηχάνημα</label>
       <select id="machine" required>
         <option value="">-- Επιλογή Μηχανήματος --</option>
         <option value="MX-001">MX-001</option>
@@ -92,7 +178,7 @@
         <option value="MX-003">MX-003</option>
       </select>
 
-      <label for="status">Κατάσταση</label>
+      <label for="status" id="label-status">Κατάσταση</label>
       <select id="status" required>
         <option value="">-- Επιλογή Κατάστασης --</option>
         <option value="Λειτουργικό">Λειτουργικό</option>
@@ -101,26 +187,58 @@
         <option value="Υπό Επισκευή">Υπό Επισκευή</option>
       </select>
 
-      <label for="comments">Σχόλια (προαιρετικά)</label>
+      <label for="comments" id="label-comments">Σχόλια (προαιρετικά)</label>
       <textarea id="comments" rows="2"></textarea>
 
-      <label for="materials">Υλικά / Ανταλλακτικά που Χρησιμοποιήθηκαν</label>
+      <label for="materials" id="label-materials">Υλικά / Ανταλλακτικά που Χρησιμοποιήθηκαν</label>
       <input type="text" id="materials" placeholder="Π.χ. φίλτρο, αισθητήρας..." />
 
-      <label for="datetime">Ημερομηνία & Ώρα Ενημέρωσης</label>
+      <label for="datetime" id="label-datetime">Ημερομηνία & Ώρα Ενημέρωσης</label>
       <input type="datetime-local" id="datetime" required />
 
-      <button type="submit">Υποβολή</button>
+      <button type="submit" id="submit-btn">Υποβολή</button>
       <div id="formMessage" class="message"></div>
     </form>
   </div>
 
+  <!-- Προεπισκόπηση Modal -->
+  <div id="previewModal">
+    <div class="modal-content">
+      <h3>Προεπισκόπηση Καταχώρησης</h3>
+      <p id="previewText"></p>
+      <button onclick="submitForm()">Επιβεβαίωση</button>
+      <button onclick="closePreview()">Ακύρωση</button>
+    </div>
+  </div>
+
   <script>
+    function changeLanguage(lang) {
+      if (lang === 'en') {
+        document.getElementById("form-title").textContent = "Machine Status Update";
+        document.getElementById("label-machine").textContent = "Machine";
+        document.getElementById("label-status").textContent = "Status";
+        document.getElementById("label-comments").textContent = "Comments (optional)";
+        document.getElementById("label-materials").textContent = "Materials / Spare Parts Used";
+        document.getElementById("label-datetime").textContent = "Date & Time of Update";
+        document.getElementById("submit-btn").textContent = "Submit";
+      } else {
+        document.getElementById("form-title").textContent = "Ενημέρωση Κατάστασης Μηχανήματος";
+        document.getElementById("label-machine").textContent = "Μηχάνημα";
+        document.getElementById("label-status").textContent = "Κατάσταση";
+        document.getElementById("label-comments").textContent = "Σχόλια (προαιρετικά)";
+        document.getElementById("label-materials").textContent = "Υλικά / Ανταλλακτικά που Χρησιμοποιήθηκαν";
+        document.getElementById("label-datetime").textContent = "Ημερομηνία & Ώρα Ενημέρωσης";
+        document.getElementById("submit-btn").textContent = "Υποβολή";
+      }
+    }
+
     document.getElementById("statusForm").addEventListener("submit", function(e) {
       e.preventDefault();
 
       const machine = document.getElementById("machine").value;
       const status = document.getElementById("status").value;
+      const comments = document.getElementById("comments").value;
+      const materials = document.getElementById("materials").value;
       const datetime = document.getElementById("datetime").value;
       const messageDiv = document.getElementById("formMessage");
 
@@ -130,13 +248,33 @@
         return;
       }
 
+      // Εμφάνιση προεπισκόπησης
+      const previewText = `
+        Μηχάνημα: ${machine} <br>
+        Κατάσταση: ${status} <br>
+        Σχόλια: ${comments} <br>
+        Υλικά / Ανταλλακτικά: ${materials} <br>
+        Ημερομηνία & Ώρα: ${datetime}
+      `;
+      document.getElementById("previewText").innerHTML = previewText;
+      document.getElementById("previewModal").classList.add("show");
+    });
+
+    function closePreview() {
+      document.getElementById("previewModal").classList.remove("show");
+    }
+
+    function submitForm() {
+      const messageDiv = document.getElementById("formMessage");
       messageDiv.textContent = "Η ενημέρωση καταχωρήθηκε επιτυχώς!";
       messageDiv.className = "message success";
 
       // Reset form (προαιρετικό)
       document.getElementById("statusForm").reset();
-    });
+
+      // Κλείσιμο προεπισκόπησης
+      closePreview();
+    }
   </script>
 </body>
 </html>
-
