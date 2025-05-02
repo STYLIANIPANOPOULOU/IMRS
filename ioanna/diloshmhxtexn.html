@@ -6,24 +6,27 @@
   <title>Δήλωση Μηχανημάτων & Τεχνικών</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f1f4f8;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
       margin: 0;
       padding: 40px;
+      color: #495057;
     }
 
     .container {
-      max-width: 900px;
+      max-width: 950px;
       margin: auto;
       background-color: #fff;
       padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.1);
     }
 
     h2 {
-      color: #1d3e72;
+      color: #0a223c;
+      font-size: 28px;
       text-align: center;
+      margin-bottom: 40px;
     }
 
     .section {
@@ -31,8 +34,9 @@
     }
 
     .section h3 {
-      color: #1d3e72;
-      margin-bottom: 10px;
+      color: #0f2740;
+      font-size: 22px;
+      margin-bottom: 15px;
     }
 
     table {
@@ -43,44 +47,87 @@
 
     th, td {
       border: 1px solid #ddd;
-      padding: 10px;
-      text-align: center;
+      padding: 12px;
+      text-align: left;
+      font-size: 16px;
     }
 
     th {
-      background-color: #f0f2f5;
+      background-color: #f8f9fa;
+      font-weight: bold;
     }
 
     button {
-      margin: 5px;
-      padding: 10px 14px;
+      padding: 8px 14px;
       font-size: 14px;
-      background-color: #1d3e72;
+      background-color: #0b2037;
       color: white;
       border: none;
       border-radius: 6px;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
 
     button:hover {
-      background-color: #15426b;
+      background-color: #0f2740;
     }
 
     .input-row {
       display: flex;
-      gap: 10px;
+      gap: 20px;
       margin: 10px 0;
     }
 
     .input-row input {
       flex: 1;
-      padding: 10px;
+      padding: 12px;
+      font-size: 16px;
       border: 1px solid #ccc;
-      border-radius: 6px;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    .input-row input:focus {
+      border-color: #0c2743;
     }
 
     .hidden {
       display: none;
+    }
+
+    .search-bar {
+      margin: 15px 0;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .search-bar input {
+      padding: 10px;
+      width: 48%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .search-bar input:focus {
+      border-color: 
+      #092038;
+    }
+
+    .text-center {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .text-center button {
+      background-color: #28a745;
+      padding: 10px 18px;
+      font-size: 16px;
+      border-radius: 8px;
+    }
+
+    .text-center button:hover {
+      background-color: #218838;
     }
   </style>
 </head>
@@ -89,16 +136,30 @@
   <div class="container">
     <h2>Διαχείριση Μηχανημάτων και Τεχνικού Προσωπικού</h2>
 
-    <!-- Μηχανήματα -->
+    <!-- Αναζήτηση Μηχανημάτων -->
     <div class="section">
       <h3>Μηχανήματα</h3>
+      <div class="search-bar">
+        <input type="text" id="machineSearch" placeholder="Αναζήτηση Μηχανημάτων" onkeyup="searchMachine()">
+      </div>
       <table id="machineTable">
-        <tr><th>Όνομα</th><th>Κατασκευαστής</th><th>Ημ. Απόκτησης</th></tr>
-        <tr><td>MX-001</td><td>Siemens</td><td>2023-01-10</td></tr>
-        <tr><td>MX-002</td><td>GE</td><td>2022-08-22</td></tr>
+        <tr><th>Όνομα</th><th>Κατασκευαστής</th><th>Ημ. Απόκτησης</th><th>Ενέργειες</th></tr>
+        <tr>
+          <td>MX-001</td><td>Siemens</td><td>2023-01-10</td>
+          <td>
+            <button onclick="editRow(this)">Επεξεργασία</button>
+            <button onclick="deleteRow(this)">Διαγραφή</button>
+          </td>
+        </tr>
+        <tr>
+          <td>MX-002</td><td>GE</td><td>2022-08-22</td>
+          <td>
+            <button onclick="editRow(this)">Επεξεργασία</button>
+            <button onclick="deleteRow(this)">Διαγραφή</button>
+          </td>
+        </tr>
       </table>
       <button onclick="toggleMachineForm()">➕ Προσθήκη</button>
-      <button onclick="deleteLastRow('machineTable')">🗑️ Διαγραφή Τελευταίου</button>
 
       <div id="machineForm" class="hidden">
         <div class="input-row">
@@ -110,29 +171,44 @@
       </div>
     </div>
 
-    <!-- Τεχνικό Προσωπικό -->
+    <!-- Αναζήτηση Τεχνικού Προσωπικού -->
     <div class="section">
       <h3>Τεχνικό Προσωπικό</h3>
+      <div class="search-bar">
+        <input type="text" id="techSearch" placeholder="Αναζήτηση Τεχνικών" onkeyup="searchTech()">
+      </div>
       <table id="techTable">
-        <tr><th>Όνομα</th><th>Ειδικότητα</th><th>Επικοινωνία</th></tr>
-        <tr><td>Γιάννης Παπαδόπουλος</td><td>Ηλεκτρολόγος</td><td>giannis@example.com</td></tr>
-        <tr><td>Μαρία Κωνσταντίνου</td><td>Μηχανολόγος</td><td>maria@example.com</td></tr>
+        <tr><th>Όνομα</th><th>Ειδικότητα</th><th>Επικοινωνία</th><th>Τηλέφωνο</th><th>Ενέργειες</th></tr>
+        <tr>
+          <td>Γιάννης Παπαδόπουλος</td><td>Ηλεκτρολόγος</td><td>giannis@example.com</td><td>210-1234567</td>
+          <td>
+            <button onclick="editRow(this)">Επεξεργασία</button>
+            <button onclick="deleteRow(this)">Διαγραφή</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Μαρία Κωνσταντίνου</td><td>Μηχανολόγος</td><td>maria@example.com</td><td>210-7654321</td>
+          <td>
+            <button onclick="editRow(this)">Επεξεργασία</button>
+            <button onclick="deleteRow(this)">Διαγραφή</button>
+          </td>
+        </tr>
       </table>
       <button onclick="toggleTechForm()">➕ Προσθήκη</button>
-      <button onclick="deleteLastRow('techTable')">🗑️ Διαγραφή Τελευταίου</button>
 
       <div id="techForm" class="hidden">
         <div class="input-row">
           <input type="text" id="tName" placeholder="Όνομα">
           <input type="text" id="tSpec" placeholder="Ειδικότητα">
-          <input type="text" id="tContact" placeholder="Email / Τηλέφωνο">
+          <input type="text" id="tContact" placeholder="Email">
+          <input type="text" id="tPhone" placeholder="Τηλέφωνο">
         </div>
         <button onclick="addTech()">Καταχώρηση Τεχνικού</button>
       </div>
     </div>
 
     <!-- Αποθήκευση -->
-    <div style="text-align: center; margin-top: 40px;">
+    <div class="text-center">
       <button onclick="alert('Τα δεδομένα αποθηκεύτηκαν με επιτυχία!')">💾 Αποθήκευση</button>
     </div>
   </div>
@@ -158,34 +234,105 @@
 
       const table = document.getElementById("machineTable");
       const row = table.insertRow(-1);
-      row.innerHTML = `<td>${name}</td><td>${manuf}</td><td>${date}</td>`;
+      row.innerHTML = `<td>${name}</td><td>${manuf}</td><td>${date}</td>
+        <td>
+          <button onclick="editRow(this)">Επεξεργασία</button>
+          <button onclick="deleteRow(this)">Διαγραφή</button>
+        </td>`;
     }
 
     function addTech() {
       const name = document.getElementById("tName").value;
       const spec = document.getElementById("tSpec").value;
       const contact = document.getElementById("tContact").value;
+      const phone = document.getElementById("tPhone").value;
 
-      if (!name || !spec || !contact) {
+      if (!name || !spec || !contact || !phone) {
         alert("Συμπληρώστε όλα τα πεδία τεχνικού.");
         return;
       }
 
       const table = document.getElementById("techTable");
       const row = table.insertRow(-1);
-      row.innerHTML = `<td>${name}</td><td>${spec}</td><td>${contact}</td>`;
+      row.innerHTML = `<td>${name}</td><td>${spec}</td><td>${contact}</td><td>${phone}</td>
+        <td>
+          <button onclick="editRow(this)">Επεξεργασία</button>
+          <button onclick="deleteRow(this)">Διαγραφή</button>
+        </td>`;
     }
 
-    function deleteLastRow(tableId) {
-      const table = document.getElementById(tableId);
-      if (table.rows.length > 1) {
-        table.deleteRow(-1);
+    function deleteRow(btn) {
+      const row = btn.parentNode.parentNode;
+      row.parentNode.removeChild(row);
+    }
+
+    function editRow(btn) {
+      const row = btn.parentNode.parentNode;
+      const cells = row.querySelectorAll('td');
+
+      if (btn.textContent === "Επεξεργασία") {
+        for (let i = 0; i < cells.length - 1; i++) {
+          const currentValue = cells[i].innerText;
+          cells[i].innerHTML = `<input type="text" value="${currentValue}" style="width: 95%;">`;
+        }
+        btn.textContent = "Αποθήκευση";
       } else {
-        alert("Δεν υπάρχει άλλη γραμμή για διαγραφή.");
+        for (let i = 0; i < cells.length - 1; i++) {
+          const input = cells[i].querySelector('input');
+          cells[i].textContent = input.value;
+        }
+        btn.textContent = "Επεξεργασία";
+      }
+    }
+
+    function searchMachine() {
+      const input = document.getElementById("machineSearch");
+      const filter = input.value.toLowerCase();
+      const rows = document.getElementById("machineTable").rows;
+
+      for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName("td");
+        let match = false;
+
+        for (let j = 0; j < cells.length - 1; j++) {
+          if (cells[j].textContent.toLowerCase().indexOf(filter) > -1) {
+            match = true;
+            break;
+          }
+        }
+
+        if (match) {
+          rows[i].style.display = "";
+        } else {
+          rows[i].style.display = "none";
+        }
+      }
+    }
+
+    function searchTech() {
+      const input = document.getElementById("techSearch");
+      const filter = input.value.toLowerCase();
+      const rows = document.getElementById("techTable").rows;
+
+      for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName("td");
+        let match = false;
+
+        for (let j = 0; j < cells.length - 1; j++) {
+          if (cells[j].textContent.toLowerCase().indexOf(filter) > -1) {
+            match = true;
+            break;
+          }
+        }
+
+        if (match) {
+          rows[i].style.display = "";
+        } else {
+          rows[i].style.display = "none";
+        }
       }
     }
   </script>
 
 </body>
 </html>
-
