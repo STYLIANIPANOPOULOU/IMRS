@@ -159,7 +159,7 @@
       position: relative;
       font-size: 20px;
       cursor: pointer;
-      color: #f7d300; /* Κίτρινο χρώμα για το καμπανάκι */
+      color: #f7d300;
     }
 
     .notification-bell .badge {
@@ -179,10 +179,11 @@
       gap: 8px;
       font-size: 16px;
       color: #0d2e50;
+      position: relative;
     }
 
     .admin-info i {
-      font-size: 24px; /* Ανθρωπάκι εικονίδιο */
+      font-size: 24px;
       color: #0d2e50;
     }
 
@@ -195,6 +196,40 @@
       font-size: 18px;
       color: #0d2e50;
     }
+
+    .logout-menu {
+      position: absolute;
+      top: 60px;
+      right: 0;
+      background-color: white;
+      border: 1px solid #ccc;
+      padding: 10px 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      cursor: pointer;
+      font-weight: bold;
+      z-index: 100;
+    }
+
+    .logout-menu:hover {
+      background-color: #f0f0f0;
+    }
+
+    .save-button {
+      background-color:#0d2e50;
+      padding: 12px 18px;
+      font-size: 16px;
+      border-radius: 8px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: block;
+      margin-top: 30px;
+    }
+
+    .save-button:hover {
+      background-color: #0d2e50;
+    }
   </style>
 </head>
 <body>
@@ -203,9 +238,10 @@
       <i class="fas fa-bell"></i>
       <span class="badge">3</span>
     </div>
-    <div class="admin-info">
-      <i class="fas fa-user"></i> <!-- Ανθρωπάκι εικονίδιο -->
+    <div class="admin-info" onclick="toggleLogoutMenu()">
+      <i class="fas fa-user"></i>
       <span>Admin</span>
+      <div id="logoutMenu" class="logout-menu hidden" onclick="logout()">Logout</div>
     </div>
     <div class="language-switcher" onclick="switchLanguage()">
       <span id="languageToggle">EN | GR</span>
@@ -271,30 +307,25 @@
           </td>
         </tr>
       </table>
-      <button onclick="toggleTechForm()">➕ Προσθήκη</button>
-
-      <div id="techForm" class="hidden">
-        <div class="input-row">
-          <input type="text" id="tName" placeholder="Όνομα">
-          <input type="text" id="tSpecialty" placeholder="Ειδικότητα">
-          <input type="email" id="tEmail" placeholder="Email">
-          <input type="tel" id="tPhone" placeholder="Τηλέφωνο">
-        </div>
-        <button onclick="addTechnician()">Καταχώρηση Τεχνικού</button>
-      </div>
     </div>
+
+    <button class="save-button" onclick="saveData()">Αποθήκευση</button>
   </div>
 
   <script>
-    let language = 'el'; // Αρχική γλώσσα είναι Ελληνικά
-
-    function switchLanguage() {
-      language = language === 'el' ? 'en' : 'el'; // Αν αλλάξει η γλώσσα από ελληνικά σε αγγλικά ή το αντίθετο
-      updateLanguage();
+    function toggleLogoutMenu() {
+      const menu = document.getElementById('logoutMenu');
+      menu.classList.toggle('hidden');
     }
 
-    function updateLanguage() {
-      if (language === 'en') {
+    function logout() {
+      window.location.href = 'login.html'; // Εδώ μπορείς να το προσαρμόσεις στην κατάλληλη σελίδα
+    }
+
+    function switchLanguage() {
+      const langText = document.getElementById('languageToggle');
+      if (langText.innerText === 'EN | GR') {
+        langText.innerText = 'ΕΛ | EN';
         document.getElementById('header').innerText = 'Machine and Technician Management';
         document.getElementById('machineSectionTitle').innerText = 'Machines';
         document.getElementById('techSectionTitle').innerText = 'Technicians';
@@ -305,8 +336,8 @@
         document.getElementById('techSpecialty').innerText = 'Specialty';
         document.getElementById('techEmail').innerText = 'Email';
         document.getElementById('techPhone').innerText = 'Phone';
-        document.getElementById('languageToggle').innerText = 'GR | EN';
       } else {
+        langText.innerText = 'EN | GR';
         document.getElementById('header').innerText = 'Διαχείριση Μηχανημάτων και Τεχνικού Προσωπικού';
         document.getElementById('machineSectionTitle').innerText = 'Μηχανήματα';
         document.getElementById('techSectionTitle').innerText = 'Τεχνικό Προσωπικό';
@@ -317,67 +348,47 @@
         document.getElementById('techSpecialty').innerText = 'Ειδικότητα';
         document.getElementById('techEmail').innerText = 'Email';
         document.getElementById('techPhone').innerText = 'Τηλέφωνο';
-        document.getElementById('languageToggle').innerText = 'EN | GR';
       }
     }
 
-    // Διαχείριση λειτουργιών πίνακα
-    function toggleMachineForm() {
-      var form = document.getElementById('machineForm');
-      form.classList.toggle('hidden');
+    function saveData() {
+      // Εδώ μπορείς να προσθέσεις κώδικα για την αποθήκευση των δεδομένων
+      alert('Τα δεδομένα αποθηκεύτηκαν!');
     }
 
-    function toggleTechForm() {
-      var form = document.getElementById('techForm');
+    function editRow(button) {
+      const row = button.closest('tr');
+      const name = row.querySelector('td:nth-child(1)').textContent;
+      const specialty = row.querySelector('td:nth-child(2)').textContent;
+      const email = row.querySelector('td:nth-child(3)').textContent;
+      const phone = row.querySelector('td:nth-child(4)').textContent;
+      alert(`Επεξεργασία Τεχνικού: ${name}, ${specialty}, ${email}, ${phone}`);
+    }
+
+    function deleteRow(button) {
+      const row = button.closest('tr');
+      row.remove();
+    }
+
+    function toggleMachineForm() {
+      const form = document.getElementById('machineForm');
       form.classList.toggle('hidden');
     }
 
     function addMachine() {
-      // Παράδειγμα προσθήκης μηχανήματος
-    }
+      const name = document.getElementById('mName').value;
+      const manuf = document.getElementById('mManuf').value;
+      const date = document.getElementById('mDate').value;
 
-    function addTechnician() {
-      // Παράδειγμα προσθήκης τεχνικού
-    }
+      const table = document.getElementById('machineTable');
+      const row = table.insertRow();
+      row.innerHTML = `<td>${name}</td><td>${manuf}</td><td>${date}</td><td>
+                        <button onclick="editRow(this)">Επεξεργασία</button>
+                        <button onclick="deleteRow(this)">Διαγραφή</button>
+                      </td>`;
 
-    function editRow(button) {
-      // Παράδειγμα επεξεργασίας γραμμής
+      document.getElementById('machineForm').classList.add('hidden');
     }
-
-    function deleteRow(button) {
-      // Παράδειγμα διαγραφής γραμμής
-    }
-
-    function searchMachine() {
-      var input = document.getElementById('machineSearch').value.toUpperCase();
-      var table = document.getElementById('machineTable');
-      var rows = table.getElementsByTagName('tr');
-      for (var i = 1; i < rows.length; i++) {
-        var cells = rows[i].getElementsByTagName('td');
-        if (cells[0].textContent.toUpperCase().indexOf(input) > -1 || cells[1].textContent.toUpperCase().indexOf(input) > -1) {
-          rows[i].style.display = '';
-        } else {
-          rows[i].style.display = 'none';
-        }
-      }
-    }
-
-    function searchTech() {
-      var input = document.getElementById('techSearch').value.toUpperCase();
-      var table = document.getElementById('techTable');
-      var rows = table.getElementsByTagName('tr');
-      for (var i = 1; i < rows.length; i++) {
-        var cells = rows[i].getElementsByTagName('td');
-        if (cells[0].textContent.toUpperCase().indexOf(input) > -1 || cells[1].textContent.toUpperCase().indexOf(input) > -1) {
-          rows[i].style.display = '';
-        } else {
-          rows[i].style.display = 'none';
-        }
-      }
-    }
-
-    // Αρχικοποίηση γλώσσας
-    updateLanguage();
   </script>
 </body>
 </html>
