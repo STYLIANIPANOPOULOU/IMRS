@@ -1,186 +1,295 @@
 <!DOCTYPE html>
-<html lang="el">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Λήψη Αναφορών</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reports Overview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f1f4f8;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f4f6f9;
+      color: #1a1a1a;
+      padding: 30px;
+    }
+
+    header {
       display: flex;
-      flex-direction: column;
+      justify-content: flex-end;
       align-items: center;
-      padding: 50px 20px;
-    }
-
-    .container {
-      background: white;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      max-width: 700px;
-      width: 100%;
-    }
-
-    h2 {
-      text-align: center;
-      color: #1d3e72;
-      margin-bottom: 30px;
-    }
-
-    label {
-      display: block;
-      font-weight: bold;
-      margin-top: 20px;
-      margin-bottom: 5px;
-      color: #333;
-    }
-
-    select {
-      width: 100%;
-      padding: 12px;
-      font-size: 15px;
-      border: 1px solid #ccd0d5;
-      border-radius: 6px;
-    }
-
-    button {
-      width: 100%;
-      margin-top: 30px;
-      padding: 14px;
-      font-size: 16px;
       background-color: #1d3e72;
+      padding: 15px 30px;
       color: white;
+      border-radius: 8px;
+    }
+
+    #userBtn {
+      background: none;
       border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    #userMenu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: white;
+      color: #1d3e72;
+      border: 1px solid #ccc;
       border-radius: 6px;
+      min-width: 120px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    #userMenu button {
+      padding: 10px;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
       cursor: pointer;
     }
 
-    button:hover {
-      background-color: #15426b;
+    #userMenu button:hover {
+      background-color: #f0f0f0;
     }
 
-    .report-section {
-      margin-top: 40px;
-      padding: 20px;
-      background: #f9f9f9;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
+    h1 {
       text-align: center;
+      color: #1d3e72;
+    }
+
+    .filters {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 30px 0;
+    }
+
+    select, input[type="date"], button {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button.export-btn {
+      background-color: #1d3e72;
+      color: white;
+      cursor: pointer;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      overflow-y: auto;
+      max-height: 420px;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #1d3e72;
+    }
+
+    .card p {
+      font-size: 14px;
+      margin-top: 15px;
     }
 
     canvas {
-      max-width: 100%;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
+  <header>
+    <div style="position: relative;">
+      <button id="userBtn">👤 John Doe ▾</button>
+      <div id="userMenu">
+        <button onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </header>
 
-  <div class="container">
-    <h2>Επιλογή Αναφοράς</h2>
-    <label for="reportType">Τύπος Αναφοράς</label>
-    <select id="reportType">
-      <option value="">-- Επιλέξτε Κατηγορία Αναφοράς --</option>
-      <option value="maintenance">Συντήρηση - Κόστη / Ιστορικό</option>
-      <option value="production">Παραγωγή - Στατιστικά</option>
-      <option value="supply">Προμήθειες - Απόθεμα</option>
-      <option value="finance">Οικονομικά - Κόστη / Charts</option>
+  <h1>Reports Overview</h1>
+
+  <div class="filters">
+    <select id="reportType" onchange="renderReports()">
+      <option value="">-- Select Report --</option>
+      <option value="production">Production</option>
+      <option value="maintenance">Maintenance</option>
+      <option value="supply">Supply</option>
+      <option value="finance">Finance</option>
     </select>
 
-    <button onclick="showReport()">Προβολή Αναφοράς</button>
-
-    <div id="reportResult" class="report-section" style="display: none;"></div>
+    <input type="date" id="startDate" />
+    <input type="date" id="endDate" />
+    <button class="export-btn" onclick="exportData()">Export</button>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <div id="reportsContainer" class="cards"></div>
+
   <script>
-    function showReport() {
+    document.addEventListener("click", function (e) {
+      const menu = document.getElementById("userMenu");
+      const btn = document.getElementById("userBtn");
+      if (btn.contains(e.target)) {
+        menu.style.display = (menu.style.display === "block") ? "none" : "block";
+      } else {
+        menu.style.display = "none";
+      }
+    });
+
+    function logout() {
+      alert("Logging out...");
+    }
+
+    function renderReports() {
       const type = document.getElementById("reportType").value;
-      const result = document.getElementById("reportResult");
+      const container = document.getElementById("reportsContainer");
+      container.innerHTML = "";
 
-      result.style.display = "block";
+      const reports = {
+        production: `
+          <div class="card">
+            <h3>Daily Production</h3>
+            <canvas id="prodChart"></canvas>
+            <canvas id="prodTrendChart"></canvas>
+            <p><strong>Conclusion:</strong> Increased output at week’s end due to external orders.</p>
+          </div>
+        `,
+        maintenance: `
+          <div class="card">
+            <h3>Maintenance Cost</h3>
+            <canvas id="maintChart"></canvas>
+            <canvas id="downtimeChart"></canvas>
+            <p><strong>Conclusion:</strong> Costs dropped after March, mainly due to preventive maintenance.</p>
+          </div>
+        `,
+        supply: `
+          <div class="card">
+            <h3>Stock Status</h3>
+            <canvas id="stockChart"></canvas>
+            <canvas id="reorderChart"></canvas>
+            <p><strong>Conclusion:</strong> Good stock levels overall, but 15% of items require restocking.</p>
+          </div>
+        `,
+        finance: `
+          <div class="card">
+            <h3>Cost Analysis</h3>
+            <canvas id="costChart"></canvas>
+            <canvas id="revenueChart"></canvas>
+            <p><strong>Conclusion:</strong> Maintenance is the largest expense, while revenue remains stable.</p>
+          </div>
+        `
+      };
 
-      switch(type) {
-        case "maintenance":
-          result.innerHTML = `
-            <h3>Ιστορικό Συντήρησης Μηχανημάτων</h3>
-            <table>
-              <tr><th>Μηχάνημα</th><th>Ημερομηνία</th><th>Κόστος (€)</th></tr>
-              <tr><td>MX-001</td><td>2025-04-10</td><td>300</td></tr>
-              <tr><td>MX-002</td><td>2025-04-13</td><td>150</td></tr>
-              <tr><td>MX-003</td><td>2025-04-18</td><td>420</td></tr>
-            </table>
-          `;
-          break;
+      if (type && reports[type]) {
+        container.innerHTML = reports[type];
+        setTimeout(drawCharts, 100);
+      }
+    }
 
-        case "production":
-          result.innerHTML = `
-            <h3>Στατιστικά Παραγωγής</h3>
-            <p>Παραγωγή ανά ημέρα (τεμ)</p>
-            <canvas id="productionChart"></canvas>
-          `;
-          const ctx = document.getElementById('productionChart').getContext('2d');
-          new Chart(ctx, {
-            type: 'bar',
-            data: {
-              labels: ['Δευ', 'Τρι', 'Τετ', 'Πεμ', 'Παρ'],
-              datasets: [{
-                label: 'Τεμάχια',
-                data: [120, 135, 150, 145, 160],
-                backgroundColor: '#1d3e72'
-              }]
-            }
-          });
-          break;
+    function exportData() {
+      const start = document.getElementById("startDate").value;
+      const end = document.getElementById("endDate").value;
+      const type = document.getElementById("reportType").value;
 
-        case "supply":
-          result.innerHTML = `
-            <h3>Κατάσταση Αποθήκης</h3>
-            <table>
-              <tr><th>Κωδικός</th><th>Περιγραφή</th><th>Διαθέσιμο</th></tr>
-              <tr><td>P-1001</td><td>Φίλτρο A</td><td>32</td></tr>
-              <tr><td>P-1002</td><td>Ρουλεμάν B</td><td>12</td></tr>
-              <tr><td>P-1003</td><td>Σωλήνας C</td><td>0</td></tr>
-            </table>
-          `;
-          break;
+      alert(`Exporting report for "${type}" from ${start} to ${end}`);
+    }
 
-        case "finance":
-          result.innerHTML = `
-            <h3>Οικονομικά Κόστη</h3>
-            <canvas id="financeChart"></canvas>
-          `;
-          const ctx2 = document.getElementById('financeChart').getContext('2d');
-          new Chart(ctx2, {
-            type: 'pie',
-            data: {
-              labels: ['Συντήρηση', 'Καύσιμα', 'Ανταλλακτικά', 'Άλλα'],
-              datasets: [{
-                data: [3000, 1500, 1200, 800],
-                backgroundColor: ['#1d3e72', '#4874b1', '#6aa7e9', '#a3c9f7']
-              }]
-            }
-          });
-          break;
+    function drawCharts() {
+      if (document.getElementById("prodChart")) {
+        new Chart(prodChart, {
+          type: 'bar',
+          data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+            datasets: [{ label: 'Units Produced', data: [120, 145, 160, 130, 170], backgroundColor: '#1d3e72' }]
+          }
+        });
 
-        default:
-          result.innerHTML = `<p style="color:red;">Παρακαλώ επιλέξτε τύπο αναφοράς.</p>`;
+        new Chart(prodTrendChart, {
+          type: 'line',
+          data: {
+            labels: ['Week 1', '2', '3', '4'],
+            datasets: [{ label: 'Total Trend', data: [600, 720, 690, 800], borderColor: '#6aa7e9', fill: false }]
+          }
+        });
+      }
+
+      if (document.getElementById("maintChart")) {
+        new Chart(maintChart, {
+          type: 'line',
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+            datasets: [{ label: 'Maintenance Cost (€)', data: [500, 300, 700, 400, 350], borderColor: '#1d3e72', fill: false }]
+          }
+        });
+
+        new Chart(downtimeChart, {
+          type: 'bar',
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+            datasets: [{ label: 'Downtime Hours', data: [20, 12, 25, 10, 8], backgroundColor: '#f28500' }]
+          }
+        });
+      }
+
+      if (document.getElementById("stockChart")) {
+        new Chart(stockChart, {
+          type: 'doughnut',
+          data: {
+            labels: ['Sufficient', 'Low', 'Insufficient'],
+            datasets: [{ data: [65, 20, 15], backgroundColor: ['#1d3e72', '#6aa7e9', '#f28500'] }]
+          }
+        });
+
+        new Chart(reorderChart, {
+          type: 'bar',
+          data: {
+            labels: ['Product A', 'B', 'C', 'D'],
+            datasets: [{ label: 'Reorder Qty', data: [30, 15, 45, 10], backgroundColor: '#4b89dc' }]
+          }
+        });
+      }
+
+      if (document.getElementById("costChart")) {
+        new Chart(costChart, {
+          type: 'pie',
+          data: {
+            labels: ['Maintenance', 'Fuel', 'Raw Materials', 'Other'],
+            datasets: [{ data: [2500, 1200, 1800, 700], backgroundColor: ['#1d3e72', '#4b89dc', '#6aa7e9', '#a3c9f7'] }]
+          }
+        });
+
+        new Chart(revenueChart, {
+          type: 'line',
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+            datasets: [{ label: 'Revenue (€)', data: [4000, 4200, 4100, 4400, 4300], borderColor: '#009688', fill: false }]
+          }
+        });
       }
     }
   </script>
 </body>
 </html>
-
