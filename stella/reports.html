@@ -3,155 +3,383 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trading Challenge Report</title>
+  <title>Reports Overview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
+    * { box-sizing: border-box; }
     body {
-      font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      padding: 2rem;
-      background: #f9f9f9;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f4f6f9;
+      color: #1a1a1a;
+      padding: 30px;
+    }
+
+    header {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      background: linear-gradient(to right, #7a9cc6, #4d6d9a);
+      padding: 10px 20px;
+      color: #1d3e72;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      background-color: white;
+      border-radius: 20px;
+      padding: 5px 10px;
+      gap: 10px;
+    }
+
+    .header-container img {
+      width: 24px;
+      height: 24px;
+    }
+
+    .bell {
+      position: relative;
+      font-size: 20px;
+      color: #ffc107;
+      cursor: pointer;
+    }
+
+    .notif-count {
+      position: absolute;
+      top: -6px;
+      right: -8px;
+      background-color: red;
+      color: white;
+      font-size: 12px;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      text-align: center;
+      line-height: 18px;
+    }
+
+    #notifMenu {
+      display: none;
+      position: absolute;
+      right: 20px;
+      top: 60px;
+      background-color: white;
+      color: #1d3e72;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      min-width: 200px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    #notifMenu div {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    #notifMenu div:last-child {
+      border-bottom: none;
+    }
+
+    #notifMenu div:hover {
+      background-color: #f9f9f9;
+    }
+
+    .username {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: bold;
       color: #1d3e72;
     }
-    h2 {
-      margin-top: 2rem;
+
+    .lang-switcher {
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
     }
-    .container {
+
+    .lang-switcher span {
+      margin: 0 5px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1d3e72;
+    }
+
+    .filters {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 30px 0;
+    }
+
+    select, input[type="date"], button {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button.export-btn {
+      background-color: #1d3e72;
+      color: white;
+      cursor: pointer;
+    }
+
+    .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
     }
+
     .card {
       background: white;
-      padding: 1.5rem;
+      padding: 15px;
       border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    canvas {
-      max-width: 100%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      overflow-y: visible;
       height: auto;
+      min-height: 90vh; /* ή και μεγαλύτερο */
     }
-    ul {
-      padding-left: 1.5rem;
+
+    .card h3 {
+      margin-top: 0;
+      color: #1d3e72;
+    }
+
+    .card p {
+      font-size: 14px;
+      margin-top: 15px;
+    }
+
+    canvas {
+      margin-top: 10px;
+      width: 100% !important;
+      height: 100px;
+      aspect-ratio: 16 / 9;
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 </head>
 <body>
-  <h1>Participant Pool</h1>
-  <div class="container">
-    <div class="card">
-      <h2>Breakdown by University</h2>
-      <canvas id="universityChart"></canvas>
+  <header>
+    <div class="header-container">
+      <div style="position: relative;">
+        <span class="bell" id="notifBtn">🔔
+          <span class="notif-count">3</span>
+        </span>
+        <div id="notifMenu">
+          <div>New production report available.</div>
+          <div>System maintenance scheduled for Friday.</div>
+          <div>All systems normal.</div>
+        </div>
+      </div>
+      <div class="username">👤 <span>Admin</span></div>
+      <div class="lang-switcher" onclick="toggleLanguage()">
+        <span id="lang-en" style="color: #1d3e72">EN</span>|
+        <span id="lang-gr">GR</span>
+      </div>
     </div>
-    <div class="card">
-      <h2>Breakdown by Demographic</h2>
-      <canvas id="demographicChart"></canvas>
-    </div>
-    <div class="card">
-      <h2>Returning vs New Traders</h2>
-      <canvas id="returningChart"></canvas>
-    </div>
+  </header>
+
+  <h1 id="title">Reports Overview</h1>
+
+  <div class="filters">
+    <select id="reportType" onchange="renderReports()">
+      <option value="">-- Select Report --</option>
+      <option value="production">Production</option>
+      <option value="maintenance">Maintenance</option>
+      <option value="supply">Supply</option>
+      <option value="finance">Finance</option>
+    </select>
+
+    <input type="date" id="startDate" />
+    <input type="date" id="endDate" />
+    <button class="export-btn" onclick="exportData()">Export</button>
   </div>
 
-  <h1>Strategies</h1>
-  <div class="container">
-    <div class="card">
-      <h2>Student Population by Assets Traded</h2>
-      <canvas id="assetsChart"></canvas>
-    </div>
-    <div class="card">
-      <h2>Popular Trades</h2>
-      <strong>Stocks</strong>
-      <ul><li>TSLA, AAPL, FB, NFLX, GOOG, MSFT, AMZN, JCP, BA, F</li></ul>
-      <strong>ETFs</strong>
-      <ul><li>SPY, GLD, UVXY, VIXY, UNG, SLV, XLF, NUGT, DUST, FAS</li></ul>
-      <strong>FX</strong>
-      <ul><li>EUR, JPY, AUD, GBP, CAD, BRL, RUB, CHF, INR, CNY</li></ul>
-    </div>
-    <div class="card">
-      <h2>Number of Assets Traded</h2>
-      <canvas id="numAssetsChart"></canvas>
-    </div>
-    <div class="card">
-      <h2>Average Holding Periods</h2>
-      <canvas id="holdingChart"></canvas>
-    </div>
-  </div>
+  <div id="reportsContainer" class="cards"></div>
 
   <script>
-    new Chart(document.getElementById("universityChart"), {
-      type: 'doughnut',
-      data: {
-        labels: ["Ivy League", "Other"],
-        datasets: [{
-          data: [517, 752],
-          backgroundColor: ["#436A9F", "#A8C1E1"]
-        }]
-      }
+    document.addEventListener("click", function (e) {
+      const notifMenu = document.getElementById("notifMenu");
+      const notifBtn = document.getElementById("notifBtn");
+      if (!notifBtn.contains(e.target)) notifMenu.style.display = "none";
     });
 
-    new Chart(document.getElementById("demographicChart"), {
-      type: 'doughnut',
-      data: {
-        labels: ["Grads & Postgrads", "Undergrads - 3rd, 4th", "Undergrads - 1st, 2nd"],
-        datasets: [{
-          data: [201, 552, 516],
-          backgroundColor: ["#A8C1E1", "#7CA1D9", "#436A9F"]
-        }]
-      }
+    document.getElementById("notifBtn").addEventListener("click", function (e) {
+      e.stopPropagation();
+      const notif = document.getElementById("notifMenu");
+      notif.style.display = (notif.style.display === "block") ? "none" : "block";
     });
 
-    new Chart(document.getElementById("returningChart"), {
-      type: 'doughnut',
-      data: {
-        labels: ["Returning", "New"],
-        datasets: [{
-          data: [186, 1083],
-          backgroundColor: ["#436A9F", "#A8C1E1"]
-        }]
-      }
-    });
+    let currentLang = "en";
 
-    new Chart(document.getElementById("assetsChart"), {
-      type: 'doughnut',
-      data: {
-        labels: ["Stocks", "ETFs", "FX"],
-        datasets: [{
-          data: [2000, 300, 100],
-          backgroundColor: ["#436A9F", "#7CA1D9", "#A8C1E1"]
-        }]
-      }
-    });
+    function toggleLanguage() {
+      currentLang = currentLang === "en" ? "gr" : "en";
+      updateLanguage();
+    }
 
-    new Chart(document.getElementById("numAssetsChart"), {
-      type: 'bar',
-      data: {
-        labels: ["< 10 assets", "10-20 assets", "> 20 assets"],
-        datasets: [{
-          label: '% of Traders',
-          data: [55, 22, 23],
-          backgroundColor: "#436A9F"
-        }]
-      },
-      options: {
-        scales: { y: { beginAtZero: true, max: 60 } }
-      }
-    });
+    function updateLanguage() {
+      document.getElementById("lang-en").style.color = currentLang === "en" ? "#1d3e72" : "gray";
+      document.getElementById("lang-gr").style.color = currentLang === "gr" ? "#1d3e72" : "gray";
+      document.getElementById("title").textContent = currentLang === "en" ? "Reports Overview" : "Επισκόπηση Αναφορών";
+      document.querySelector("button.export-btn").textContent = currentLang === "en" ? "Export" : "Εξαγωγή";
+    }
 
-    new Chart(document.getElementById("holdingChart"), {
-      type: 'bar',
-      data: {
-        labels: ["< 1 month", "1-3 months", "> 3 months"],
-        datasets: [{
-          label: '% of Trades',
-          data: [12, 25, 63],
-          backgroundColor: "#436A9F"
-        }]
-      },
-      options: {
-        scales: { y: { beginAtZero: true, max: 70 } }
+    function exportData() {
+  const start = document.getElementById("startDate").value;
+  const end = document.getElementById("endDate").value;
+  const type = document.getElementById("reportType").value;
+
+  if (!type) {
+    alert(currentLang === "en" ? "Please select a report type." : "Παρακαλώ επέλεξε τύπο αναφοράς.");
+    return;
+  }
+
+  const reportElement = document.getElementById("reportsContainer");
+
+  const opt = {
+    margin:       0.5,
+    filename:     `${type}-report-${start || "start"}-${end || "end"}.pdf`,
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+  };
+
+  html2pdf().from(reportElement).set(opt).save();
+}
+
+
+    function renderReports() {
+      const type = document.getElementById("reportType").value;
+      const container = document.getElementById("reportsContainer");
+      container.innerHTML = "";
+
+      const reports = {
+        production: `
+          <div class="card">
+            <h3>Daily Production</h3>
+            <canvas id="prodChart"></canvas>
+            <canvas id="prodTrendChart"></canvas>
+            <p><strong>Conclusion:</strong> Increased output at week’s end due to external orders.</p>
+          </div>
+        `,
+        maintenance: `
+          <div class="card">
+            <h3>Maintenance Cost</h3>
+            <canvas id="maintChart"></canvas>
+            <canvas id="downtimeChart"></canvas>
+            <p><strong>Conclusion:</strong> Costs dropped after March, mainly due to preventive maintenance.</p>
+          </div>
+        `,
+        supply: `
+          <div class="card">
+            <h3>Stock Status</h3>
+            <canvas id="stockChart"></canvas>
+            <canvas id="reorderChart"></canvas>
+            <p><strong>Conclusion:</strong> Good stock levels overall, but 15% of items require restocking.</p>
+          </div>
+        `,
+        finance: `
+          <div class="card">
+            <h3>Cost Analysis</h3>
+            <canvas id="costChart"></canvas>
+            <canvas id="revenueChart"></canvas>
+            <p><strong>Conclusion:</strong> Maintenance is the largest expense, while revenue remains stable.</p>
+          </div>
+        `
+      };
+
+      if (type && reports[type]) {
+        container.innerHTML = reports[type];
+        setTimeout(drawCharts, 100);
       }
-    });
+    }
+
+    function drawCharts() {
+      if (document.getElementById("prodChart")) {
+        new Chart(prodChart, {
+          type: 'bar',
+          data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+            datasets: [{ label: 'Units Produced', data: [120, 145, 160, 130, 170], backgroundColor: '#1d3e72' }]
+          }
+        });
+
+        new Chart(prodTrendChart, {
+          type: 'line',
+          data: {
+            labels: ['Week 1', '2', '3', '4'],
+            datasets: [{ label: 'Total Trend', data: [600, 720, 690, 800], borderColor: '#6aa7e9', fill: false }]
+          }
+        });
+      }
+
+      if (document.getElementById("maintChart")) {
+        new Chart(maintChart, {
+          type: 'line',
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+            datasets: [{ label: 'Maintenance Cost (€)', data: [500, 300, 700, 400, 350], borderColor: '#1d3e72', fill: false }]
+          }
+        });
+
+        new Chart(downtimeChart, {
+          type: 'bar',
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+            datasets: [{ label: 'Downtime Hours', data: [20, 12, 25, 10, 8], backgroundColor: '#f28500' }]
+          }
+        });
+      }
+
+      if (document.getElementById("stockChart")) {
+        new Chart(stockChart, {
+          type: 'doughnut',
+          data: {
+            labels: ['Sufficient', 'Low', 'Insufficient'],
+            datasets: [{ data: [65, 20, 15], backgroundColor: ['#1d3e72', '#6aa7e9', '#f28500'] }]
+          }
+        });
+
+        new Chart(reorderChart, {
+          type: 'bar',
+          data: {
+            labels: ['Product A', 'B', 'C', 'D'],
+            datasets: [{ label: 'Reorder Qty', data: [30, 15, 45, 10], backgroundColor: '#4b89dc' }]
+          }
+        });
+      }
+
+      if (document.getElementById("costChart")) {
+        new Chart(costChart, {
+          type: 'pie',
+          data: {
+            labels: ['Maintenance', 'Fuel', 'Raw Materials', 'Other'],
+            datasets: [{ data: [2500, 1200, 1800, 700], backgroundColor: ['#1d3e72', '#4b89dc', '#6aa7e9', '#a3c9f7'] }]
+          }
+        });
+
+        new Chart(revenueChart, {
+          type: 'line',
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+            datasets: [{ label: 'Revenue (€)', data: [4000, 4200, 4100, 4400, 4300], borderColor: '#009688', fill: false }]
+          }
+        });
+      }
+    }
+
+    updateLanguage();
   </script>
 </body>
 </html>
