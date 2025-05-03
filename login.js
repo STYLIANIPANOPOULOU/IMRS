@@ -12,6 +12,7 @@ function checkLogin(event) {
     // Ψευδο-έλεγχος (για demo)
     if (email === 'demo@example.com' && password === '1234') {
       alert('Επιτυχής σύνδεση!');
+      window.location.href= 'Homepage.html';
     } else {
       alert('Λανθασμένα στοιχεία σύνδεσης.');
     }

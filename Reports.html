@@ -182,7 +182,7 @@
           <div>All systems normal.</div>
         </div>
       </div>
-      <div class="username">👤 <span>Admin</span></div>
+      <div class="username">👤 <span onclick="logout()">Admin</span></div>
       <div class="lang-switcher" onclick="toggleLanguage()">
         <span id="lang-en" style="color: #1d3e72">EN</span>|
         <span id="lang-gr">GR</span>
@@ -380,6 +380,11 @@
     }
 
     updateLanguage();
+
+    function logout() {
+      alert("Logging out...");
+      window.location.href = 'Login.html';
+    }
   </script>
 </body>
 </html>
