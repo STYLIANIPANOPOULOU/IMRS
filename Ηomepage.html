@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="el">
 <head>
   <meta charset="UTF-8" />
@@ -61,7 +61,7 @@
       font-size: 16px;
       transition: background 0.2s;
     }
-    
+   
     .main {
       margin-left: 220px;
       flex-grow: 1;
@@ -226,7 +226,7 @@
       cursor: pointer;
       margin-right: 15px;
     }
-
+ 
     #aboutText.collapsed {
   max-height: 150px;
   overflow: hidden;
@@ -249,10 +249,51 @@
     cursor: pointer;
     margin-top: 10px;
   }
-  
 
+  .dropdown {
+  position: relative;
+}
 
+.dropdown-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  color: #1e3a5f;
+}
 
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 10px;
+  display: none;
+  z-index: 1001;
+}
+
+.dropdown-menu a {
+  text-decoration: none;
+  color: #1e3a5f;
+  display: block;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f0f0f0;
+}
+
+ 
+ 
+ 
+ 
     @media (max-width: 768px) {
       .sidebar {
         position: absolute;
@@ -262,7 +303,7 @@
         margin-left: 0;
       }
     }
-
+ 
   </style>
 </head>
 <body>
@@ -278,34 +319,40 @@
   </div>
   <div class="main" id="mainContent">
     <header style="background: #96adc8; padding: 10px 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-    
+   
         <button onclick="toggleSidebar()" class="toggle-btn">☰
         </button>
         <strong id="headerTitle">Σύστημα Συντήρησης</strong>
-      
-      
+     
+     
       <div style="display: flex; align-items: center; gap: 15px; background: white; padding: 5px 10px; border-radius: 20px;">
-
+ 
         <div style="position: relative;">
           <img src="https://cdn-icons-png.flaticon.com/512/1827/1827392.png" alt="Notifications" width="20" height="20" />
           <span style="position: absolute; top: -6px; right: -6px; background: red; color: white; font-size: 12px; padding: 2px 6px; border-radius: 50%;">3</span>
         </div>
-        <div style="display: flex; align-items: center; gap: 5px;">
-          <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="Admin" width="20" height="20" />
-          <strong style="font-size: 14px;">Admin</strong>
+        <div class="dropdown">
+          <button class="dropdown-toggle">
+            <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="Admin" width="20" height="20" />
+            <strong style="font-size: 14px;">Admin</strong>
+          </button>
+          <div class="dropdown-menu" id="adminMenu">
+            <a href="#" onclick="logout()">Logout</a>
+          </div>
         </div>
+        
         <div style="font-size: 14px;">
           <a href="#" onclick="changeLanguage('en')">EN</a> | <a href="#" onclick="changeLanguage('gr')">GR</a>
         </div>
       </div>
     </header>
-    
+   
     <section class="section about">
       <h3 id="aboutTitle">Σχετικά Με Εμάς & Το Σύστημα</h3>
       <div id="aboutText" class="collapsed">
         <p>Η Megaplast συνιστά πρωτοπόρο ελληνική εταιρεία με ηγετική θέση στον τομέα της συσκευασίας, που παράγει καινοτόμα προϊόντα εύκαμπτης συσκευασίας (stretch films) δηλαδή μεμβράνες βιομηχανικού τύπου, σε διάφορες παραλλαγές,  χρήσιμες κυρίως για την περιτύλιξη παλετών. Η εταιρεία είναι τόσο παραγωγική όσο και εμπορική, με δύο παραγωγικές μονάδες στο Ηράκλειο Κρήτης και την Θήβα, με γραφεία και κέντρο Έρευνας και Ανάπτυξης στην Αττική και με σημαντική διεθνή παρουσία σε πλήθος χωρών όπως η Γερμανία, η Ιταλία, η Ισπανία, η Γαλλία, το Ηνωμένο Βασίλειο και οι Ηνωμένες Πολιτείες Αμερικής, διαθέτοντας θυγατρικές σε όλα αυτά τα μέρη.  
  
-        Ουσιαστικά, συνιστά μια καθετοποιημένη μονάδα η οποία αγοράζει πρώτες ύλες κυρίως από το εξωτερικό, παράγει τα διάφορα προϊόντα της στις διαφορετικές γραμμές παραγωγής αποκλειστικά στα δύο εργοστάσιά της στην Ελλάδα και εμπορεύεται αυτά τα προϊόντα στο εσωτερικό αλλά και στο εξωτερικό μέσω των θυγατρικών της στους τελικούς πελάτες της, δηλαδή άλλες εταιρείες. 
+        Ουσιαστικά, συνιστά μια καθετοποιημένη μονάδα η οποία αγοράζει πρώτες ύλες κυρίως από το εξωτερικό, παράγει τα διάφορα προϊόντα της στις διαφορετικές γραμμές παραγωγής αποκλειστικά στα δύο εργοστάσιά της στην Ελλάδα και εμπορεύεται αυτά τα προϊόντα στο εσωτερικό αλλά και στο εξωτερικό μέσω των θυγατρικών της στους τελικούς πελάτες της, δηλαδή άλλες εταιρείες.
  
         Οι θυγατρικές της δρουν ως ανεξάρτητες οικονομικές οντότητες που προμηθεύονται τα προϊόντα από την ελληνική εταιρεία και υπάγονται στον ευρύτερο όμιλο της Megaplast.</p>
         <p>Για την καλύτερη λειτουργία της παραγωγής, προχωρήσαμε στην ανάπτυξη ενός συστήματος διαχείρισης των συντηρήσεων και των επισκευών, το οποίο παρέχει κεντρική εποπτεία, άμεση ειδοποίηση για σημαντικά ζητήματα και βελτιστοποίηση των διαδικασιών μέσω της αξιοποίησης διαφόρων δεδομένων. Συγκεκριμένα, προτείνουμε την υλοποίηση του Intelligent Maintenance & Repair Management System, ενός ευφυούς συστήματος που εφαρμόζει σύγχρονες τεχνολογίες πληροφορικής και αλγορίθμους μηχανικής μάθησης με στόχο την αυτοματοποίηση των διαδικασιών, τη βελτίωση της συνεργασίας μεταξύ των εμπλεκόμενων και την μεγιστοποίηση της αποδοτικότητας και παραγωγικότητας της εταιρείας.</p>
@@ -313,7 +360,7 @@
       </div>
       <button id="toggleAbout" onclick="toggleAboutText()">Εμφάνιση περισσότερων</button>
     </section>
-    
+   
     <section class="section calendar-form">
       <h3 id="formTitle">Καταχώρηση Συντήρησης</h3>
       <input type="text" placeholder="Μηχάνημα" id="machine">
@@ -357,7 +404,7 @@
       document.getElementById("sidebar").classList.toggle("sidebar-hidden");
       document.getElementById("mainContent").classList.toggle("sidebar-collapsed");
     }
-
+ 
     function changeLanguage(lang) {
       const t = translations[lang];
       document.getElementById("headerTitle").textContent = t.title;
@@ -381,61 +428,61 @@
       document.getElementById("btnInfo").textContent = t.quickInfo;
       document.getElementById("chatSendBtn").textContent = t.sendBtn;
       document.getElementById("toggleAbout").textContent = t.toggleAbout;
-      document.getElementById("aboutText").textContent = t.aboutText; 
-
+      document.getElementById("aboutText").textContent = t.aboutText;
+ 
     }
-
-
+ 
+ 
     function addMaintenance() {
       const machine = document.getElementById("machine").value;
       const date = document.getElementById("date").value;
       const time = document.getElementById("time").value;
       const tech = document.getElementById("technician").value;
-
+ 
       if (!machine || !date || !time || !tech) {
         alert("Συμπλήρωσε όλα τα πεδία!");
         return;
       }
-
+ 
       scheduledDates.push(date);
       alert("Το πρόγραμμα συντήρησης καταχωρήθηκε!");
       renderCalendar();
     }
-
+ 
     function chat() {
       const input = document.getElementById("chatInput");
       const chatBox = document.getElementById("chatMessages");
       const userMessage = input.value.trim();
       if (!userMessage) return;
-
+ 
       const userDiv = document.createElement("div");
       userDiv.className = "user";
       userDiv.textContent = "Εσύ: " + userMessage;
       chatBox.appendChild(userDiv);
-
+ 
       let response = "Δεν βρήκα σχετική πληροφορία.";
       if (userMessage.includes("reset")) response = "Για επαναφορά, πάτησε παρατεταμένα το κουμπί RESET.";
       if (userMessage.includes("σφάλμα")) response = "Έλεγξε την παροχή ρεύματος και τη σύνδεση αέρα.";
       if (userMessage.includes("μηχάνημα")) response = "Ποιο μηχάνημα σε ενδιαφέρει;";
-
+ 
       const botDiv = document.createElement("div");
       botDiv.className = "bot";
       botDiv.textContent = "MecBot: " + response;
       chatBox.appendChild(botDiv);
-
+ 
       input.value = "";
       chatBox.scrollTop = chatBox.scrollHeight;
     }
-
+ 
     function sendQuickQuestion(text) {
       document.getElementById("chatInput").value = text;
       chat();
     }
-
+ 
     const scheduledDates = ["2025-05-05", "2025-05-06", "2025-05-07"];
     let currentMonth = new Date().getMonth();
     let currentYear = new Date().getFullYear();
-
+ 
     const translations = {
       gr: {
         title: "Σύστημα Συντήρησης",
@@ -486,25 +533,25 @@
         toggleAbout: "Show more"
       }
     }
-  
-
-
+ 
+ 
+ 
     function renderCalendar() {
       const grid = document.getElementById("calendarGrid");
       const header = document.getElementById("calendarHeader");
       const monthNames = ["Ιανουάριος", "Φεβρουάριος", "Μάρτιος", "Απρίλιος", "Μάιος", "Ιούνιος", "Ιούλιος", "Αύγουστος", "Σεπτέμβριος", "Οκτώβριος", "Νοέμβριος", "Δεκέμβριος"];
-
+ 
       const firstDay = new Date(currentYear, currentMonth, 1).getDay();
       const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
       const startDay = (firstDay + 6) % 7;
-
+ 
       grid.innerHTML = "";
       header.textContent = `${monthNames[currentMonth]} ${currentYear}`;
-
+ 
       for (let i = 0; i < startDay; i++) {
         grid.appendChild(document.createElement("div"));
       }
-
+ 
       for (let day = 1; day <= daysInMonth; day++) {
         const div = document.createElement("div");
         const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
@@ -515,7 +562,7 @@
         grid.appendChild(div);
       }
     }
-
+ 
     function prevMonth() {
       currentMonth--;
       if (currentMonth < 0) {
@@ -524,7 +571,7 @@
       }
       renderCalendar();
     }
-
+ 
     function nextMonth() {
       currentMonth++;
       if (currentMonth > 11) {
@@ -533,9 +580,9 @@
       }
       renderCalendar();
     }
-
+ 
     renderCalendar();
-
+ 
     function toggleAboutText() {
   const text = document.getElementById("aboutText");
   const button = document.getElementById("toggleAbout");
@@ -546,28 +593,50 @@
     button.textContent = "Εμφάνιση λιγότερων";
   }
   };
-
+ 
   document.getElementById("navProfile").addEventListener("click", function() {
   window.location.href = "Reports.html";
   });
-
+ 
   document.getElementById("navSettings").addEventListener("click", function() {
   window.location.href = "RegisterMachinesTechnicalStaff.html";
   });
-
+ 
   document.getElementById("navDashboard").addEventListener("click", function() {
   window.location.href = "ReportMalfunction.html";
   });
-
+ 
   document.getElementById("navTasks").addEventListener("click", function() {
   window.location.href = "ReportSparePartsShortage.html";
   });
-
+ 
   document.getElementById("navHistory").addEventListener("click", function() {
   window.location.href = "UpdateMachineStatus.html";
   });
+ 
+  document.addEventListener('click', function(event) {
+  const toggle = document.querySelector('.dropdown-toggle');
+  const menu = document.getElementById('adminMenu');
+  
+  if (toggle.contains(event.target)) {
+    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+  } else {
+    menu.style.display = 'none';
+  }
+});
+
+function logout() {
+  alert("Αποσύνδεση χρήστη...");
+  // Εδώ μπορείς να προσθέσεις redirect ή logout λογική
+}
+
+function logout() {
+  // Ανακατεύθυνση στην σελίδα login
+  window.location.href = "Login.html";  
+}
 
 
+ 
   </script>
 </body>
 </html>

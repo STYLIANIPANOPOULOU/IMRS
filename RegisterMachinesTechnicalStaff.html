@@ -230,9 +230,32 @@
     .save-button:hover {
       background-color: #0d2e50;
     }
+
+    .back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #0f355e;
+  color: white;
+  padding: 8px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #0d3a6a;
+}
+
   </style>
 </head>
 <body>
+  <button class="back-button" onclick="goBack()">← Back</button>
+
+
+
   <div class="top-right-icons">
     <div class="notification-bell">
       <i class="fas fa-bell"></i>
@@ -313,6 +336,9 @@
   </div>
 
   <script>
+    function goBack() {
+      window.location.href = "Homepage.html"; 
+    }
     function toggleLogoutMenu() {
       const menu = document.getElementById('logoutMenu');
       menu.classList.toggle('hidden');
@@ -389,6 +415,7 @@
 
       document.getElementById('machineForm').classList.add('hidden');
     }
+
 
    
   </script>
