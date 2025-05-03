@@ -19,184 +19,101 @@
       padding: 20px;
     }
 
-    .form-container {
-      background-color: white;
-      padding: 40px 35px;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-      width: 100%;
-      max-width: 620px;
-    }
-
-    h2 {
-      text-align: center;
-      background: linear-gradient(to right, #1e3c72, #2a5298);
-      color: white;
-      padding: 16px;
-      border-radius: 12px 12px 0 0;
-      margin: -40px -35px 30px;
-      font-size: 22px;
-    }
-
-    label {
-      display: block;
-      margin-top: 18px;
-      font-weight: 600;
-      color: #333;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 12px;
-      margin-top: 6px;
-      border: 1px solid #cfd8dc;
-      border-radius: 10px;
-      font-size: 15px;
-      background-color: #f9f9f9;
-    }
-
-    textarea { resize: vertical; min-height: 80px; }
-
-    .dual-input {
-      display: flex;
-      gap: 10px;
-    }
-
-    .dual-input > * { flex: 1; }
-
-    button {
-      width: 100%;
-      margin-top: 30px;
-      padding: 14px;
-      background: linear-gradient(to right, #1e3c72, #2a5298);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
+    /* Top-right notification/user/lang bar */
+    .top-right-bar {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
+      gap: 12px;
+      background: white;
+      border-radius: 10px;
+      padding: 8px 16px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-family: 'Inter', sans-serif;
+      z-index: 1000;
     }
 
+    .notification { position: relative; cursor: pointer; }
+    .notification .notif-icon { font-size: 20px; color: #1e3c72; }
+    .badge {
+      position: absolute; top: -6px; right: -6px;
+      background-color: red; color: white;
+      font-size: 12px; padding: 2px 5px; border-radius: 50%;
+    }
+
+    .user-info { display: flex; align-items: center; gap: 6px; position: relative; cursor: pointer; color: #1e3c72; }
+    .user-info .user-icon { font-size: 18px; }
+    .user-info .username { font-weight: 600; color: #1e3c72; }
+
+    .language-toggle { font-size: 14px; color: #1e3c72; cursor: pointer; }
+
+    .dropdown {
+      position: absolute; top: 28px; right: 0;
+      background-color: white; border: 1px solid #dbe9f6; border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08); display: none; z-index: 1001;
+    }
+    .dropdown a { display: block; padding: 10px 14px; font-size: 14px; color: #1e3c72; text-decoration: none; }
+    .dropdown a:hover { background-color: #f2f8ff; }
+
+    .notif-sidebar {
+      position: fixed; top: 60px; right: -300px; width: 280px; height: calc(100% - 60px);
+      background: #1e3c72; border-left: 3px solid #1e3c72;
+      box-shadow: -4px 0 12px rgba(0,0,0,0.1);
+      padding: 20px; display: flex; flex-direction: column; gap: 12px;
+      z-index: 900; transition: right 0.3s ease;
+    }
+    .notif-sidebar.active { right: 0; }
+    .notif-sidebar strong { font-size: 16px; color: white; border-bottom: 1px solid #bcd5ee; padding-bottom: 5px; }
+    .notif-entry { background-color: #e6f0fb; border: 1px solid #c3daf5; padding: 10px; border-radius: 6px; font-size: 14px; color: #1e3c72; }
+
+    .form-container {
+      background-color: white; padding: 40px 35px; border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+      width: 100%; max-width: 620px; position: relative; z-index: 500;
+    }
+    h2[data-i18n="title"] {
+      text-align: center; background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: white; padding: 16px; border-radius: 12px 12px 0 0;
+      margin: -40px -35px 30px; font-size: 22px;
+    }
+    label {
+      display: block; margin-top: 18px; font-weight: 600; color: #333;
+    }
+    input, select, textarea {
+      width: 100%; padding: 12px; margin-top: 6px;
+      border: 1px solid #cfd8dc; border-radius: 10px; font-size: 15px;
+      background-color: #f9f9f9;
+    }
+    textarea { resize: vertical; min-height: 80px; }
+    .dual-input { display: flex; gap: 10px; }
+    .dual-input > * { flex: 1; }
+    .drop-area { margin-top: 10px; border: 2px dashed #aaa; border-radius: 10px; padding: 20px; text-align: center; color: #666; transition: 0.3s; }
+    .drop-area.dragover { background-color: #eef5ff; border-color: #1e3c72; }
+    .preview-list { margin-top: 10px; font-size: 14px; color: #444; }
+    button { width: 100%; margin-top: 30px; padding: 14px; background: linear-gradient(to right, #1e3c72, #2a5298); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .message { text-align: center; margin-top: 20px; font-size: 14px; }
     .success { color: #2e7d32; }
     .error { color: #d32f2f; }
-
-    .drop-area {
-      margin-top: 10px;
-      border: 2px dashed #aaa;
-      border-radius: 10px;
-      padding: 20px;
-      text-align: center;
-      color: #666;
-      transition: 0.3s;
-    }
-
-    .drop-area.dragover {
-      background-color: #eef5ff;
-      border-color: #1e3c72;
-    }
-
-    .preview-list {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #444;
-    }
-
-    /* Admin Header & Sidebar */
-    .user-header {
-      position: fixed;
-      top: 0;
-      right: 0;
-      padding: 12px 20px;
-      background-color: #ffffffee;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      z-index: 1000;
-      border-radius: 0 0 0 12px;
-      display: flex;
-      gap: 20px;
-      align-items: center;
-    }
-
-    .notif-icon, .lang-toggle, .user-icon {
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 600;
-      color: #1e3c72;
-      position: relative;
-    }
-
-    .dropdown {
-      position: absolute;
-      top: 28px;
-      right: 0;
-      background-color: white;
-      border: 1px solid #dbe9f6;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-      display: none;
-      z-index: 1001;
-    }
-
-    .dropdown a {
-      display: block;
-      padding: 10px 14px;
-      font-size: 14px;
-      color: #1e3c72;
-      text-decoration: none;
-    }
-
-    .dropdown a:hover {
-      background-color: #f2f8ff;
-    }
-
-    .notif-sidebar {
-      position: fixed;
-      top: 60px;
-      right: -300px;
-      width: 280px;
-      height: calc(100% - 60px);
-      background:  #1e3c72;
-      border-left: 3px solid #1e3c72;
-      box-shadow: -4px 0 12px rgba(0,0,0,0.1);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      z-index: 900;
-      transition: right 0.3s ease;
-    }
-
-    .notif-sidebar.active { right: 0; }
-
-    .notif-sidebar strong {
-      font-size: 16px;
-      color:white;
-      border-bottom: 1px solid #bcd5ee;
-      padding-bottom: 5px;
-    }
-
-    .notif-entry {
-      background-color: #e6f0fb;
-      border: 1px solid #c3daf5;
-      padding: 10px;
-      border-radius: 6px;
-      font-size: 14px;
-      color: #1e3c72;
-    }
   </style>
 </head>
 <body>
-  <div class="user-header">
-    <span class="lang-toggle" onclick="toggleLang()">🌐 EN/GR</span>
-    <span class="notif-icon" onclick="toggleNotifications()">🔔 Notifications</span>
-    <div class="user-icon" onclick="toggleDropdown()">👤 Admin
-      <div class="dropdown" id="adminDropdown">
-        <a href="#" onclick="logout()">Logout</a>
-      </div>
+  <div class="top-right-bar">
+    <div class="notification" onclick="toggleNotifications()">
+      <span class="notif-icon">🔔</span>
+      <span class="badge">3</span>
+    </div>
+    <div class="user-info" onclick="toggleDropdown()">
+      <span class="user-icon">👤</span>
+      <span class="username"><strong>Admin</strong>
+        <div class="dropdown" id="adminDropdown">
+          <a href="#" onclick="logout()">Logout</a>
+        </div>
+      </span>
+    </div>
+    <div class="language-toggle" onclick="toggleLang()">
+      <span class="lang"><strong>EN</strong></span> | <span class="lang">GR</span>
     </div>
   </div>
 
@@ -211,9 +128,9 @@
   </div>
 
   <div class="form-container">
-    <h2>Fault Report</h2>
+    <h2 data-i18n="title">Fault Report</h2>
     <form id="faultForm">
-      <label>Machine (ID or Selection)</label>
+      <label data-i18n="machineLabel">Machine (ID or Selection)</label>
       <div class="dual-input">
         <select id="machineId">
           <option value="">-- Select --</option>
@@ -223,13 +140,13 @@
         <input type="text" id="manualId" placeholder="Or type ID manually" />
       </div>
 
-      <label>Fault Description *</label>
-      <textarea id="description" required placeholder="Describe the issue..."></textarea>
+      <label data-i18n="descriptionLabel">Fault Description *</label>
+      <textarea id="description" placeholder="Describe the issue..." required></textarea>
 
-      <label>Date & Time *</label>
+      <label data-i18n="dateTimeLabel">Date & Time *</label>
       <input type="datetime-local" id="datetime" required />
 
-      <label>Location *</label>
+      <label data-i18n="locationLabel">Location *</label>
       <select id="location" required>
         <option value="">-- Select Location --</option>
         <option>Warehouse A</option>
@@ -237,7 +154,7 @@
         <option>Lab C</option>
       </select>
 
-      <label>Severity *</label>
+      <label data-i18n="severityLabel">Severity *</label>
       <select id="severity" required>
         <option value="">-- Select --</option>
         <option>Critical</option>
@@ -245,10 +162,10 @@
         <option>Minor</option>
       </select>
 
-      <label>Comments (optional)</label>
+      <label data-i18n="commentsLabel">Comments (optional)</label>
       <textarea id="comments" placeholder="Additional notes..."></textarea>
 
-      <label>Attach Files (Images/Videos)</label>
+      <label data-i18n="attachLabel">Attach Files (Images/Videos)</label>
       <div class="drop-area" id="dropArea">Drag files here or click to select</div>
       <input type="file" id="fileInput" accept="image/*,video/*" multiple style="display:none;">
       <div id="previewList" class="preview-list"></div>
@@ -259,79 +176,99 @@
   </div>
 
   <script>
+    // Translations setup
+    let currentLang = 'EN';
+    const translations = {
+      EN: {
+        title: 'Fault Report',
+        machineLabel: 'Machine (ID or Selection)',
+        manualPlaceholder: 'Or type ID manually',
+        descriptionLabel: 'Fault Description *',
+        descriptionPlaceholder: 'Describe the issue...',
+        dateTimeLabel: 'Date & Time *',
+        locationLabel: 'Location *',
+        locationSelectDefault: '-- Select Location --',
+        selectDefault: '-- Select --',
+        severityLabel: 'Severity *',
+        commentsLabel: 'Comments (optional)',
+        commentsPlaceholder: 'Additional notes...',
+        attachLabel: 'Attach Files (Images/Videos)',
+        submitButton: '📤 Submit Report'
+      },
+      GR: {
+        title: 'Αναφορά Βλάβης',
+        machineLabel: 'Μηχανή (ID ή επιλογή)',
+        manualPlaceholder: 'Ή πληκτρολόγησε ID χειροκίνητα',
+        descriptionLabel: 'Περιγραφή Βλάβης *',
+        descriptionPlaceholder: 'Περιγράψτε το πρόβλημα...',
+        dateTimeLabel: 'Ημερομηνία & Ώρα *',
+        locationLabel: 'Τοποθεσία *',
+        locationSelectDefault: '-- Επιλογή Τοποθεσίας --',
+        selectDefault: '-- Επιλογή --',
+        severityLabel: 'Σοβαρότητα *',
+        commentsLabel: 'Σχόλια (προαιρετικά)',
+        commentsPlaceholder: 'Πρόσθετες σημειώσεις...',
+        attachLabel: 'Επισύναψη Αρχείων (Εικόνες/Βίντεο)',
+        submitButton: '📤 Υποβολή Αναφοράς'
+      }
+    };
+
+    // Update all translatable text/placeholders
+    function updateLanguage() {
+      document.querySelector('[data-i18n="title"]').textContent = translations[currentLang].title;
+      document.querySelector('[data-i18n="machineLabel"]').textContent = translations[currentLang].machineLabel;
+      document.getElementById('manualId').placeholder = translations[currentLang].manualPlaceholder;
+      document.querySelector('[data-i18n="descriptionLabel"]').textContent = translations[currentLang].descriptionLabel;
+      document.getElementById('description').placeholder = translations[currentLang].descriptionPlaceholder;
+      document.querySelector('[data-i18n="dateTimeLabel"]').textContent = translations[currentLang].dateTimeLabel;
+      document.querySelector('[data-i18n="locationLabel"]').textContent = translations[currentLang].locationLabel;
+      const locSelect = document.getElementById('location'); locSelect.options[0].text = translations[currentLang].locationSelectDefault;
+      document.querySelector('[data-i18n="severityLabel"]').textContent = translations[currentLang].severityLabel;
+      const sevSelect = document.getElementById('severity'); sevSelect.options[0].text = translations[currentLang].selectDefault;
+      document.getElementById('machineId').options[0].text = translations[currentLang].selectDefault;
+      document.querySelector('[data-i18n="commentsLabel"]').textContent = translations[currentLang].commentsLabel;
+      document.getElementById('comments').placeholder = translations[currentLang].commentsPlaceholder;
+      document.querySelector('[data-i18n="attachLabel"]').textContent = translations[currentLang].attachLabel;
+      document.querySelector('#faultForm button').textContent = translations[currentLang].submitButton;
+    }
+
+    function toggleLangToggle() {
+      const toggleEl = document.querySelector('.language-toggle');
+      if (currentLang === 'EN') {
+        toggleEl.innerHTML = '<span class="lang"><strong>EN</strong></span> | <span class="lang">GR</span>';
+      } else {
+        toggleEl.innerHTML = '<span class="lang">EN</span> | <span class="lang"><strong>GR</strong></span>';
+      }
+    }
+
+    function toggleLang() {
+      currentLang = currentLang === 'EN' ? 'GR' : 'EN';
+      toggleLangToggle();
+      updateLanguage();
+    }
+
+    // File upload & form logic (unchanged)
     const form = document.getElementById("faultForm");
     const msg = document.getElementById("formMessage");
     const dropArea = document.getElementById("dropArea");
     const fileInput = document.getElementById("fileInput");
     const previewList = document.getElementById("previewList");
-
     dropArea.addEventListener("click", () => fileInput.click());
-    dropArea.addEventListener("dragover", (e) => {
-      e.preventDefault(); dropArea.classList.add("dragover");
-    });
+    dropArea.addEventListener("dragover", (e) => { e.preventDefault(); dropArea.classList.add("dragover"); });
     dropArea.addEventListener("dragleave", () => dropArea.classList.remove("dragover"));
-    dropArea.addEventListener("drop", (e) => {
-      e.preventDefault(); dropArea.classList.remove("dragover");
-      handleFiles(e.dataTransfer.files);
-    });
+    dropArea.addEventListener("drop", (e) => { e.preventDefault(); dropArea.classList.remove("dragover"); handleFiles(e.dataTransfer.files); });
     fileInput.addEventListener("change", () => handleFiles(fileInput.files));
-
-    function handleFiles(files) {
-      previewList.innerHTML = "";
-      [...files].forEach(file => {
-        const li = document.createElement("div");
-        li.textContent = `📎 ${file.name}`;
-        previewList.appendChild(li);
-      });
-    }
-
-    form.addEventListener("submit", function(e) {
-      e.preventDefault();
-      const machineDropdown = document.getElementById("machineId").value;
-      const manualId = document.getElementById("manualId").value.trim();
-      const description = document.getElementById("description").value.trim();
-      const datetime = document.getElementById("datetime").value;
-      const location = document.getElementById("location").value;
-      const severity = document.getElementById("severity").value;
-
-      if ((!machineDropdown && !manualId) || !description || !datetime || !location || !severity) {
-        msg.textContent = "⚠️ Please complete all required fields.";
-        msg.className = "message error";
-        return;
-      }
-
-      msg.textContent = "✅ Fault report submitted successfully!";
-      msg.className = "message success";
-      localStorage.removeItem("autosave");
-      form.reset(); previewList.innerHTML = "";
-    });
-
+    function handleFiles(files) { previewList.innerHTML = ""; [...files].forEach(f => { const li = document.createElement("div"); li.textContent = `📎 ${f.name}`; previewList.appendChild(li); }); }
+    form.addEventListener("submit", function(e) { e.preventDefault(); const md = document.getElementById("machineId").value; const mi = document.getElementById("manualId").value.trim(); const desc = document.getElementById("description").value.trim(); const dt = document.getElementById("datetime").value; const loc = document.getElementById("location").value; const sev = document.getElementById("severity").value; if((!md && !mi) || !desc || !dt || !loc || !sev) { msg.textContent = "⚠️ Please complete all required fields."; msg.className = "message error"; return; } msg.textContent = "✅ Fault report submitted successfully!"; msg.className = "message success"; localStorage.removeItem("autosave"); form.reset(); previewList.innerHTML = ""; });
     // Admin UI logic
     const dropdown = document.getElementById("adminDropdown");
     const notifSidebar = document.getElementById("notifSidebar");
+    function toggleDropdown() { dropdown.style.display = dropdown.style.display === "block" ? "none" : "block"; }
+    window.addEventListener("click", e => { if(!e.target.closest('.user-info')) dropdown.style.display = "none"; });
+    function toggleNotifications() { notifSidebar.classList.toggle("active"); }
+    function logout() { alert("You have been logged out."); window.location.href = 'Login.html'; }
 
-    function toggleDropdown() {
-      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-    }
-
-    window.addEventListener("click", function(e) {
-      if (!e.target.closest('.user-icon')) {
-        dropdown.style.display = "none";
-      }
-    });
-
-    function toggleNotifications() {
-      notifSidebar.classList.toggle("active");
-    }
-
-    function toggleLang() {
-      alert("Language toggled (placeholder)");
-    }
-
-    function logout() {
-      alert("You have been logged out.");
-      window.location.href = 'Login.html';
-    }
+    document.addEventListener('DOMContentLoaded', () => { updateLanguage(); });
   </script>
 </body>
 </html>

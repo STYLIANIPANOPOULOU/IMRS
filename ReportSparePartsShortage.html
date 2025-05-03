@@ -79,8 +79,8 @@
       box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
       position: fixed;
       right: 0;
-      top: 80px; /* Space it down from the top */
-      height: calc(100% - 80px); /* Adjust height to fit below the header */
+      top: 80px;
+      height: calc(100% - 80px);
       transform: translateX(100%);
       transition: transform 0.3s ease;
     }
@@ -97,15 +97,14 @@
       padding-bottom: 8px;
     }
 
-    .notification, .history-item {
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 10px 12px;
-      margin-top: 10px;
-      border-radius: 10px;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .notification {
+      font-size: 18px;
+      color: yellow;
+      cursor: pointer;
+    }
+
+    .notification:hover {
+      color: gold;
     }
 
     .main-content {
@@ -187,40 +186,30 @@
       font-size: 15px;
       font-weight: 600;
       color: #1e3c72;
-      border: 1px solid #1e3c72;
-      border-radius: 6px;
-      padding: 4px 8px;
-      background: white;
+      background: none;  /* Removed the background */
+      border: none;  /* Removed the border */
+      padding: 0;  /* Removed the padding */
     }
 
-    .toggle-sidebar-btn {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      padding: 12px;
-      background-color: #1e3c72;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      font-size: 18px;
-      cursor: pointer;
-    }
   </style>
 </head>
 <body>
   <div class="user-header">
-    <div class="lang-toggle" onclick="toggleLanguage()">GR</div>
+    <div class="notification" onclick="toggleNotifications()">
+      🔔
+    </div>
     <div class="user-info" onclick="toggleDropdown()">
       👤 Admin
       <div id="dropdown" class="dropdown">
         <div onclick="logout()">Logout</div>
       </div>
     </div>
+    <div class="lang-toggle" onclick="toggleLanguage()">EN | GR</div>
   </div>
 
   <div class="main-content">
     <div class="form-container">
-      <h2 id="formTitle">Report Spare Part Shortage</h2>
+      <h2 id="formTitle">Spare Part Shortage Report</h2>
       <form id="shortageForm">
         <label for="partCode" id="labelPart">Search Spare Part *</label>
         <div class="autocomplete-suggestions">
@@ -249,90 +238,74 @@
 
   <div class="sidebar" id="sidebar">
     <h3>🔔 Notifications</h3>
-    <div class="notification"><span>⚠️</span> Shortage: Sensor 321 for MX-001</div>
-    <div class="notification"><span>🕒</span> Awaiting confirmation for Filter A45</div>
-    <div class="notification"><span>📦</span> New delivery for ZX-900</div>
+    <div class="notification-item">⚠️ Shortage: Sensor 321 for MX-001</div>
+    <div class="notification-item">🕒 Awaiting confirmation for Filter A45</div>
+    <div class="notification-item">📦 New delivery for ZX-900</div>
 
     <h3 style="margin-top: 30px;">📁 Shortage History</h3>
-    <div class="history-item"><span>📝</span> Filter A23 - 20/04</div>
-    <div class="history-item"><span>📝</span> Belt B100 - 12/03</div>
-    <div class="history-item"><span>📝</span> Sensor 321 - 03/02</div>
+    <div class="history-item">📝 Filter A23 - 20/04</div>
+    <div class="history-item">📝 Belt B100 - 12/03</div>
+    <div class="history-item">📝 Sensor 321 - 03/02</div>
   </div>
 
-  <button class="toggle-sidebar-btn" onclick="toggleSidebar()">☰</button>
-
   <script>
-    const partsCatalog = [
-      "Sensor 321", "Filter A23", "Belt B100", "Motor Z400", "Pump X900",
-      "Cable C10", "Bearing R22", "Fan K300", "Valve V800"
-    ];
-
-    let isEnglish = true;
-
-    function toggleDropdown() {
-      document.getElementById("dropdown").classList.toggle("show");
-    }
-
-    function logout() {
-      alert("Logging out...");
-      window.location.href = 'Login.html';
-    }
-    
+    let isGreek = false; // Εδώ ορίζουμε την αρχική γλώσσα (false για Αγγλικά)
 
     function toggleLanguage() {
-      isEnglish = !isEnglish;
+      isGreek = !isGreek;
       updateLanguage();
     }
 
     function updateLanguage() {
-      if (isEnglish) {
-        document.getElementById("formTitle").textContent = "Report Spare Part Shortage";
-        document.getElementById("labelPart").textContent = "Search Spare Part *";
-        document.getElementById("labelDesc").textContent = "Description / Comments";
-        document.getElementById("labelQty").textContent = "Required Quantity *";
-        document.getElementById("labelMachine").textContent = "Associated Machine *";
-        document.getElementById("submitBtn").textContent = "Save";
-        document.getElementById("formMessage").textContent = "";
-        document.querySelector(".lang-toggle").textContent = "EN";
+      const formTitle = document.getElementById('formTitle');
+      const labelPart = document.getElementById('labelPart');
+      const labelDesc = document.getElementById('labelDesc');
+      const labelQty = document.getElementById('labelQty');
+      const labelMachine = document.getElementById('labelMachine');
+      const submitBtn = document.getElementById('submitBtn');
+      const formMessage = document.getElementById('formMessage');
+      const langToggle = document.querySelector('.lang-toggle');
+
+      if (isGreek) {
+        // Αν η γλώσσα είναι Ελληνικά
+        formTitle.textContent = 'Αναφορά Έλλειψης Ανταλλακτικού';
+        labelPart.textContent = 'Αναζητήστε Ανταλλακτικό *';
+        labelDesc.textContent = 'Περιγραφή / Σχόλια';
+        labelQty.textContent = 'Απαιτούμενη Ποσότητα *';
+        labelMachine.textContent = 'Σχετική Μηχανή *';
+        submitBtn.textContent = 'Αποθήκευση';
+        formMessage.textContent = 'Παρακαλώ συμπληρώστε τα παρακάτω πεδία.';
+        langToggle.textContent = 'EN | GR'; // Ενημέρωση του κουμπιού αλλαγής γλώσσας
       } else {
-        document.getElementById("formTitle").textContent = "Αναφορά Ελλείψεως Ανταλλακτικού";
-        document.getElementById("labelPart").textContent = "Αναζήτηση Ανταλλακτικού *";
-        document.getElementById("labelDesc").textContent = "Περιγραφή / Σχόλια";
-        document.getElementById("labelQty").textContent = "Απαιτούμενη Ποσότητα *";
-        document.getElementById("labelMachine").textContent = "Σχετιζόμενη Μηχανή *";
-        document.getElementById("submitBtn").textContent = "Αποθήκευση";
-        document.getElementById("formMessage").textContent = "";
-        document.querySelector(".lang-toggle").textContent = "GR";
+        // Αν η γλώσσα είναι Αγγλικά
+        formTitle.textContent = 'Spare Part Shortage Report';
+        labelPart.textContent = 'Search Spare Part *';
+        labelDesc.textContent = 'Description / Comments';
+        labelQty.textContent = 'Required Quantity *';
+        labelMachine.textContent = 'Associated Machine *';
+        submitBtn.textContent = 'Save';
+        formMessage.textContent = 'Please fill in the following fields.';
+        langToggle.textContent = 'EN | GR'; // Ενημέρωση του κουμπιού αλλαγής γλώσσας
       }
     }
 
-    const partCodeInput = document.getElementById("partCode");
+    function toggleNotifications() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('show');
+    }
 
-    partCodeInput.addEventListener("input", function () {
-      const query = partCodeInput.value.toLowerCase();
-    });
+    function toggleDropdown() {
+      const dropdown = document.getElementById('dropdown');
+      dropdown.classList.toggle('show');
+    }
 
-    document.getElementById("shortageForm").addEventListener("submit", function (event) {
-      event.preventDefault();
-      const partCode = partCodeInput.value;
-      const description = document.getElementById("description").value;
-      const quantity = document.getElementById("quantity").value;
-      const machine = document.getElementById("machine").value;
-
-      if (partCode && quantity && machine) {
-        document.getElementById("formMessage").textContent = "Report submitted successfully!";
-        document.getElementById("formMessage").className = "message success";
-      } else {
-        document.getElementById("formMessage").textContent = "Please fill in all required fields.";
-        document.getElementById("formMessage").className = "message error";
-      }
-    });
-
-    function toggleSidebar() {
-      const sidebar = document.getElementById("sidebar");
-      sidebar.classList.toggle("show");
+    function logout() {
+      alert('Logging out...');
+      // Εδώ μπορείς να προσθέσεις την λογική αποσύνδεσης, π.χ. ανακατεύθυνση σε άλλη σελίδα
     }
   </script>
 </body>
 </html>
+
+
 

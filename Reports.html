@@ -34,11 +34,7 @@
       border-radius: 20px;
       padding: 5px 10px;
       gap: 10px;
-    }
-
-    .header-container img {
-      width: 24px;
-      height: 24px;
+      position: relative;
     }
 
     .bell {
@@ -65,7 +61,7 @@
     #notifMenu {
       display: none;
       position: absolute;
-      right: 20px;
+      right: 140px;
       top: 60px;
       background-color: white;
       color: #1d3e72;
@@ -90,11 +86,31 @@
     }
 
     .username {
-      display: flex;
-      align-items: center;
-      gap: 5px;
+      position: relative;
+      cursor: pointer;
       font-weight: bold;
       color: #1d3e72;
+    }
+
+    .user-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 30px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .user-menu div {
+      padding: 10px;
+      color: #1d3e72;
+    }
+
+    .user-menu div:hover {
+      background-color: #f1f1f1;
     }
 
     .lang-switcher {
@@ -145,8 +161,7 @@
       border-radius: 12px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
       overflow-y: visible;
-      height: auto;
-      min-height: 90vh; /* ή και μεγαλύτερο */
+      min-height: 90vh;
     }
 
     .card h3 {
@@ -167,7 +182,6 @@
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 </head>
 <body>
   <header>
@@ -182,7 +196,13 @@
           <div>All systems normal.</div>
         </div>
       </div>
-      <div class="username">👤 <span onclick="logout()">Admin</span></div>
+
+      <div class="username" id="userIcon">👤 Admin
+        <div class="user-menu" id="userMenu">
+          <div onclick="logout()">Logout</div>
+        </div>
+      </div>
+
       <div class="lang-switcher" onclick="toggleLanguage()">
         <span id="lang-en" style="color: #1d3e72">EN</span>|
         <span id="lang-gr">GR</span>
@@ -210,15 +230,24 @@
 
   <script>
     document.addEventListener("click", function (e) {
-      const notifMenu = document.getElementById("notifMenu");
-      const notifBtn = document.getElementById("notifBtn");
-      if (!notifBtn.contains(e.target)) notifMenu.style.display = "none";
+      if (!document.getElementById("notifBtn").contains(e.target)) {
+        document.getElementById("notifMenu").style.display = "none";
+      }
+      if (!document.getElementById("userIcon").contains(e.target)) {
+        document.getElementById("userMenu").style.display = "none";
+      }
     });
 
     document.getElementById("notifBtn").addEventListener("click", function (e) {
       e.stopPropagation();
       const notif = document.getElementById("notifMenu");
-      notif.style.display = (notif.style.display === "block") ? "none" : "block";
+      notif.style.display = notif.style.display === "block" ? "none" : "block";
+    });
+
+    document.getElementById("userIcon").addEventListener("click", function (e) {
+      e.stopPropagation();
+      const menu = document.getElementById("userMenu");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
     });
 
     let currentLang = "en";
@@ -236,28 +265,27 @@
     }
 
     function exportData() {
-  const start = document.getElementById("startDate").value;
-  const end = document.getElementById("endDate").value;
-  const type = document.getElementById("reportType").value;
+      const start = document.getElementById("startDate").value;
+      const end = document.getElementById("endDate").value;
+      const type = document.getElementById("reportType").value;
 
-  if (!type) {
-    alert(currentLang === "en" ? "Please select a report type." : "Παρακαλώ επέλεξε τύπο αναφοράς.");
-    return;
-  }
+      if (!type) {
+        alert(currentLang === "en" ? "Please select a report type." : "Παρακαλώ επέλεξε τύπο αναφοράς.");
+        return;
+      }
 
-  const reportElement = document.getElementById("reportsContainer");
+      const reportElement = document.getElementById("reportsContainer");
 
-  const opt = {
-    margin:       0.5,
-    filename:     `${type}-report-${start || "start"}-${end || "end"}.pdf`,
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2 },
-    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-  };
+      const opt = {
+        margin: 0.5,
+        filename: `${type}-report-${start || "start"}-${end || "end"}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
 
-  html2pdf().from(reportElement).set(opt).save();
-}
-
+      html2pdf().from(reportElement).set(opt).save();
+    }
 
     function renderReports() {
       const type = document.getElementById("reportType").value;
