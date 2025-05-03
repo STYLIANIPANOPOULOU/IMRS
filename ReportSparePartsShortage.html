@@ -186,18 +186,15 @@
       font-size: 15px;
       font-weight: 600;
       color: #1e3c72;
-      background: none;  /* Removed the background */
-      border: none;  /* Removed the border */
-      padding: 0;  /* Removed the padding */
+      background: none;
+      border: none;
+      padding: 0;
     }
-
   </style>
 </head>
 <body>
   <div class="user-header">
-    <div class="notification" onclick="toggleNotifications()">
-      🔔
-    </div>
+    <div class="notification" onclick="toggleNotifications()">🔔</div>
     <div class="user-info" onclick="toggleDropdown()">
       👤 Admin
       <div id="dropdown" class="dropdown">
@@ -249,7 +246,7 @@
   </div>
 
   <script>
-    let isGreek = false; // Εδώ ορίζουμε την αρχική γλώσσα (false για Αγγλικά)
+    let isGreek = false;
 
     function toggleLanguage() {
       isGreek = !isGreek;
@@ -267,7 +264,6 @@
       const langToggle = document.querySelector('.lang-toggle');
 
       if (isGreek) {
-        // Αν η γλώσσα είναι Ελληνικά
         formTitle.textContent = 'Αναφορά Έλλειψης Ανταλλακτικού';
         labelPart.textContent = 'Αναζητήστε Ανταλλακτικό *';
         labelDesc.textContent = 'Περιγραφή / Σχόλια';
@@ -275,9 +271,8 @@
         labelMachine.textContent = 'Σχετική Μηχανή *';
         submitBtn.textContent = 'Αποθήκευση';
         formMessage.textContent = 'Παρακαλώ συμπληρώστε τα παρακάτω πεδία.';
-        langToggle.textContent = 'EN | GR'; // Ενημέρωση του κουμπιού αλλαγής γλώσσας
+        langToggle.textContent = 'EN | GR';
       } else {
-        // Αν η γλώσσα είναι Αγγλικά
         formTitle.textContent = 'Spare Part Shortage Report';
         labelPart.textContent = 'Search Spare Part *';
         labelDesc.textContent = 'Description / Comments';
@@ -285,7 +280,7 @@
         labelMachine.textContent = 'Associated Machine *';
         submitBtn.textContent = 'Save';
         formMessage.textContent = 'Please fill in the following fields.';
-        langToggle.textContent = 'EN | GR'; // Ενημέρωση του κουμπιού αλλαγής γλώσσας
+        langToggle.textContent = 'EN | GR';
       }
     }
 
@@ -300,12 +295,10 @@
     }
 
     function logout() {
-      alert('Logging out...');
-      // Εδώ μπορείς να προσθέσεις την λογική αποσύνδεσης, π.χ. ανακατεύθυνση σε άλλη σελίδα
+      // Κάνε redirect στη σελίδα login
+      window.location.href = 'login.html';
     }
   </script>
 </body>
 </html>
-
-
 

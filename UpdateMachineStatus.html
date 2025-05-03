@@ -16,7 +16,7 @@
       --border-color: #ccd0d5;
       --yellow-color: #f3b13c;
     }
-
+ 
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -27,7 +27,7 @@
       height: 100vh;
       position: relative;
     }
-
+ 
     .form-container {
       background-color: white;
       padding: 40px;
@@ -35,20 +35,20 @@
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
       width: 480px;
     }
-
+ 
     h2 {
       text-align: center;
       color: #0a101b;
       margin-bottom: 30px;
     }
-
+ 
     label {
       display: block;
       margin-top: 15px;
       font-weight: bold;
       color: #333;
     }
-
+ 
     select, input, textarea {
       width: 100%;
       padding: 10px;
@@ -57,11 +57,11 @@
       border-radius: 6px;
       font-size: 14px;
     }
-
+ 
     textarea {
       resize: vertical;
     }
-
+ 
     button {
       width: 100%;
       margin-top: 25px;
@@ -74,11 +74,11 @@
       cursor: pointer;
       transition: all 0.3s ease;
     }
-
+ 
     button:hover {
       background-color: var(--button-hover-color);
     }
-
+ 
     .message {
       text-align: center;
       margin-top: 20px;
@@ -88,21 +88,21 @@
       display: flex;
       align-items: center;
     }
-
+ 
     .success {
       background-color: #eaf7e6;
       color: var(--success-color);
     }
-
+ 
     .error {
       background-color: #f8d7da;
       color: var(--error-color);
     }
-
+ 
     .message i {
       margin-right: 10px;
     }
-
+ 
     #previewModal {
       position: fixed;
       top: 0;
@@ -117,12 +117,12 @@
       visibility: hidden;
       transition: opacity 0.3s ease, visibility 0.3s ease;
     }
-
+ 
     #previewModal.show {
       opacity: 1;
       visibility: visible;
     }
-
+ 
     .modal-content {
       background-color: white;
       padding: 20px;
@@ -130,7 +130,7 @@
       width: 400px;
       text-align: center;
     }
-
+ 
     .modal-content button {
       margin-top: 20px;
       background-color: var(--primary-color);
@@ -138,7 +138,7 @@
       padding: 10px 20px;
       border-radius: 6px;
     }
-
+ 
     .language-switcher {
       display: flex;
       align-items: center;
@@ -147,18 +147,18 @@
       font-size: 14px;
       margin-left: 10px;
     }
-
+ 
     .language-switcher a {
       text-decoration: none;
       color: #333;
       font-weight: bold;
       cursor: pointer;
     }
-
+ 
     .language-switcher a:hover {
       color: var(--primary-color);
     }
-
+ 
     .header-info {
       position: absolute;
       top: 20px;
@@ -171,22 +171,22 @@
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
-
+ 
     .notification-icon {
       font-size: 20px;
       color: var(--yellow-color);
     }
-
+ 
     .user-icon {
       font-size: 20px;
       color: #333;
     }
-
+ 
     .user-dropdown {
       position: relative;
       cursor: pointer;
     }
-
+ 
     .logout-menu {
       position: absolute;
       top: 35px;
@@ -198,21 +198,21 @@
       display: none;
       z-index: 10;
     }
-
+ 
     .logout-menu a {
       text-decoration: none;
       color: #333;
       font-weight: bold;
       display: block;
     }
-
+ 
     .logout-menu a:hover {
       color: var(--primary-color);
     }
   </style>
 </head>
 <body>
-
+ 
   <!-- Header με καμπανάκι ειδοποίησης, Admin & μενού αποσύνδεσης -->
   <div class="header-info">
     <i class="fas fa-bell notification-icon"></i> <!-- Καμπανάκι -->
@@ -220,7 +220,7 @@
       <i class="fas fa-user user-icon" onclick="toggleLogoutMenu()"></i>
       <span onclick="toggleLogoutMenu()">Admin</span>
       <div id="logoutMenu" class="logout-menu">
-        <a href="#">Logout</a>
+        <a href="#" onclick="logout()">Logout</a>
       </div>
     </div>
     <div class="language-switcher">
@@ -228,7 +228,7 @@
       <a href="javascript:void(0);" onclick="changeLanguage('el')">GR</a>
     </div>
   </div>
-
+ 
   <div class="form-container">
     <h2 id="form-title">Ενημέρωση Κατάστασης Μηχανήματος</h2>
     <form id="statusForm">
@@ -239,7 +239,7 @@
         <option value="MX-002">MX-002</option>
         <option value="MX-003">MX-003</option>
       </select>
-
+ 
       <label for="status" id="label-status">Κατάσταση</label>
       <select id="status" required>
         <option value="">-- Επιλογή Κατάστασης --</option>
@@ -248,21 +248,21 @@
         <option value="Εκτός Λειτουργίας">Εκτός Λειτουργίας</option>
         <option value="Υπό Επισκευή">Υπό Επισκευή</option>
       </select>
-
+ 
       <label for="comments" id="label-comments">Σχόλια (προαιρετικά)</label>
       <textarea id="comments" rows="2"></textarea>
-
+ 
       <label for="materials" id="label-materials">Υλικά / Ανταλλακτικά που Χρησιμοποιήθηκαν</label>
       <input type="text" id="materials" placeholder="Π.χ. φίλτρο, αισθητήρας..." />
-
+ 
       <label for="datetime" id="label-datetime">Ημερομηνία & Ώρα Ενημέρωσης</label>
       <input type="datetime-local" id="datetime" required />
-
+ 
       <button type="submit" id="submit-btn">Υποβολή</button>
       <div id="formMessage" class="message"></div>
     </form>
   </div>
-
+ 
   <!-- Προεπισκόπηση Modal -->
   <div id="previewModal">
     <div class="modal-content">
@@ -272,7 +272,7 @@
       <button onclick="closePreview()">Ακύρωση</button>
     </div>
   </div>
-
+ 
   <script>
     function changeLanguage(lang) {
       if (lang === 'en') {
@@ -293,32 +293,32 @@
         document.getElementById("submit-btn").textContent = "Υποβολή";
       }
     }
-
+ 
     document.getElementById("statusForm").addEventListener("submit", function(e) {
       e.preventDefault();
-
+ 
       const machine = document.getElementById("machine").value;
       const status = document.getElementById("status").value;
       const comments = document.getElementById("comments").value;
       const materials = document.getElementById("materials").value;
       const datetime = document.getElementById("datetime").value;
       const messageDiv = document.getElementById("formMessage");
-
+ 
       if (!machine || !status || !datetime) {
         messageDiv.textContent = "Παρακαλώ συμπληρώστε όλα τα υποχρεωτικά πεδία.";
         messageDiv.className = "message error";
         return;
       }
-
+ 
       const previewText = `Μηχάνημα: ${machine} <br>Κατάσταση: ${status} <br>Σχόλια: ${comments} <br>Υλικά / Ανταλλακτικά: ${materials} <br>Ημερομηνία & Ώρα: ${datetime}`;
       document.getElementById("previewText").innerHTML = previewText;
       document.getElementById("previewModal").classList.add("show");
     });
-
+ 
     function closePreview() {
       document.getElementById("previewModal").classList.remove("show");
     }
-
+ 
     function submitForm() {
       const messageDiv = document.getElementById("formMessage");
       messageDiv.textContent = "Η ενημέρωση καταχωρήθηκε επιτυχώς!";
@@ -326,12 +326,12 @@
       document.getElementById("statusForm").reset();
       closePreview();
     }
-
+ 
     function toggleLogoutMenu() {
       const menu = document.getElementById("logoutMenu");
       menu.style.display = menu.style.display === "block" ? "none" : "block";
     }
-
+ 
     // Κλείνει το μενού logout όταν γίνει κλικ εκτός
     window.addEventListener("click", function(e) {
       const menu = document.getElementById("logoutMenu");
@@ -340,6 +340,10 @@
         menu.style.display = "none";
       }
     });
+    function logout() {
+  localStorage.removeItem("loggedIn");
+  window.location.href = "login.html";
+}
   </script>
 </body>
 </html>
