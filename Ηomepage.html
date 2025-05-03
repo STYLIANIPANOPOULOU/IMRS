@@ -270,11 +270,11 @@
     <div style="text-align: center; margin-bottom: 20px;">
       <img src="logo2.jpg" alt="Megaplast Logo" style="max-width: 200px; height: auto; border-radius: 15px; box-shadow: 0 2px 6px rgba(25, 20, 20, 0.2);" />
     </div>
-    <button id="navDashboard">Α - Πίνακας</button>
-    <button id="navTasks">Β - Εργασίες</button>
-    <button id="navHistory">Γ - Ιστορικό</button>
-    <button id="navProfile">Δ - Προφίλ</button>
-    <button id="navSettings">Ε - Ρυθμίσεις</button>
+    <button id="navDashboard">Δηλώση Βλάβης</button>
+    <button id="navTasks">Δήλωση Έλλειψης Ανταλλακτικών</button>
+    <button id="navHistory">Ενημέρωση Κατάστασης Μηχανημάτων</button>
+    <button id="navProfile">Αναφορές</button>
+    <button id="navSettings">Δήλωση Μηχανημάτων και Τεχνικού Προσωπικού</button>
   </div>
   <div class="main" id="mainContent">
     <header style="background: #96adc8; padding: 10px 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -450,11 +450,11 @@
         nextBtn: "Επόμενος",
         chatbotTitle: "MegaBot - Βοηθός Συντήρησης",
         chatbotPlaceholder: "Ρώτησέ με κάτι...",
-        navDashboard: "Α - Πίνακας",
-        navTasks: "Β - Εργασίες",
-        navHistory: "Γ - Ιστορικό",
-        navProfile: "Δ - Προφίλ",
-        navSettings: "Ε - Ρυθμίσεις",
+        navDashboard: "Δήλωση Βλάβης",
+        navTasks: "Δήλωση Έλλειψης Ανταλλακτικών",
+        navHistory: "Ενημέρωση Κατάστασης Μηχανημάτων",
+        navProfile: "Αναφορές",
+        navSettings: "Δήλωση Μηχανημάτων και Τεχνικού Προσωπικού",
         quickReset: "Επαναφορά",
         quickError: "Σφάλμα",
         quickInfo: "Μηχάνημα",
@@ -474,11 +474,11 @@
         nextBtn: "Next",
         chatbotTitle: "MegaBot - Maintenance Assistant",
         chatbotPlaceholder: "Ask me something...",
-        navDashboard: "A - Dashboard",
-        navTasks: "B - Tasks",
-        navHistory: "C - History",
-        navProfile: "D - Profile",
-        navSettings: "E - Settings",
+        navDashboard: "Report Malfunction",
+        navTasks: "Report Spare Parts Shortage",
+        navHistory: "Update Machine Status",
+        navProfile: "Reports",
+        navSettings: "Register Machines &Technical Staff",
         quickReset: "Reset",
         quickError: "Error",
         quickInfo: "Machine Info",
@@ -546,6 +546,11 @@
     button.textContent = "Εμφάνιση λιγότερων";
   }
   };
+
+  document.getElementById("navProfile").addEventListener("click", function() {
+  window.location.href = "Reports.html";
+  });
+
 
   </script>
 </body>
