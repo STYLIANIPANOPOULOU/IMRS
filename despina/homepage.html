@@ -249,6 +249,8 @@
     cursor: pointer;
     margin-top: 10px;
   }
+  
+
 
 
     @media (max-width: 768px) {
@@ -265,18 +267,21 @@
 </head>
 <body>
   <div class="sidebar" id="sidebar">
-    <button>Α - Πίνακας</button>
-    <button>Β - Εργασίες</button>
-    <button>Γ - Ιστορικό</button>
-    <button>Δ - Προφίλ</button>
-    <button>Ε - Ρυθμίσεις</button>
+    <div style="text-align: center; margin-bottom: 20px;">
+      <img src="logo2.jpg" alt="Megaplast Logo" style="max-width: 200px; height: auto; border-radius: 15px; box-shadow: 0 2px 6px rgba(25, 20, 20, 0.2);" />
+    </div>
+    <button id="navDashboard">Α - Πίνακας</button>
+    <button id="navTasks">Β - Εργασίες</button>
+    <button id="navHistory">Γ - Ιστορικό</button>
+    <button id="navProfile">Δ - Προφίλ</button>
+    <button id="navSettings">Ε - Ρυθμίσεις</button>
   </div>
   <div class="main" id="mainContent">
     <header style="background: #96adc8; padding: 10px 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <button onclick="toggleSidebar()" class="toggle-btn">
-        ☰
-      </button>
-      <strong>Σύστημα Συντήρησης</strong>
+    
+        <button onclick="toggleSidebar()" class="toggle-btn">☰
+        </button>
+        <strong id="headerTitle">Σύστημα Συντήρησης</strong>
       
       
       <div style="display: flex; align-items: center; gap: 15px; background: white; padding: 5px 10px; border-radius: 20px;">
@@ -296,39 +301,34 @@
     </header>
     
     <section class="section about">
-      <h3>Σχετικά Με Εμάς & Το Σύστημα </h3>
+      <h3 id="aboutTitle">Σχετικά Με Εμάς & Το Σύστημα</h3>
       <div id="aboutText" class="collapsed">
-        <p>Στην Megaplast δεν δημιουργούμε απλώς προϊόντα – δημιουργούμε λύσεις που κάνουν τη διαφορά!</p>
-        <p>
-          Η Megaplast συνιστά πρωτοπόρο ελληνική εταιρεία με ηγετική θέση στον τομέα της συσκευασίας, που παράγει καινοτόμα προϊόντα εύκαμπτης συσκευασίας (stretch films) δηλαδή μεμβράνες βιομηχανικού τύπου, σε διάφορες παραλλαγές,  χρήσιμες κυρίως για την περιτύλιξη παλετών. Η εταιρεία είναι τόσο παραγωγική όσο και εμπορική, με δύο παραγωγικές μονάδες στο Ηράκλειο Κρήτης και την Θήβα, με γραφεία και κέντρο Έρευνας και Ανάπτυξης στην Αττική και με σημαντική διεθνή παρουσία σε πλήθος χωρών όπως η Γερμανία, η Ιταλία, η Ισπανία, η Γαλλία, το Ηνωμένο Βασίλειο και οι Ηνωμένες Πολιτείες Αμερικής, διαθέτοντας θυγατρικές σε όλα αυτά τα μέρη.  
+        <p>Η Megaplast συνιστά πρωτοπόρο ελληνική εταιρεία με ηγετική θέση στον τομέα της συσκευασίας, που παράγει καινοτόμα προϊόντα εύκαμπτης συσκευασίας (stretch films) δηλαδή μεμβράνες βιομηχανικού τύπου, σε διάφορες παραλλαγές,  χρήσιμες κυρίως για την περιτύλιξη παλετών. Η εταιρεία είναι τόσο παραγωγική όσο και εμπορική, με δύο παραγωγικές μονάδες στο Ηράκλειο Κρήτης και την Θήβα, με γραφεία και κέντρο Έρευνας και Ανάπτυξης στην Αττική και με σημαντική διεθνή παρουσία σε πλήθος χωρών όπως η Γερμανία, η Ιταλία, η Ισπανία, η Γαλλία, το Ηνωμένο Βασίλειο και οι Ηνωμένες Πολιτείες Αμερικής, διαθέτοντας θυγατρικές σε όλα αυτά τα μέρη.  
  
-Ουσιαστικά, συνιστά μια καθετοποιημένη μονάδα η οποία αγοράζει πρώτες ύλες κυρίως από το εξωτερικό, παράγει τα διάφορα προϊόντα της στις διαφορετικές γραμμές παραγωγής αποκλειστικά στα δύο εργοστάσιά της στην Ελλάδα και εμπορεύεται αυτά τα προϊόντα στο εσωτερικό αλλά και στο εξωτερικό μέσω των θυγατρικών της στους τελικούς πελάτες της, δηλαδή άλλες εταιρείες. 
+        Ουσιαστικά, συνιστά μια καθετοποιημένη μονάδα η οποία αγοράζει πρώτες ύλες κυρίως από το εξωτερικό, παράγει τα διάφορα προϊόντα της στις διαφορετικές γραμμές παραγωγής αποκλειστικά στα δύο εργοστάσιά της στην Ελλάδα και εμπορεύεται αυτά τα προϊόντα στο εσωτερικό αλλά και στο εξωτερικό μέσω των θυγατρικών της στους τελικούς πελάτες της, δηλαδή άλλες εταιρείες. 
  
-Οι θυγατρικές της δρουν ως ανεξάρτητες οικονομικές οντότητες που προμηθεύονται τα προϊόντα από την ελληνική εταιρεία και υπάγονται στον ευρύτερο όμιλο της Megaplast.  
+        Οι θυγατρικές της δρουν ως ανεξάρτητες οικονομικές οντότητες που προμηθεύονται τα προϊόντα από την ελληνική εταιρεία και υπάγονται στον ευρύτερο όμιλο της Megaplast.</p>
+        <p>Για την καλύτερη λειτουργία της παραγωγής, προχωρήσαμε στην ανάπτυξη ενός συστήματος διαχείρισης των συντηρήσεων και των επισκευών, το οποίο παρέχει κεντρική εποπτεία, άμεση ειδοποίηση για σημαντικά ζητήματα και βελτιστοποίηση των διαδικασιών μέσω της αξιοποίησης διαφόρων δεδομένων. Συγκεκριμένα, προτείνουμε την υλοποίηση του Intelligent Maintenance & Repair Management System, ενός ευφυούς συστήματος που εφαρμόζει σύγχρονες τεχνολογίες πληροφορικής και αλγορίθμους μηχανικής μάθησης με στόχο την αυτοματοποίηση των διαδικασιών, τη βελτίωση της συνεργασίας μεταξύ των εμπλεκόμενων και την μεγιστοποίηση της αποδοτικότητας και παραγωγικότητας της εταιρείας.</p>
  
- 
- <p>Για την καλύτερη λειτουργία της παραγωγής, προχωρήσαμε στην ανάπτυξη ενός συστήματος διαχείρισης των συντηρήσεων και των επισκευών, το οποίο παρέχει κεντρική εποπτεία, άμεση ειδοποίηση για σημαντικά ζητήματα και βελτιστοποίηση των διαδικασιών μέσω της αξιοποίησης διαφόρων δεδομένων. Συγκεκριμένα, προτείνουμε την υλοποίηση του Intelligent Maintenance & Repair Management System, ενός ευφυούς συστήματος που εφαρμόζει σύγχρονες τεχνολογίες πληροφορικής και αλγορίθμους μηχανικής μάθησης με στόχο την αυτοματοποίηση των διαδικασιών, τη βελτίωση της συνεργασίας μεταξύ των εμπλεκόμενων και την μεγιστοποίηση της αποδοτικότητας και παραγωγικότητας της εταιρείας.</p>
- 
-          
-        </p>
       </div>
       <button id="toggleAbout" onclick="toggleAboutText()">Εμφάνιση περισσότερων</button>
     </section>
+    
     <section class="section calendar-form">
-      <h3>Καταχώρηση Συντήρησης</h3>
+      <h3 id="formTitle">Καταχώρηση Συντήρησης</h3>
       <input type="text" placeholder="Μηχάνημα" id="machine">
       <input type="date" id="date">
       <input type="time" id="time">
       <input type="text" placeholder="Υπεύθυνος Τεχνικός" id="technician">
-      <button onclick="addMaintenance()">Καταχώρηση</button>
+      <button id="submitBtn" onclick="addMaintenance()">Καταχώρηση</button>
     </section>
     <section class="section calendar-view">
-      <h3>Ημερολόγιο Εκδηλώσεων</h3>
+      <h3 id="calendarTitle">Ημερολόγιο Εκδηλώσεων</h3>
       <div class="calendar">
         <div class="calendar-controls">
-          <button onclick="prevMonth()">&#8592; Προηγούμενος</button>
+          <button id="prevBtn" onclick="prevMonth()">← Προηγούμενος</button>
           <div class="calendar-header" id="calendarHeader"></div>
-          <button onclick="nextMonth()">Επόμενος &#8594;</button>
+          <button id="nextBtn" onclick="nextMonth()">Επόμενος →</button>
         </div>
         <div class="calendar-grid" id="calendarGrid"></div>
       </div>
@@ -336,46 +336,54 @@
     <section class="section chatbot">
       <div class="chatbot-header">
         <img src="icono-robot-signo-chat-bot-concepto-servicio-soporte-estilo-plano-personaje-chatbot_41737-796.avif" alt="MegaBot Icon" class="chatbot-icon">
-        <h3>MegaBot - Βοηθός Συντήρησης</h3>
+        <h3 id="chatbotTitle">MegaBot - Βοηθός Συντήρησης</h3>
       </div>
       <div class="chatbot-content">
         <div class="chat-messages" id="chatMessages"></div>
         <div class="quick-questions">
-          <button onclick="sendQuickQuestion('Πώς κάνω επαναφορά μηχανήματος;')">Επαναφορά</button>
-          <button onclick="sendQuickQuestion('Τι να κάνω αν υπάρχει σφάλμα;')">Σφάλμα</button>
-          <button onclick="sendQuickQuestion('Θέλω πληροφορίες για το μηχάνημα.')">Μηχάνημα</button>
+          <button id="btnReset" onclick="sendQuickQuestion('Πώς κάνω επαναφορά μηχανήματος;')">Επαναφορά</button>
+          <button id="btnError" onclick="sendQuickQuestion('Τι να κάνω αν υπάρχει σφάλμα;')">Σφάλμα</button>
+          <button id="btnInfo" onclick="sendQuickQuestion('Θέλω πληροφορίες για το μηχάνημα.')">Μηχάνημα</button>
         </div>
         <div class="chat-input">
           <input type="text" id="chatInput" placeholder="Ρώτησέ με κάτι...">
-          <button onclick="chat()">Send</button>
+          <button id="chatSendBtn" onclick="chat()">Send</button>
         </div>
       </div>
     </section>
   </div>
   <script>
     function toggleSidebar() {
-      const sidebar = document.getElementById("sidebar");
-      const main = document.getElementById("mainContent");
-      sidebar.classList.toggle("sidebar-hidden");
-      main.classList.toggle("sidebar-collapsed");
+      document.getElementById("sidebar").classList.toggle("sidebar-hidden");
+      document.getElementById("mainContent").classList.toggle("sidebar-collapsed");
     }
 
     function changeLanguage(lang) {
-  const t = translations[lang];
+      const t = translations[lang];
+      document.getElementById("headerTitle").textContent = t.title;
+      document.getElementById("aboutTitle").textContent = t.about;
+      document.getElementById("formTitle").textContent = t.formTitle;
+      document.getElementById("machine").placeholder = t.machinePlaceholder;
+      document.getElementById("technician").placeholder = t.technicianPlaceholder;
+      document.getElementById("submitBtn").textContent = t.submitBtn;
+      document.getElementById("calendarTitle").textContent = t.calendarTitle;
+      document.getElementById("prevBtn").textContent = `← ${t.prevBtn}`;
+      document.getElementById("nextBtn").textContent = `${t.nextBtn} →`;
+      document.getElementById("chatbotTitle").textContent = t.chatbotTitle;
+      document.getElementById("chatInput").placeholder = t.chatbotPlaceholder;
+      document.getElementById("navDashboard").textContent = t.navDashboard;
+      document.getElementById("navTasks").textContent = t.navTasks;
+      document.getElementById("navHistory").textContent = t.navHistory;
+      document.getElementById("navProfile").textContent = t.navProfile;
+      document.getElementById("navSettings").textContent = t.navSettings;
+      document.getElementById("btnReset").textContent = t.quickReset;
+      document.getElementById("btnError").textContent = t.quickError;
+      document.getElementById("btnInfo").textContent = t.quickInfo;
+      document.getElementById("chatSendBtn").textContent = t.sendBtn;
+      document.getElementById("toggleAbout").textContent = t.toggleAbout;
+      document.getElementById("aboutText").textContent = t.aboutText; 
 
-  document.querySelector("header strong").textContent = t.title;
-  document.querySelector(".about h3").textContent = t.about;
-  document.querySelector(".about p").textContent = t.aboutText;
-  document.querySelector(".calendar-form h3").textContent = t.formTitle;
-  document.getElementById("machine").placeholder = t.machinePlaceholder;
-  document.getElementById("technician").placeholder = t.technicianPlaceholder;
-  document.querySelector(".calendar-form button").textContent = t.submitBtn;
-  document.querySelector(".calendar-view h3").textContent = t.calendarTitle;
-  document.querySelectorAll(".calendar-controls button")[0].textContent = `← ${t.prevBtn}`;
-  document.querySelectorAll(".calendar-controls button")[1].textContent = `${t.nextBtn} →`;
-  document.querySelector(".chatbot-header h3").textContent = t.chatbotTitle;
-  document.getElementById("chatInput").placeholder = t.chatbotPlaceholder;
-}
+    }
 
 
     function addMaintenance() {
@@ -429,35 +437,56 @@
     let currentYear = new Date().getFullYear();
 
     const translations = {
-  gr: {
-    title: "Σύστημα Συντήρησης",
-    about: "Σχετικά με εμάς",
-    aboutText: "Η Megaplast συνιστά πρωτοπόρο ελληνική εταιρεία με ηγετική θέση στον τομέα της συσκευασίας, που παράγει καινοτόμα προϊόντα εύκαμπτης συσκευασίας (stretch films) δηλαδή μεμβράνες βιομηχανικού τύπου, σε διάφορες παραλλαγές,  χρήσιμες κυρίως για την περιτύλιξη παλετών. Η εταιρεία είναι τόσο παραγωγική όσο και εμπορική, με δύο παραγωγικές μονάδες στο Ηράκλειο Κρήτης και την Θήβα, με γραφεία και κέντρο Έρευνας και Ανάπτυξης στην Αττική και με σημαντική διεθνή παρουσία σε πλήθος χωρών όπως η Γερμανία, η Ιταλία, η Ισπανία, η Γαλλία, το Ηνωμένο Βασίλειο και οι Ηνωμένες Πολιτείες Αμερικής, διαθέτοντας θυγατρικές σε όλα αυτά τα μέρη. Ουσιαστικά, συνιστά μια καθετοποιημένη μονάδα η οποία αγοράζει πρώτες ύλες κυρίως από το εξωτερικό, παράγει τα διάφορα προϊόντα της στις διαφορετικές γραμμές παραγωγής αποκλειστικά στα δύο εργοστάσιά της στην Ελλάδα και εμπορεύεται αυτά τα προϊόντα στο εσωτερικό αλλά και στο εξωτερικό μέσω των θυγατρικών της στους τελικούς πελάτες της, δηλαδή άλλες εταιρείες. Οι θυγατρικές της δρουν ως ανεξάρτητες οικονομικές οντότητες που προμηθεύονται τα προϊόντα από την ελληνική εταιρεία και υπάγονται στον ευρύτερο όμιλο της Megaplast.Για την καλύτερη λειτουργία της παραγωγής, προχωρήσαμε στην ανάπτυξη ενός συστήματος διαχείρισης των συντηρήσεων και των επισκευών, το οποίο παρέχει κεντρική εποπτεία, άμεση ειδοποίηση για σημαντικά ζητήματα και βελτιστοποίηση των διαδικασιών μέσω της αξιοποίησης διαφόρων δεδομένων. Συγκεκριμένα, προτείνουμε την υλοποίηση του Intelligent Maintenance & Repair Management System, ενός ευφυούς συστήματος που εφαρμόζει σύγχρονες τεχνολογίες πληροφορικής και αλγορίθμους μηχανικής μάθησης με στόχο την αυτοματοποίηση των διαδικασιών, τη βελτίωση της συνεργασίας μεταξύ των εμπλεκόμενων και την μεγιστοποίηση της αποδοτικότητας και παραγωγικότητας της εταιρείας.",
-    formTitle: "Καταχώρηση Συντήρησης",
-    machinePlaceholder: "Μηχάνημα",
-    technicianPlaceholder: "Υπεύθυνος Τεχνικός",
-    submitBtn: "Καταχώρηση",
-    calendarTitle: "Ημερολόγιο Εκδηλώσεων",
-    prevBtn: "Προηγούμενος",
-    nextBtn: "Επόμενος",
-    chatbotTitle: "MegaBot - Βοηθός Συντήρησης",
-    chatbotPlaceholder: "Ρώτησέ με κάτι...",
-  },
-  en: {
-    title: "Maintenance System",
-    about: "About Us",
-    aboutText: "At Megaplast, we don’t just create products – we create solutions that make a difference!Megaplast is a pioneering Greek company with a leading position in the packaging industry, specializing in the production of innovative flexible packaging products (stretch films), namely industrial-type membranes in various forms, primarily used for pallet wrapping. The company operates both as a manufacturer and a commercial enterprise, with two production facilities located in Heraklion, Crete and in Thiva, as well as offices and a Research & Development center in Attica. Megaplast maintains a strong international presence in numerous countries including Germany, Italy, Spain, France, the United Kingdom, and the United States, with subsidiaries in all these regions.Essentially, it is a vertically integrated unit that imports raw materials mainly from abroad, manufactures its diverse product range exclusively in its two Greek factories, and distributes them both domestically and internationally through its subsidiaries directly to end customers – other businesses. These subsidiaries function as independent financial entities that source products from the Greek parent company and are part of the broader Megaplast Group.To enhance production efficiency, we have developed a maintenance and repair management system that offers centralized oversight, immediate notifications for critical issues, and process optimization through data utilization. Specifically, we propose the implementation of the Intelligent Maintenance & Repair Management System, a smart system that leverages modern IT technologies and machine learning algorithms to automate procedures, improve collaboration among stakeholders, and maximize the company’s efficiency and productivity.",
-    formTitle: "Maintenance Entry",
-    machinePlaceholder: "Machine",
-    technicianPlaceholder: "Responsible Technician",
-    submitBtn: "Submit",
-    calendarTitle: "Event Calendar",
-    prevBtn: "Previous",
-    nextBtn: "Next",
-    chatbotTitle: "MegaBot - Maintenance Assistant",
-    chatbotPlaceholder: "Ask me something...",
-  }
-};
+      gr: {
+        title: "Σύστημα Συντήρησης",
+        about: "Σχετικά με εμάς",
+        aboutText:"Η Megaplast συνιστά πρωτοπόρο ελληνική εταιρεία με ηγετική θέση στον τομέα της συσκευασίας, που παράγει καινοτόμα προϊόντα εύκαμπτης συσκευασίας (stretch films) δηλαδή μεμβράνες βιομηχανικού τύπου, σε διάφορες παραλλαγές, χρήσιμες κυρίως για την περιτύλιξη παλετών. Η εταιρεία είναι τόσο παραγωγική όσο και εμπορική, με δύο παραγωγικές μονάδες στο Ηράκλειο Κρήτης και την Θήβα, με γραφεία και κέντρο Έρευνας και Ανάπτυξης στην Αττική και με σημαντική διεθνή παρουσία σε πλήθος χωρών όπως η Γερμανία, η Ιταλία, η Ισπανία, η Γαλλία, το Ηνωμένο Βασίλειο και οι Ηνωμένες Πολιτείες Αμερικής, διαθέτοντας θυγατρικές σε όλα αυτά τα μέρη.Ουσιαστικά, συνιστά μια καθετοποιημένη μονάδα η οποία αγοράζει πρώτες ύλες κυρίως από το εξωτερικό, παράγει τα διάφορα προϊόντα της στις διαφορετικές γραμμές παραγωγής αποκλειστικά στα δύο εργοστάσιά της στην Ελλάδα και εμπορεύεται αυτά τα προϊόντα στο εσωτερικό αλλά και στο εξωτερικό μέσω των θυγατρικών της στους τελικούς πελάτες της, δηλαδή άλλες εταιρείες. Οι θυγατρικές της δρουν ως ανεξάρτητες οικονομικές οντότητες που προμηθεύονται τα προϊόντα από την ελληνική εταιρεία και υπάγονται στον ευρύτερο όμιλο της Megaplast. Για την καλύτερη λειτουργία της παραγωγής, προχωρήσαμε στην ανάπτυξη ενός συστήματος διαχείρισης των συντηρήσεων και των επισκευών, το οποίο παρέχει κεντρική εποπτεία, άμεση ειδοποίηση για σημαντικά ζητήματα και βελτιστοποίηση των διαδικασιών μέσω της αξιοποίησης διαφόρων δεδομένων. Συγκεκριμένα, προτείνουμε την υλοποίηση του Intelligent Maintenance & Repair Management System, ενός ευφυούς συστήματος που εφαρμόζει σύγχρονες τεχνολογίες πληροφορικής και αλγορίθμους μηχανικής μάθησης με στόχο την αυτοματοποίηση των διαδικασιών, τη βελτίωση της συνεργασίας μεταξύ των εμπλεκόμενων και την μεγιστοποίηση της αποδοτικότητας και παραγωγικότητας της εταιρείας",
+        formTitle: "Καταχώρηση Συντήρησης",
+        machinePlaceholder: "Μηχάνημα",
+        technicianPlaceholder: "Υπεύθυνος Τεχνικός",
+        submitBtn: "Καταχώρηση",
+        calendarTitle: "Ημερολόγιο Εκδηλώσεων",
+        prevBtn: "Προηγούμενος",
+        nextBtn: "Επόμενος",
+        chatbotTitle: "MegaBot - Βοηθός Συντήρησης",
+        chatbotPlaceholder: "Ρώτησέ με κάτι...",
+        navDashboard: "Α - Πίνακας",
+        navTasks: "Β - Εργασίες",
+        navHistory: "Γ - Ιστορικό",
+        navProfile: "Δ - Προφίλ",
+        navSettings: "Ε - Ρυθμίσεις",
+        quickReset: "Επαναφορά",
+        quickError: "Σφάλμα",
+        quickInfo: "Μηχάνημα",
+        sendBtn: "Αποστολή",
+        toggleAbout: "Εμφάνιση περισσότερων"
+      },
+      en: {
+        title: "Maintenance System",
+        about: "About Us",
+        aboutText:"Megaplast is a pioneering Greek company with a leading position in the packaging sector, producing innovative flexible packaging products (stretch films), such as industrial-grade membranes, in various variations, primarily used for pallet wrapping. The company is both productive and commercial, with two manufacturing units in Heraklion, Crete, and Thiva, offices, and a Research and Development center in Attica, and a significant international presence in several countries such as Germany, Italy, Spain, France, the United Kingdom, and the United States, with subsidiaries in all these locations. Essentially, it is a vertically integrated unit that purchases raw materials mainly from abroad, manufactures its various products in its production lines exclusively at its two factories in Greece, and markets these products both domestically and internationally through its subsidiaries to end customers, that is, other companies. Its subsidiaries operate as independent economic entities that purchase products from the Greek company and belong to the broader Megaplast group. For better production management, we have developed a system for maintenance and repair management, which provides central oversight, immediate notifications for critical issues, and process optimization through the use of various data. Specifically, we propose the implementation of the Intelligent Maintenance & Repair Management System, an intelligent system that applies modern information technologies and machine learning algorithms, aimed at automating processes, improving collaboration among stakeholders, and maximizing the efficiency and productivity of the company.",
+        formTitle: "Maintenance Entry",
+        machinePlaceholder: "Machine",
+        technicianPlaceholder: "Responsible Technician",
+        submitBtn: "Submit",
+        calendarTitle: "Event Calendar",
+        prevBtn: "Previous",
+        nextBtn: "Next",
+        chatbotTitle: "MegaBot - Maintenance Assistant",
+        chatbotPlaceholder: "Ask me something...",
+        navDashboard: "A - Dashboard",
+        navTasks: "B - Tasks",
+        navHistory: "C - History",
+        navProfile: "D - Profile",
+        navSettings: "E - Settings",
+        quickReset: "Reset",
+        quickError: "Error",
+        quickInfo: "Machine Info",
+        sendBtn: "Send",
+        toggleAbout: "Show more"
+      }
+    }
+  
 
 
     function renderCalendar() {
@@ -516,7 +545,7 @@
   } else {
     button.textContent = "Εμφάνιση λιγότερων";
   }
-}
+  };
 
   </script>
 </body>
