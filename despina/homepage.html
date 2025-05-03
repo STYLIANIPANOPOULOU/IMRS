@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="el">
 <head>
   <meta charset="UTF-8" />
@@ -12,6 +12,28 @@
       background-color: #f0f6fc;
       color: #2c3e50;
     }
+    .sidebar button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: bold;
+      background: none;
+      border: none;
+      color: white;
+      padding: 15px 20px;
+      text-align: left;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .sidebar button:hover {
+      background-color: #305680;
+      transform: scale(1.02);
+    }
+    .sidebar button::before {
+      content: "🔹";
+      font-size: 14px;
+    }
     .sidebar {
       width: 220px;
       background: #1e3a5f;
@@ -20,6 +42,14 @@
       display: flex;
       flex-direction: column;
       padding-top: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+    .sidebar-hidden {
+      transform: translateX(-100%);
     }
     .sidebar button {
       background: none;
@@ -31,15 +61,18 @@
       font-size: 16px;
       transition: background 0.2s;
     }
-    .sidebar button:hover {
-      background-color: #305680;
-    }
+    
     .main {
+      margin-left: 220px;
       flex-grow: 1;
       padding: 20px;
+      transition: margin-left 0.3s ease;
+    }
+    .main.sidebar-collapsed {
+      margin-left: 0;
     }
     header {
-      background: #e3ecf6;
+      background: #d5dde6;
       padding: 15px 20px;
       border-radius: 8px;
       display: flex;
@@ -57,9 +90,6 @@
     .section h3 {
       margin-top: 0;
       color: #1e3a5f;
-    }
-    .about p {
-      line-height: 1.6;
     }
     .calendar-form input {
       margin-bottom: 10px;
@@ -80,63 +110,87 @@
     .calendar-form button:hover {
       background-color: #305680;
     }
-    .calendar-list ul {
-      list-style: none;
-      padding: 0;
-    }
-    .calendar-list li {
-      background: #eef5fd;
-      margin-bottom: 10px;
+    .calendar {
+      background: white;
       padding: 10px;
-      border-left: 4px solid #1e3a5f;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .calendar-header {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .calendar-controls {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+    .calendar-grid div {
+      padding: 10px;
+      background: #f0f0f0;
       border-radius: 4px;
+    }
+    .calendar-grid .highlight {
+      background: #d32f2f;
+      color: white;
     }
     .chatbot {
       display: flex;
-      align-items: flex-start;
+      flex-direction: column;
       gap: 15px;
     }
-    .chatbot-avatar {
-      width: 60px;
+    .chatbot-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #e3ecf6;
+      padding: 10px 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
-    .chatbot-avatar img {
-      width: 60px;
+    .chatbot-icon {
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
     }
-    .chatbot-content {
-      flex-grow: 1;
-    }
     .chat-messages {
-      background: #eef5fd;
-      padding: 15px;
       height: 200px;
       overflow-y: auto;
-      border-radius: 6px;
-      margin-bottom: 10px;
-    }
-    .chat-messages div {
-      margin-bottom: 10px;
+      padding: 10px;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
     }
     .chat-messages .user {
       text-align: right;
+      margin: 5px 0;
+      font-weight: bold;
       color: #1e3a5f;
     }
     .chat-messages .bot {
       text-align: left;
-      color: #333;
+      margin: 5px 0;
+      color: #444;
     }
     .chat-input {
       display: flex;
       gap: 10px;
+      margin-top: 10px;
     }
     .chat-input input {
-      flex-grow: 1;
-      padding: 8px;
+      flex: 1;
+      padding: 10px;
       border-radius: 6px;
       border: 1px solid #ccc;
     }
     .chat-input button {
-      padding: 8px 12px;
+      padding: 10px 15px;
       background: #1e3a5f;
       color: white;
       border: none;
@@ -144,39 +198,122 @@
       cursor: pointer;
     }
     .chat-input button:hover {
-      background: #305680;
+      background-color: #305680;
     }
+    .quick-questions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .quick-questions button {
+      background-color: #f0f6fc;
+      border: 1px solid #1e3a5f;
+      color: #1e3a5f;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .quick-questions button:hover {
+      background-color: #d0e4f9;
+    }
+    .toggle-btn {
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: #1e3a5f;
+      cursor: pointer;
+      margin-right: 15px;
+    }
+
+    #aboutText.collapsed {
+  max-height: 150px;
+  overflow: hidden;
+  position: relative;
+  }
+  #aboutText.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 50px;
+    width: 100%;
+    background: linear-gradient(to top, white, transparent);
+  }
+  #toggleAbout {
+    background: none;
+    border: none;
+    color: #1e3a5f;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: absolute;
+        height: 100vh;
+      }
+      .main {
+        margin-left: 0;
+      }
+    }
+
   </style>
 </head>
 <body>
-
-  <div class="sidebar">
+  <div class="sidebar" id="sidebar">
     <button>Α - Πίνακας</button>
     <button>Β - Εργασίες</button>
     <button>Γ - Ιστορικό</button>
     <button>Δ - Προφίλ</button>
     <button>Ε - Ρυθμίσεις</button>
   </div>
-
-  <div class="main">
-    <header>
+  <div class="main" id="mainContent">
+    <header style="background: #96adc8; padding: 10px 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <button onclick="toggleSidebar()" class="toggle-btn">
+        ☰
+      </button>
       <strong>Σύστημα Συντήρησης</strong>
-      <div>
-        <select onchange="changeLanguage(this.value)">
-          <option value="gr">Ελληνικά</option>
-          <option value="en">English</option>
-        </select>
-        <button onclick="alert('Login screen placeholder')">Admin</button>
+      
+      
+      <div style="display: flex; align-items: center; gap: 15px; background: white; padding: 5px 10px; border-radius: 20px;">
+
+        <div style="position: relative;">
+          <img src="https://cdn-icons-png.flaticon.com/512/1827/1827392.png" alt="Notifications" width="20" height="20" />
+          <span style="position: absolute; top: -6px; right: -6px; background: red; color: white; font-size: 12px; padding: 2px 6px; border-radius: 50%;">3</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 5px;">
+          <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="Admin" width="20" height="20" />
+          <strong style="font-size: 14px;">Admin</strong>
+        </div>
+        <div style="font-size: 14px;">
+          <a href="#" onclick="changeLanguage('en')">EN</a> | <a href="#" onclick="changeLanguage('gr')">GR</a>
+        </div>
       </div>
     </header>
-
+    
     <section class="section about">
-      <h3>Σχετικά με εμάς</h3>
-      <p>
-        Στην Megaplast δεν δημιουργούμε απλώς προϊόντα – δημιουργούμε λύσεις που κάνουν τη διαφορά! Εσύ, ως μέλος αυτής της ομάδας, συμμετέχεις σε έναν οργανισμό με παγκόσμια παρουσία, που καινοτομεί και νοιάζεται πραγματικά για το περιβάλλον και την κοινωνία. Μαζί, χτίζουμε ένα βιώσιμο μέλλον με λιγότερο πλαστικό και περισσότερη ευθύνη. Η συμβολή σου είναι καθοριστική στην πορεία αυτής της επιτυχημένης ιστορίας.
-      </p>
+      <h3>Σχετικά Με Εμάς & Το Σύστημα </h3>
+      <div id="aboutText" class="collapsed">
+        <p>Στην Megaplast δεν δημιουργούμε απλώς προϊόντα – δημιουργούμε λύσεις που κάνουν τη διαφορά!</p>
+        <p>
+          Η Megaplast συνιστά πρωτοπόρο ελληνική εταιρεία με ηγετική θέση στον τομέα της συσκευασίας, που παράγει καινοτόμα προϊόντα εύκαμπτης συσκευασίας (stretch films) δηλαδή μεμβράνες βιομηχανικού τύπου, σε διάφορες παραλλαγές,  χρήσιμες κυρίως για την περιτύλιξη παλετών. Η εταιρεία είναι τόσο παραγωγική όσο και εμπορική, με δύο παραγωγικές μονάδες στο Ηράκλειο Κρήτης και την Θήβα, με γραφεία και κέντρο Έρευνας και Ανάπτυξης στην Αττική και με σημαντική διεθνή παρουσία σε πλήθος χωρών όπως η Γερμανία, η Ιταλία, η Ισπανία, η Γαλλία, το Ηνωμένο Βασίλειο και οι Ηνωμένες Πολιτείες Αμερικής, διαθέτοντας θυγατρικές σε όλα αυτά τα μέρη.  
+ 
+Ουσιαστικά, συνιστά μια καθετοποιημένη μονάδα η οποία αγοράζει πρώτες ύλες κυρίως από το εξωτερικό, παράγει τα διάφορα προϊόντα της στις διαφορετικές γραμμές παραγωγής αποκλειστικά στα δύο εργοστάσιά της στην Ελλάδα και εμπορεύεται αυτά τα προϊόντα στο εσωτερικό αλλά και στο εξωτερικό μέσω των θυγατρικών της στους τελικούς πελάτες της, δηλαδή άλλες εταιρείες. 
+ 
+Οι θυγατρικές της δρουν ως ανεξάρτητες οικονομικές οντότητες που προμηθεύονται τα προϊόντα από την ελληνική εταιρεία και υπάγονται στον ευρύτερο όμιλο της Megaplast.  
+ 
+ 
+ <p>Για την καλύτερη λειτουργία της παραγωγής, προχωρήσαμε στην ανάπτυξη ενός συστήματος διαχείρισης των συντηρήσεων και των επισκευών, το οποίο παρέχει κεντρική εποπτεία, άμεση ειδοποίηση για σημαντικά ζητήματα και βελτιστοποίηση των διαδικασιών μέσω της αξιοποίησης διαφόρων δεδομένων. Συγκεκριμένα, προτείνουμε την υλοποίηση του Intelligent Maintenance & Repair Management System, ενός ευφυούς συστήματος που εφαρμόζει σύγχρονες τεχνολογίες πληροφορικής και αλγορίθμους μηχανικής μάθησης με στόχο την αυτοματοποίηση των διαδικασιών, τη βελτίωση της συνεργασίας μεταξύ των εμπλεκόμενων και την μεγιστοποίηση της αποδοτικότητας και παραγωγικότητας της εταιρείας.</p>
+ 
+          
+        </p>
+      </div>
+      <button id="toggleAbout" onclick="toggleAboutText()">Εμφάνιση περισσότερων</button>
     </section>
-
     <section class="section calendar-form">
       <h3>Καταχώρηση Συντήρησης</h3>
       <input type="text" placeholder="Μηχάνημα" id="machine">
@@ -185,32 +322,61 @@
       <input type="text" placeholder="Υπεύθυνος Τεχνικός" id="technician">
       <button onclick="addMaintenance()">Καταχώρηση</button>
     </section>
-
-    <section class="section calendar-list">
-      <h3>Προγραμματισμένες Συντηρήσεις</h3>
-      <ul id="calendarEntries"></ul>
+    <section class="section calendar-view">
+      <h3>Ημερολόγιο Εκδηλώσεων</h3>
+      <div class="calendar">
+        <div class="calendar-controls">
+          <button onclick="prevMonth()">&#8592; Προηγούμενος</button>
+          <div class="calendar-header" id="calendarHeader"></div>
+          <button onclick="nextMonth()">Επόμενος &#8594;</button>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </div>
     </section>
-
     <section class="section chatbot">
-      <div class="chatbot-avatar">
-        <img src="https://i.imgur.com/6oK0nA2.png" alt="MecBot Avatar">
+      <div class="chatbot-header">
+        <img src="icono-robot-signo-chat-bot-concepto-servicio-soporte-estilo-plano-personaje-chatbot_41737-796.avif" alt="MegaBot Icon" class="chatbot-icon">
+        <h3>MegaBot - Βοηθός Συντήρησης</h3>
       </div>
       <div class="chatbot-content">
-        <h3>MecBot - Βοηθός Συντήρησης</h3>
         <div class="chat-messages" id="chatMessages"></div>
+        <div class="quick-questions">
+          <button onclick="sendQuickQuestion('Πώς κάνω επαναφορά μηχανήματος;')">Επαναφορά</button>
+          <button onclick="sendQuickQuestion('Τι να κάνω αν υπάρχει σφάλμα;')">Σφάλμα</button>
+          <button onclick="sendQuickQuestion('Θέλω πληροφορίες για το μηχάνημα.')">Μηχάνημα</button>
+        </div>
         <div class="chat-input">
           <input type="text" id="chatInput" placeholder="Ρώτησέ με κάτι...">
           <button onclick="chat()">Send</button>
         </div>
       </div>
     </section>
-
   </div>
-
   <script>
-    function changeLanguage(lang) {
-      alert("Γλώσσα άλλαξε σε: " + (lang === 'gr' ? "Ελληνικά" : "English"));
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      const main = document.getElementById("mainContent");
+      sidebar.classList.toggle("sidebar-hidden");
+      main.classList.toggle("sidebar-collapsed");
     }
+
+    function changeLanguage(lang) {
+  const t = translations[lang];
+
+  document.querySelector("header strong").textContent = t.title;
+  document.querySelector(".about h3").textContent = t.about;
+  document.querySelector(".about p").textContent = t.aboutText;
+  document.querySelector(".calendar-form h3").textContent = t.formTitle;
+  document.getElementById("machine").placeholder = t.machinePlaceholder;
+  document.getElementById("technician").placeholder = t.technicianPlaceholder;
+  document.querySelector(".calendar-form button").textContent = t.submitBtn;
+  document.querySelector(".calendar-view h3").textContent = t.calendarTitle;
+  document.querySelectorAll(".calendar-controls button")[0].textContent = `← ${t.prevBtn}`;
+  document.querySelectorAll(".calendar-controls button")[1].textContent = `${t.nextBtn} →`;
+  document.querySelector(".chatbot-header h3").textContent = t.chatbotTitle;
+  document.getElementById("chatInput").placeholder = t.chatbotPlaceholder;
+}
+
 
     function addMaintenance() {
       const machine = document.getElementById("machine").value;
@@ -223,19 +389,15 @@
         return;
       }
 
-      const entry = `${date} - ${time} | Μηχάνημα: ${machine} | Τεχνικός: ${tech}`;
-      const li = document.createElement("li");
-      li.textContent = entry;
-      document.getElementById("calendarEntries").appendChild(li);
-
+      scheduledDates.push(date);
       alert("Το πρόγραμμα συντήρησης καταχωρήθηκε!");
+      renderCalendar();
     }
 
     function chat() {
       const input = document.getElementById("chatInput");
       const chatBox = document.getElementById("chatMessages");
       const userMessage = input.value.trim();
-
       if (!userMessage) return;
 
       const userDiv = document.createElement("div");
@@ -256,7 +418,106 @@
       input.value = "";
       chatBox.scrollTop = chatBox.scrollHeight;
     }
-  </script>
 
+    function sendQuickQuestion(text) {
+      document.getElementById("chatInput").value = text;
+      chat();
+    }
+
+    const scheduledDates = ["2025-05-05", "2025-05-06", "2025-05-07"];
+    let currentMonth = new Date().getMonth();
+    let currentYear = new Date().getFullYear();
+
+    const translations = {
+  gr: {
+    title: "Σύστημα Συντήρησης",
+    about: "Σχετικά με εμάς",
+    aboutText: "Η Megaplast συνιστά πρωτοπόρο ελληνική εταιρεία με ηγετική θέση στον τομέα της συσκευασίας, που παράγει καινοτόμα προϊόντα εύκαμπτης συσκευασίας (stretch films) δηλαδή μεμβράνες βιομηχανικού τύπου, σε διάφορες παραλλαγές,  χρήσιμες κυρίως για την περιτύλιξη παλετών. Η εταιρεία είναι τόσο παραγωγική όσο και εμπορική, με δύο παραγωγικές μονάδες στο Ηράκλειο Κρήτης και την Θήβα, με γραφεία και κέντρο Έρευνας και Ανάπτυξης στην Αττική και με σημαντική διεθνή παρουσία σε πλήθος χωρών όπως η Γερμανία, η Ιταλία, η Ισπανία, η Γαλλία, το Ηνωμένο Βασίλειο και οι Ηνωμένες Πολιτείες Αμερικής, διαθέτοντας θυγατρικές σε όλα αυτά τα μέρη. Ουσιαστικά, συνιστά μια καθετοποιημένη μονάδα η οποία αγοράζει πρώτες ύλες κυρίως από το εξωτερικό, παράγει τα διάφορα προϊόντα της στις διαφορετικές γραμμές παραγωγής αποκλειστικά στα δύο εργοστάσιά της στην Ελλάδα και εμπορεύεται αυτά τα προϊόντα στο εσωτερικό αλλά και στο εξωτερικό μέσω των θυγατρικών της στους τελικούς πελάτες της, δηλαδή άλλες εταιρείες. Οι θυγατρικές της δρουν ως ανεξάρτητες οικονομικές οντότητες που προμηθεύονται τα προϊόντα από την ελληνική εταιρεία και υπάγονται στον ευρύτερο όμιλο της Megaplast.Για την καλύτερη λειτουργία της παραγωγής, προχωρήσαμε στην ανάπτυξη ενός συστήματος διαχείρισης των συντηρήσεων και των επισκευών, το οποίο παρέχει κεντρική εποπτεία, άμεση ειδοποίηση για σημαντικά ζητήματα και βελτιστοποίηση των διαδικασιών μέσω της αξιοποίησης διαφόρων δεδομένων. Συγκεκριμένα, προτείνουμε την υλοποίηση του Intelligent Maintenance & Repair Management System, ενός ευφυούς συστήματος που εφαρμόζει σύγχρονες τεχνολογίες πληροφορικής και αλγορίθμους μηχανικής μάθησης με στόχο την αυτοματοποίηση των διαδικασιών, τη βελτίωση της συνεργασίας μεταξύ των εμπλεκόμενων και την μεγιστοποίηση της αποδοτικότητας και παραγωγικότητας της εταιρείας.",
+    formTitle: "Καταχώρηση Συντήρησης",
+    machinePlaceholder: "Μηχάνημα",
+    technicianPlaceholder: "Υπεύθυνος Τεχνικός",
+    submitBtn: "Καταχώρηση",
+    calendarTitle: "Ημερολόγιο Εκδηλώσεων",
+    prevBtn: "Προηγούμενος",
+    nextBtn: "Επόμενος",
+    chatbotTitle: "MegaBot - Βοηθός Συντήρησης",
+    chatbotPlaceholder: "Ρώτησέ με κάτι...",
+  },
+  en: {
+    title: "Maintenance System",
+    about: "About Us",
+    aboutText: "At Megaplast, we don’t just create products – we create solutions that make a difference!Megaplast is a pioneering Greek company with a leading position in the packaging industry, specializing in the production of innovative flexible packaging products (stretch films), namely industrial-type membranes in various forms, primarily used for pallet wrapping. The company operates both as a manufacturer and a commercial enterprise, with two production facilities located in Heraklion, Crete and in Thiva, as well as offices and a Research & Development center in Attica. Megaplast maintains a strong international presence in numerous countries including Germany, Italy, Spain, France, the United Kingdom, and the United States, with subsidiaries in all these regions.Essentially, it is a vertically integrated unit that imports raw materials mainly from abroad, manufactures its diverse product range exclusively in its two Greek factories, and distributes them both domestically and internationally through its subsidiaries directly to end customers – other businesses. These subsidiaries function as independent financial entities that source products from the Greek parent company and are part of the broader Megaplast Group.To enhance production efficiency, we have developed a maintenance and repair management system that offers centralized oversight, immediate notifications for critical issues, and process optimization through data utilization. Specifically, we propose the implementation of the Intelligent Maintenance & Repair Management System, a smart system that leverages modern IT technologies and machine learning algorithms to automate procedures, improve collaboration among stakeholders, and maximize the company’s efficiency and productivity.",
+    formTitle: "Maintenance Entry",
+    machinePlaceholder: "Machine",
+    technicianPlaceholder: "Responsible Technician",
+    submitBtn: "Submit",
+    calendarTitle: "Event Calendar",
+    prevBtn: "Previous",
+    nextBtn: "Next",
+    chatbotTitle: "MegaBot - Maintenance Assistant",
+    chatbotPlaceholder: "Ask me something...",
+  }
+};
+
+
+    function renderCalendar() {
+      const grid = document.getElementById("calendarGrid");
+      const header = document.getElementById("calendarHeader");
+      const monthNames = ["Ιανουάριος", "Φεβρουάριος", "Μάρτιος", "Απρίλιος", "Μάιος", "Ιούνιος", "Ιούλιος", "Αύγουστος", "Σεπτέμβριος", "Οκτώβριος", "Νοέμβριος", "Δεκέμβριος"];
+
+      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+      const startDay = (firstDay + 6) % 7;
+
+      grid.innerHTML = "";
+      header.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+      for (let i = 0; i < startDay; i++) {
+        grid.appendChild(document.createElement("div"));
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const div = document.createElement("div");
+        const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        div.textContent = day;
+        if (scheduledDates.includes(dateStr)) {
+          div.classList.add("highlight");
+        }
+        grid.appendChild(div);
+      }
+    }
+
+    function prevMonth() {
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      renderCalendar();
+    }
+
+    function nextMonth() {
+      currentMonth++;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      renderCalendar();
+    }
+
+    renderCalendar();
+
+    function toggleAboutText() {
+  const text = document.getElementById("aboutText");
+  const button = document.getElementById("toggleAbout");
+  text.classList.toggle("collapsed");
+  if (text.classList.contains("collapsed")) {
+    button.textContent = "Εμφάνιση περισσότερων";
+  } else {
+    button.textContent = "Εμφάνιση λιγότερων";
+  }
+}
+
+  </script>
 </body>
 </html>
