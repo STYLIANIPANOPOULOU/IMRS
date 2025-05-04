@@ -190,9 +190,30 @@
       border: none;
       padding: 0;
     }
+
+    .back-button {
+  position: fixed;
+  top: 20px;
+  left: 40px;
+  background-color: #0f355e;
+  color: white;
+  padding: 8px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 9999;
+  width: auto;             /* Βεβαιώνεται ότι δεν παίρνει 100% πλάτος */
+  display: inline-block;   /* Συμπεριφέρεται σαν κανονικό κουμπί */
+}
+
+.back-button:hover {
+  background-color: #0d3a6a;
+}
   </style>
 </head>
 <body>
+  <button class="back-button" onclick="goBack()">← Back</button>
   <div class="user-header">
     <div class="notification" onclick="toggleNotifications()">🔔</div>
     <div class="user-info" onclick="toggleDropdown()">
@@ -246,6 +267,10 @@
   </div>
 
   <script>
+    function goBack() {
+      window.location.href = "Homepage.html"; 
+    }
+
     let isGreek = false;
 
     function toggleLanguage() {

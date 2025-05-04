@@ -209,9 +209,31 @@
     .logout-menu a:hover {
       color: var(--primary-color);
     }
+
+    .back-button {
+  position: fixed;
+  top: 20px;
+  left: 40px;
+  background-color: #0f355e;
+  color: white;
+  padding: 8px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 9999;
+  width: auto;             /* Βεβαιώνεται ότι δεν παίρνει 100% πλάτος */
+  display: inline-block;   /* Συμπεριφέρεται σαν κανονικό κουμπί */
+}
+
+.back-button:hover {
+  background-color: #0d3a6a;
+}
+
   </style>
 </head>
 <body>
+  <button class="back-button" onclick="goBack()">← Back</button>
  
   <!-- Header με καμπανάκι ειδοποίησης, Admin & μενού αποσύνδεσης -->
   <div class="header-info">
@@ -274,6 +296,10 @@
   </div>
  
   <script>
+    function goBack() {
+      window.location.href = "Homepage.html"; 
+    }
+
     function changeLanguage(lang) {
       if (lang === 'en') {
         document.getElementById("form-title").textContent = "Machine Status Update";

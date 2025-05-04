@@ -180,11 +180,31 @@
       max-height: 200px; /* ή όσο θες */
     }
 
+    .back-button {
+  position: fixed;
+  top: 40px;
+  left: 40px;
+  background-color: #0f355e;
+  color: white;
+  padding: 8px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 9999;
+  width: auto;             /* Βεβαιώνεται ότι δεν παίρνει 100% πλάτος */
+  display: inline-block;   /* Συμπεριφέρεται σαν κανονικό κουμπί */
+}
+
+.back-button:hover {
+  background-color: #0d3a6a;
+}
 
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
+  <button class="back-button" onclick="goBack()">← Back</button>
   <header>
     <div class="header-container">
       <div style="position: relative;">
@@ -230,6 +250,10 @@
   <div id="reportsContainer" class="cards"></div>
 
   <script>
+    function goBack() {
+      window.location.href = "Homepage.html"; 
+    }
+
     document.addEventListener("click", function (e) {
       if (!document.getElementById("notifBtn").contains(e.target)) {
         document.getElementById("notifMenu").style.display = "none";

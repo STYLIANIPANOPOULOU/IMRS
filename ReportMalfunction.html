@@ -96,9 +96,32 @@
     .message { text-align: center; margin-top: 20px; font-size: 14px; }
     .success { color: #2e7d32; }
     .error { color: #d32f2f; }
+
+    .back-button {
+  position: fixed;
+  top: 20px;
+  left: 40px;
+  background-color: #0f355e;
+  color: white;
+  padding: 8px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 9999;
+  width: auto;             /* Βεβαιώνεται ότι δεν παίρνει 100% πλάτος */
+  display: inline-block;   /* Συμπεριφέρεται σαν κανονικό κουμπί */
+}
+
+.back-button:hover {
+  background-color: #0d3a6a;
+}
+
+
   </style>
 </head>
 <body>
+  <button class="back-button" onclick="goBack()">← Back</button>  
   <div class="top-right-bar">
     <div class="notification" onclick="toggleNotifications()">
       <span class="notif-icon">🔔</span>
@@ -176,6 +199,9 @@
   </div>
 
   <script>
+    function goBack() {
+      window.location.href = "Homepage.html"; 
+    }
     // Translations setup
     let currentLang = 'EN';
     const translations = {
