@@ -161,7 +161,7 @@
       border-radius: 12px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
       overflow-y: visible;
-      min-height: 90vh;
+      min-height: 200px;
     }
 
     .card h3 {
@@ -175,11 +175,12 @@
     }
 
     canvas {
-      margin-top: 10px;
-      width: 100% !important;
-      height: 100px;
-      aspect-ratio: 16 / 9;
+      width: 90% !important;
+      height: auto !important;
+      max-height: 200px; /* ή όσο θες */
     }
+
+
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
@@ -287,6 +288,7 @@
       html2pdf().from(reportElement).set(opt).save();
     }
 
+    
     function renderReports() {
       const type = document.getElementById("reportType").value;
       const container = document.getElementById("reportsContainer");
@@ -300,6 +302,11 @@
             <canvas id="prodTrendChart"></canvas>
             <p><strong>Conclusion:</strong> Increased output at week’s end due to external orders.</p>
           </div>
+          <div class="card">
+            <h3>🔍 Predictive Insights</h3>
+            <canvas id="prodForecastChart"></canvas>
+            <p><strong>Insight:</strong> Forecast shows a dip in production after Week 2 due to expected maintenance delay.</p>
+          </div>
         `,
         maintenance: `
           <div class="card">
@@ -307,6 +314,11 @@
             <canvas id="maintChart"></canvas>
             <canvas id="downtimeChart"></canvas>
             <p><strong>Conclusion:</strong> Costs dropped after March, mainly due to preventive maintenance.</p>
+          </div>
+          <div class="card">
+            <h3>🔍 Predictive Insights</h3>
+            <canvas id="maintForecastChart"></canvas>
+            <p><strong>Insight:</strong> Anticipated spike in maintenance cost in July due to wear on Line B equipment.</p>
           </div>
         `,
         supply: `
@@ -316,6 +328,11 @@
             <canvas id="reorderChart"></canvas>
             <p><strong>Conclusion:</strong> Good stock levels overall, but 15% of items require restocking.</p>
           </div>
+          <div class="card">
+            <h3>🔍 Predictive Insights</h3>
+            <canvas id="supplyForecastChart"></canvas>
+            <p><strong>Insight:</strong> Projected shortage in Product C by next month if orders remain steady.</p>
+          </div>
         `,
         finance: `
           <div class="card">
@@ -323,6 +340,11 @@
             <canvas id="costChart"></canvas>
             <canvas id="revenueChart"></canvas>
             <p><strong>Conclusion:</strong> Maintenance is the largest expense, while revenue remains stable.</p>
+          </div>
+          <div class="card">
+            <h3>🔍 Predictive Insights</h3>
+            <canvas id="financeForecastChart"></canvas>
+            <p><strong>Insight:</strong> Revenue expected to plateau; recommendation: optimize operational efficiency.</p>
           </div>
         `
       };
@@ -334,6 +356,7 @@
     }
 
     function drawCharts() {
+      // Production
       if (document.getElementById("prodChart")) {
         new Chart(prodChart, {
           type: 'bar',
@@ -350,8 +373,17 @@
             datasets: [{ label: 'Total Trend', data: [600, 720, 690, 800], borderColor: '#6aa7e9', fill: false }]
           }
         });
+
+        new Chart(prodForecastChart, {
+          type: 'line',
+          data: {
+            labels: ['Week 5', '6', '7', '8'],
+            datasets: [{ label: 'Forecast Units', data: [820, 790, 710, 650], borderColor: '#ff9800', borderDash: [5,5], fill: false }]
+          }
+        });
       }
 
+      // Maintenance
       if (document.getElementById("maintChart")) {
         new Chart(maintChart, {
           type: 'line',
@@ -368,8 +400,17 @@
             datasets: [{ label: 'Downtime Hours', data: [20, 12, 25, 10, 8], backgroundColor: '#f28500' }]
           }
         });
+
+        new Chart(maintForecastChart, {
+          type: 'line',
+          data: {
+            labels: ['Jun', 'Jul', 'Aug'],
+            datasets: [{ label: 'Forecasted Maintenance (€)', data: [400, 900, 450], borderColor: '#e91e63', borderDash: [4,4], fill: false }]
+          }
+        });
       }
 
+      // Supply
       if (document.getElementById("stockChart")) {
         new Chart(stockChart, {
           type: 'doughnut',
@@ -386,8 +427,17 @@
             datasets: [{ label: 'Reorder Qty', data: [30, 15, 45, 10], backgroundColor: '#4b89dc' }]
           }
         });
+
+        new Chart(supplyForecastChart, {
+          type: 'line',
+          data: {
+            labels: ['Week 1', '2', '3'],
+            datasets: [{ label: 'Product C Stock Forecast', data: [40, 25, 10], borderColor: '#ff5722', borderDash: [6,4], fill: false }]
+          }
+        });
       }
 
+      // Finance
       if (document.getElementById("costChart")) {
         new Chart(costChart, {
           type: 'pie',
@@ -402,6 +452,14 @@
           data: {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
             datasets: [{ label: 'Revenue (€)', data: [4000, 4200, 4100, 4400, 4300], borderColor: '#009688', fill: false }]
+          }
+        });
+
+        new Chart(financeForecastChart, {
+          type: 'line',
+          data: {
+            labels: ['Jun', 'Jul', 'Aug'],
+            datasets: [{ label: 'Forecasted Revenue', data: [4350, 4330, 4300], borderColor: '#795548', borderDash: [3, 6], fill: false }]
           }
         });
       }
